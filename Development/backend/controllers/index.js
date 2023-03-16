@@ -5,61 +5,51 @@ const getHome = (req, res) => {
   res.render("home");
 };
 
-const registeruser = async(req,res)=>{
-  const saltPassword = await bcrypt.genSalt(12);
-  const securePassword = await bcrypt.hash(req.body.password, saltPassword);
-  req.body.password = securePassword;
-  User.create(req.body,(err,user)=>{
-    if(err)
-    {
-      return res.status(500).json({
-        data:{},
-        success: false,
-        error: "Email is already registered",
-      });
-    }
-    else
-    {
-      return res.render("home",{data:user});
-    }
-  })
-  
-}
-
-const loginuser = async(req,res)=>{
-  try{
-  const email = req.body.email;
-  const password = req.body.password;
-  const user = await User.findOne({email:email});
-  const isMatch = await bcrypt.compare(password,user.password);
-
-  if(isMatch)
-  {
-    user.password = null;
-    password = null;
-    return res.json({
-      data:user,
-      success:true,
-      error:""
-    });
+const registeruser = async (req, res) => {
+  const { username, email, age, institute, password, confirmedPassword } =
+    req.body;
+  if (password != confirmedPassword) {
+    res.redirect("/register");
   }
-  else
-  {
-    return res.json({
-      data:{},
-      success:false,
-      error: "Invalid login credentials!!"
-    });
-  }
-}
-catch(error)
-{
-  return res.status(404).send({
-      data:{},
-      success:false,
-      error: "Internal Server Error"
+  const hashPw = await bcrypt.hash(password, 12);
+  const user = new User({
+    username,
+    email,
+    password: hashPw,
+    age,
+    institute,
   });
-}
+  try {
+    await user.save();
+    res.redirect("/login");
+  } catch (error) {
+    console.log("Internal Error", error);
+  }
+};
 
-}
-module.exports = { getHome,registeruser,loginuser};
+const loginuser = async (req, res) => {
+  try {
+    const { username_email, password } = req.body;
+    const foundUsername = await User.findOne({ username: username_email });
+    const foundUseremail = await User.findOne({ email: username_email });
+    const foundUser = foundUsername || foundUseremail;
+    const isValid = await bcrypt.compare(password, foundUser.password);
+    if (!isValid) {
+      res.send("FAILED TO LOGIN!!");
+    }
+    req.session.user_id = foundUser._id;
+    res.redirect("/");
+  } catch (error) {
+    return res.status(404).send({
+      data: {},
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
+};
+
+const logoutUser = async (req, res) => {
+  req.session.user_id = null;
+  res.redirect("/login");
+};
+module.exports = { getHome, registeruser, loginuser, logoutUser };
