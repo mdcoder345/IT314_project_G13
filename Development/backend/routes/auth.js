@@ -24,4 +24,7 @@ router.post("/logout", (req, res) => {
   auth.logoutUser(req, res);
 });
 
+router.get("/test", (req, res) => {
+  auth.requiredLogin(req, res);
+});
 module.exports = router;

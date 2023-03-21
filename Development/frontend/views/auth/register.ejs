@@ -1,59 +1,89 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="../../public/css/register.css">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   </head>
-<body>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/css/register.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <script></script>
 
-  <script>
-    
-  </script>
-
-  <div class="container">
-    <div class="title">Registration</div>
-    <div class="content">
-      <form action="#">
-        <div class="user-details">
-          <div class="input-box">
-            <span class="details">Name</span>
-            <input type="text" name="username" id="username" placeholder="Enter your name"/>
+    <div class="container">
+      <div class="title">Registration</div>
+      <div class="content">
+        <form action="/register" method="POST">
+          <div class="user-details">
+            <div class="input-box">
+              <span class="details">Name</span>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Enter your name"
+              />
+            </div>
+            <div class="input-box">
+              <span class="details">Email ID</span>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter your email"
+              />
+            </div>
+            <div class="input-box">
+              <span class="details">Age</span>
+              <input
+                type="number"
+                name="age"
+                id="age"
+                placeholder="Enter your age"
+              />
+            </div>
+            <div class="input-box">
+              <span class="details">Institute</span>
+              <input
+                type="text"
+                name="institute"
+                id="institute"
+                placeholder="Enter your Institute/University"
+              />
+            </div>
+            <div class="input-box">
+              <span class="details">Password</span>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Enter password"
+              />
+            </div>
+            <div class="input-box">
+              <span class="details">Confirm Password</span>
+              <input
+                type="password"
+                name="confirmedPassword"
+                id="password"
+                placeholder="Enter confirm password"
+              />
+            </div>
           </div>
-          <div class="input-box">
-            <span class="details">Email ID</span>
-            <input type="email" name="email" id="email" placeholder="Enter your email"/>
+          <div class="button">
+            <input type="submit" value="Register" />
           </div>
-          <div class="input-box">
-            <span class="details">Age</span>
-            <input type="number" name="age" id="age" placeholder="Enter your age"/>
-          </div>
-          <div class="input-box">
-            <span class="details">Institute</span>
-            <input type="text" name="institute" id="institute" placeholder="Enter your Institute/University"/>
-          </div>
-          <div class="input-box">
-            <span class="details">Password</span>
-            <input type="password" name="password" id="password" placeholder="Enter password"/>
-          </div>
-          <div class="input-box">
-            <span class="details">Confirm Password</span>
-            <input type="password" name="confirmedPassword" id="password" placeholder="Enter confirm password"/>
-          </div>
-        </div>
-        <div class="button">
-          <input type="submit" value="Register">
-        </div>
-      </form>
+        </form>
+      </div>
+      <div class="bottom">
+        <p>Already have an account! <a href="/login">Login</a></p>
+      </div>
     </div>
-    <div class="bottom">
-      <p>Already have an account! <a href="login.ejs">Login</a></p>
+
+    <div class="student-image">
+      <img
+        src="/images/login.jpg"
+        alt="No image"
+        style="width: 650px; height: 470px"
+      />
     </div>
-  </div>
-
-  <div class="student-image">
-    <img src="image.jpg" alt="No image" style="width:650px;height:470px;">
-  </div>
-
-</body>
+  </body>
 </html>

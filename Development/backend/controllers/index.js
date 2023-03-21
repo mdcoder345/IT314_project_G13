@@ -36,9 +36,10 @@ const loginuser = async (req, res) => {
     const isValid = await bcrypt.compare(password, foundUser.password);
     if (!isValid) {
       res.send("FAILED TO LOGIN!!");
+    } else {
+      req.session.user_id = foundUser._id;
+      res.redirect("/");
     }
-    req.session.user_id = foundUser._id;
-    res.redirect("/");
   } catch (error) {
     return res.status(404).send({
       data: {},
@@ -52,4 +53,18 @@ const logoutUser = async (req, res) => {
   req.session.user_id = null;
   res.redirect("/login");
 };
-module.exports = { getHome, registeruser, loginuser, logoutUser };
+
+const requiredLogin = async (req, res) => {
+  if (req.session.user_id) {
+    return res.send("Secret Route");
+  }
+  res.redirect("/login");
+};
+
+module.exports = {
+  getHome,
+  registeruser,
+  loginuser,
+  logoutUser,
+  requiredLogin,
+};
