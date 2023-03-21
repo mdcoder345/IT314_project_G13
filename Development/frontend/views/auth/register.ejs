@@ -1,59 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up</title>
-  </head>
-  <body>
-    <h1>Sign Up</h1>
-    <form action="/register" method="POST">
-      <div>
-        <label for="username">Enter Username:</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          placeholder="username"
-        />
-      </div>
-      <div>
-        <label for="email">Enter email-id:</label>
-        <input type="email" name="email" id="email" placeholder="email-id" />
-      </div>
-      <div>
-        <label for="age">Enter age:</label>
-        <input type="number" name="age" id="age" placeholder="age" />
-      </div>
-      <div>
-        <label for="institute">Enter institute:</label>
-        <input
-          type="text"
-          name="institute"
-          id="institute"
-          placeholder="institute"
-        />
-      </div>
-      <div>
-        <label for="password">Enter password:</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="password"
-        />
-      </div>
-      <div>
-        <label for="password">Confirm password:</label>
-        <input
-          type="password"
-          name="confirmedPassword"
-          id="password"
-          placeholder="password"
-        />
-      </div>
-      <button>Sign Up</button>
-    </form>
-  </body>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../public/css/register.css">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+
+  <script>
+    
+  </script>
+
+  <div class="container">
+    <div class="title">Registration</div>
+    <div class="content">
+      <form action="#">
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">Name</span>
+            <input type="text" name="username" id="username" placeholder="Enter your name"/>
+          </div>
+          <div class="input-box">
+            <span class="details">Email ID</span>
+            <input type="email" name="email" id="email" placeholder="Enter your email"/>
+          </div>
+          <div class="input-box">
+            <span class="details">Age</span>
+            <input type="number" name="age" id="age" placeholder="Enter your age"/>
+          </div>
+          <div class="input-box">
+            <span class="details">Institute</span>
+            <input type="text" name="institute" id="institute" placeholder="Enter your Institute/University"/>
+          </div>
+          <div class="input-box">
+            <span class="details">Password</span>
+            <input type="password" name="password" id="password" placeholder="Enter password"/>
+          </div>
+          <div class="input-box">
+            <span class="details">Confirm Password</span>
+            <input type="password" name="confirmedPassword" id="password" placeholder="Enter confirm password"/>
+          </div>
+        </div>
+        <div class="button">
+          <input type="submit" value="Register">
+        </div>
+      </form>
+    </div>
+    <div class="bottom">
+      <p>Already have an account! <a href="login.ejs">Login</a></p>
+    </div>
+  </div>
+
+  <div class="student-image">
+    <img src="image.jpg" alt="No image" style="width:650px;height:470px;">
+  </div>
+
+</body>
 </html>
