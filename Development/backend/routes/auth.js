@@ -4,13 +4,6 @@ const router = express.Router();
 const User = require("../models/User");
 const auth = require("../controllers/index");
 
-const requireLogin = (req, res, next) => {
-  if (!req.session.user_id) {
-    return res.redirect("/login");
-  }
-  next();
-};
-
 router.get("/register", (req, res) => {
   res.render("auth/register");
 });
@@ -31,7 +24,7 @@ router.post("/logout", (req, res) => {
   auth.logoutUser(req, res);
 });
 
-router.get("/test", requireLogin, (req, res) => {
+router.get("/test", auth.requireLogin, (req, res) => {
   res.send("Secret Route");
 });
 module.exports = router;
