@@ -54,17 +54,9 @@ const logoutUser = async (req, res) => {
   res.redirect("/login");
 };
 
-const requiredLogin = async (req, res) => {
-  if (req.session.user_id) {
-    return res.send("Secret Route");
-  }
-  res.redirect("/login");
-};
-
 module.exports = {
   getHome,
   registeruser,
   loginuser,
   logoutUser,
-  requiredLogin,
 };
