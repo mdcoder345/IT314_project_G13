@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Course = require("../models/Course");
 const bcrypt = require("bcrypt");
 
 const getHome = (req, res) => {
@@ -21,7 +22,7 @@ const registeruser = async (req, res) => {
   });
   try {
     await user.save();
-    res.redirect("/login");
+    return res.redirect("/login");
   } catch (error) {
     console.log("Internal Error", error);
   }
@@ -49,6 +50,82 @@ const loginuser = async (req, res) => {
   }
 };
 
+const createCourse = async (req, res) => {
+  const { courseName, courseDescription} = req.body;
+  const course = new Course({
+    courseName,
+    courseDescription
+  });
+  try {
+    await course.save();
+    return res.redirect("/courses");
+  } catch (error) {
+    console.log("Internal Error", error);
+  }
+}
+
+const getCourses = async (req, res) => {
+  try {
+    const courses = await Course.find();
+    return res.status(200).send({
+      data: courses,
+      success: true,
+      error: null,
+    });
+  } catch (error) {
+    return res.status(404).send({
+      data: {},
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
+}
+
+const updateCourse = async (req, res) => {
+  console.log("Hello");
+  const { courseName, courseDescription } = req.body;
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const course = await Course.findById(id);
+    console.log(course);
+    course.courseName = courseName;
+    course.courseDescription = courseDescription;
+    await course.save();
+    return res.status(200).send({
+      data: course,
+      success: true,
+      error: null,
+    });
+  } catch (error) {
+    return res.status(404).send({
+      data: {},
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
+};
+const deleteCourse = async (req, res) => {
+  const { id } = req.params;  
+  try {
+    const course = await Course.findByIdAndDelete(id);
+    console.log(course);
+    await course.remove();
+    console.log(course);
+    return res.status(200).send({
+      data: course,
+      success: true,
+      error: null,
+    });
+  } catch (error) {
+    return res.status(404).send({
+      data: {},
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
+};
+
 const logoutUser = async (req, res) => {
   req.session.user_id = null;
   res.redirect("/login");
@@ -56,7 +133,7 @@ const logoutUser = async (req, res) => {
 
 const requiredLogin = async (req, res) => {
   if (req.session.user_id) {
-    return res.send("Secret Route");
+    res.render("courses");
   }
   res.redirect("/login");
 };
@@ -67,4 +144,8 @@ module.exports = {
   loginuser,
   logoutUser,
   requiredLogin,
+  createCourse,
+  getCourses,
+  updateCourse,
+  deleteCourse
 };

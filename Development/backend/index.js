@@ -4,11 +4,10 @@ const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
 const mongoStore = require("connect-mongo");
-const indexRoutes = require("./routes/index");
 const session = require("express-session");
-const authRoutes = require("./routes/auth");
+const authRoutes = require("./routes");
 
-const PORT = 80;
+const PORT = 3000;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../frontend/views"));
@@ -26,7 +25,7 @@ mongoose
   .catch((error) => console.log(error));
 
 const sessionObject = {
-  secret: process.env.SECRET_KEY,
+  secret: "process.env.SECRET_KEY",
   store: mongoStore.create({
     mongoUrl:
       "mongodb+srv://isha_121:1234@cluster0.w0kyzdk.mongodb.net/?retryWrites=true&w=majority",
@@ -39,7 +38,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "../frontend/public")));
 app.use(session(sessionObject));
 
-app.use(indexRoutes);
 app.use("/", authRoutes);
 
 app.listen(`${PORT}`, () => {
