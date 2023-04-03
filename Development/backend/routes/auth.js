@@ -24,7 +24,7 @@ router.post("/logout", (req, res) => {
   auth.logoutUser(req, res);
 });
 
-router.get("/test", (req, res) => {
-  auth.requiredLogin(req, res);
+router.get("/test", auth.requireLogin, (req, res) => {
+  res.send("Secret Route");
 });
 module.exports = router;
