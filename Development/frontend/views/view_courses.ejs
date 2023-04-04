@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Courses</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<style>
+  body{
+    background-color: black;
+  }
+  h1 {
+    color: white;
+  }
+  
+</style>
+
+<body>
+  <div class="container">
+    <h1>All Courses</h1>
+    <form>
+      <input type="text" name="name" class="question" id="nme" required autocomplete="off" />
+      <label for="nme"><span>What's your name?</span></label>
+      <input type="submit" value="Submit!" />
+    </form>
+    
+    <div class="d-flex flex-wrap">
+      <% for (var i = 0; i < courses.length; i++) { %>
+        <div class="card-deck mb-2">
+          <div class="card">
+            <div class="card-header">
+              <%= courses[i].name %>
+            </div>
+            <div class="card-body">
+              <p><strong>Course Code:</strong> <%= courses[i].code %></p>
+              <p><strong>Course name:</strong> <%= courses[i].name %></p>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>
