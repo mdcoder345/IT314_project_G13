@@ -11,6 +11,25 @@ router.get("/courses", auth.requireLogin, (req, res) => {
   res.render("courses");
 });
 
+router.get("/courses/view", auth.requireLogin, (req, res) => {
+  auth.view_course(req, res);
+});
+
+router.get("/courses/view/:id", auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  auth.viewOneCourse(req, res, id);
+});
+
+router.get("/courses/add/:id", auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  res.render("addContent.ejs", { id });
+});
+
+router.post("/courses/add/:id", auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  auth.addContent(req, res, id);
+});
+
 router.post("/courses", auth.requireLogin, (req, res) => {
   auth.createCourse(req, res);
 });
