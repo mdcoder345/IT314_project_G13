@@ -131,11 +131,11 @@ const logoutUser = async (req, res) => {
   res.redirect("/login");
 };
 
-const requiredLogin = async (req, res) => {
-  if (req.session.user_id) {
-    res.render("courses");
+const requireLogin = (req, res, next) => {
+  if (!req.session.user_id) {
+    return res.redirect("/login");
   }
-  res.redirect("/login");
+  next();
 };
 
 module.exports = {
@@ -143,9 +143,9 @@ module.exports = {
   registeruser,
   loginuser,
   logoutUser,
-  requiredLogin,
   createCourse,
   getCourses,
   updateCourse,
-  deleteCourse
+  deleteCourse,
+  requireLogin,
 };

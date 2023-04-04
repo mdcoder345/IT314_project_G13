@@ -26,10 +26,16 @@ mongoose
 
 const sessionObject = {
   secret: "process.env.SECRET_KEY",
+  saveUninitialized: false,
+  resave: false,
   store: mongoStore.create({
     mongoUrl:
       "mongodb+srv://isha_121:1234@cluster0.w0kyzdk.mongodb.net/?retryWrites=true&w=majority",
   }),
+  cookie: {
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 3,
+    maxAge: 1000 * 60 * 60 * 24 * 3,
+  },
 };
 
 //Middlewares
