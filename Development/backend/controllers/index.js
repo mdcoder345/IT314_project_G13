@@ -5,6 +5,62 @@ const bcrypt = require("bcrypt");
 const getHome = (req, res) => {
   res.render("home");
 };
+const view_course = (req, res) => {
+  const courses = [
+    {
+      name: "Introduction to Computer Science",
+      code: "CS101",
+      professor: "Dr. Jane Doe",
+      location: "Room 101"
+    },
+    {
+      name: "Web Development",
+      code: "CS201",
+      professor: "Dr. John Smith",
+      location: "Room 201"
+    },
+    {
+      name: "Introduction to Computer Science",
+      code: "CS101",
+      professor: "Dr. Jane Doe",
+      location: "Room 101"
+    },
+    {
+      name: "Web Development",
+      code: "CS201",
+      professor: "Dr. John Smith",
+      location: "Room 201"
+    },
+    {
+      name: "Introduction to Computer Science",
+      code: "CS101",
+      professor: "Dr. Jane Doe",
+      location: "Room 101"
+    },
+    {
+      name: "Web Development",
+      code: "CS201",
+      professor: "Dr. John Smith",
+      location: "Room 201"
+    },
+    {
+      name: "Introduction to Computer Science",
+      code: "CS101",
+      professor: "Dr. Jane Doe",
+      location: "Room 101"
+    },
+    {
+      name: "Web Development",
+      code: "CS201",
+      professor: "Dr. John Smith",
+      location: "Room 201"
+    }
+  ];
+  const showCourses = req.query.showCourses === 'true';
+  res.render('view_courses.ejs', { courses: courses, showCourses: showCourses });
+
+}
+
 
 const registeruser = async (req, res) => {
   const { username, email, age, institute, password, confirmedPassword } =
@@ -148,4 +204,5 @@ module.exports = {
   updateCourse,
   deleteCourse,
   requireLogin,
+  view_course,
 };
