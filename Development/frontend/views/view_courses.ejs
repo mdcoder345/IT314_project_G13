@@ -188,7 +188,6 @@ form {
 .container {
   padding: 2px 16px;
 }
-
 </style>
 
 <body>
@@ -203,17 +202,16 @@ form {
     <div class="d-flex flex-wrap">
       <% for (var i = 0; i < courses.length; i++) { %>
         <div class="card-deck mb-2">
-          <a href="#">
+          <!-- <a href="#"> -->
           <div class="card">
-            <div class="card-header">
-              <%= courses[i].name %>
-            </div>
+            
             <div class="card-body">
-              <p><strong>Course Code:</strong> <%= courses[i].code %></p>
-              <p><strong>Course name:</strong> <%= courses[i].name %></p>
+              <p><strong><h2><%=courses[i].name%></h2></strong> </p>
+              <p style="color: blue;">Course description <%=i %>: <%= courses[i].name %></p>
+              <button style="background-color: #4d639f;color: white; border-radius: 10px; border: none;"><strong>View</strong></button>
             </div>
           </div>
-          </a>
+          <!-- </a> -->
         </div>
       <% } %>
     </div>
