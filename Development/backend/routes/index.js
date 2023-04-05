@@ -31,7 +31,10 @@ router.post("/courses/add/:id", auth.requireLogin, (req, res) => {
   auth.addContent(req, res, id);
 });
 
-router.post("/courses", auth.requireLogin, (req, res) => {
+router.get("/add-course", auth.requireLogin, (req, res) => {
+  res.render("courseRegistration");
+});
+router.post("/add-course", auth.requireLogin, (req, res) => {
   auth.createCourse(req, res);
 });
 

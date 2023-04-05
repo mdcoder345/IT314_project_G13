@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/courseRegistration.css">
     <title>Course Registration Form</title>
 </head>
 <body>
@@ -20,11 +20,11 @@
                     <div class="form-bottom">
                         <h2>Register</h2>
                         <div class="form">
-                            <form action="#">
+                            <form action="/add-course" method="POST">
                                 <!-- <input type="text" name="courseId" class="courseId" placeholder="Course ID" required> -->
                                 <input type="text" name="courseName" class="courseName" placeholder="Course Name" required>
                                 <!-- <input type="password" name="password" class="password" placeholder="Password" required> -->
-                                <textarea name="courseDesc" id="courseDesc" cols="30" rows="10" placeholder="Description"></textarea>
+                                <textarea name="courseDescription" id="courseDesc" cols="30" rows="10" placeholder="Description"></textarea>
                                 <!-- <input type="submit" id ="reg" value="Register"> -->
                                 <button type="submit" id="reg">Register</button>
                             </form>
