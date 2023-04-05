@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>AcadOnline Homepage</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/home.css">       
-</head>
-<body>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/home.css" />
+  </head>
+  <body>
     <header>
-        <div class="wrapper">
-                <ul class="menu">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/course_new">All Course</a></li>
-                    <li><a href="#">Q&A</a></li>
-                    <li><a href="#">Manage Course</a></li>
-                    <li><a href="/login">Log in</a></li>
-                    <li><a href="/register">Register</a></li>
-                </ul>
-        </div>
-        
-        <div class="banner-text">
-            <h1>AcadOnline</h1>
-            <p>Here, We will provide you sources like Video or documenatation related to any courses.</p>
-        </div>
-    </header>
+      <div class="wrapper">
+        <span id="messages"><%= messages %></span>
+        <ul class="menu">
+          <li><a href="/">Home</a></li>
+          <li><a href="/course_new">All Course</a></li>
+          <li><a href="#">Q&A</a></li>
+          <li><a href="#">Manage Course</a></li>
+          <% if(isLoggedIn){ %>
+          <li><a href="#">Welcome, <%= user.username %></a></li>
+          <% }else{ %>
+            <li><a href="/login">Login</a></li>
+          <li><a href="/register">Register</a></li>
+          <% } %>
+        </ul>
+      </div>
 
-</body>
+      <div class="banner-text">
+        <h1>AcadOnline</h1>
+        <p>
+          Here, We will provide you sources like Video or documenatation related
+          to any courses.
+        </p>
+      </div>
+    </header>
+  </body>
 </html>

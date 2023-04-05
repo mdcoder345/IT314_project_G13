@@ -2,9 +2,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const auth = require("../controllers/index");
+const User = require("../models/User");
 
-router.get("/", (req, res) => {
-  res.render("home");
+router.get("/", async (req, res) => {
+  let isLoggedIn = req.session.user_id != null;
+  let user = null;
+  if (isLoggedIn) {
+    user = await User.findOne({ _id: req.session.user_id });
+  }
+  res.render("home", { isLoggedIn, user });
 });
 
 router.get("/courses", auth.requireLogin, (req, res) => {

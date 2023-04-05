@@ -5,6 +5,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const mongoStore = require("connect-mongo");
 const session = require("express-session");
+const flash = require("connect-flash");
 const authRoutes = require("./routes/auth");
 const indexRoutes = require("./routes/index");
 
@@ -26,7 +27,7 @@ mongoose
   .catch((error) => console.log(error));
 
 const sessionObject = {
-  secret: "process.env.SECRET_KEY",
+  secret: process.env.SECRET_KEY,
   saveUninitialized: false,
   resave: false,
   store: mongoStore.create({
@@ -34,8 +35,8 @@ const sessionObject = {
       "mongodb+srv://isha_121:1234@cluster0.w0kyzdk.mongodb.net/?retryWrites=true&w=majority",
   }),
   cookie: {
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 3,
-    maxAge: 1000 * 60 * 60 * 24 * 3,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
 
@@ -44,6 +45,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../frontend/public")));
 app.use(session(sessionObject));
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.messages = req.flash("message");
+  next();
+});
 
 app.use("/", authRoutes);
 app.use("/", indexRoutes);
