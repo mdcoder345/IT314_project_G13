@@ -15,23 +15,8 @@
     <link rel="stylesheet" href="/css/home.css" />
   </head>
   <body>
+    <%- include('partials/navbar') %>
     <header>
-      <div class="wrapper">
-        <span id="messages"><%= messages %></span>
-        <ul class="menu">
-          <li><a href="/">Home</a></li>
-          <li><a href="/course_new">All Course</a></li>
-          <li><a href="#">Q&A</a></li>
-          <li><a href="#">Manage Course</a></li>
-          <% if(isLoggedIn){ %>
-          <li><a href="#">Welcome, <%= user.username %></a></li>
-          <% }else{ %>
-            <li><a href="/login">Login</a></li>
-          <li><a href="/register">Register</a></li>
-          <% } %>
-        </ul>
-      </div>
-
       <div class="banner-text">
         <h1>AcadOnline</h1>
         <p>

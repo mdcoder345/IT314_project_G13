@@ -71,6 +71,7 @@ const loginuser = async (req, res) => {
     } else {
       req.flash("message", "Successfully Logged in!");
       req.session.user_id = foundUser._id;
+      req.session.username = foundUser.username;
       return res.redirect("/");
     }
   } catch (error) {
@@ -161,7 +162,9 @@ const deleteCourse = async (req, res) => {
 
 const logoutUser = async (req, res) => {
   req.session.user_id = null;
-  res.redirect("/login");
+  req.session.username = null;
+  req.flash("message", "Logged out successfully");
+  res.redirect("/");
 };
 
 const requireLogin = (req, res, next) => {

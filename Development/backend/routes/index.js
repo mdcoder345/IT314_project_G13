@@ -5,12 +5,8 @@ const auth = require("../controllers/index");
 const User = require("../models/User");
 
 router.get("/", async (req, res) => {
-  let isLoggedIn = req.session.user_id != null;
-  let user = null;
-  if (isLoggedIn) {
-    user = await User.findOne({ _id: req.session.user_id });
-  }
-  res.render("home", { isLoggedIn, user });
+  let username = req.session ? req.session.username : null;
+  res.render("home", { username });
 });
 
 router.get("/courses", auth.requireLogin, (req, res) => {

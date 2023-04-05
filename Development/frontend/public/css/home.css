@@ -118,10 +118,3 @@ header {
     font-size: 30px;
   }
 }
-
-#messages {
-  color: white;
-  position: absolute;
-  top: 1.7em;
-  font-size: larger;
-}
