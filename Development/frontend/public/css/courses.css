@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>All Courses</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
-  </head>
-
-  <style>
-    body {
-      background-color: white;
-    }
+*
+{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
     h1 {
       color: black;
     }
@@ -193,53 +185,3 @@ Basic input element using psuedo classes
     .container {
       padding: 2px 16px;
     }
-  </style>
-
-  <body>
-    <div class="container">
-      <h1>All Courses</h1>
-      <form>
-        <input
-          type="text"
-          name="name"
-          class="question"
-          id="nme"
-          required
-          autocomplete="off"
-        />
-        <label for="nme"><span>Course to search</span></label>
-        <input type="submit" value="Submit!" />
-      </form>
-
-      <div class="d-flex flex-wrap">
-        <% for (let i = 0; i < courses.length; i++) { %>
-        <div class="card-deck mb-2">
-          <!-- <a href="#"> -->
-          <div class="card">
-            <div class="card-body">
-              <p>
-                <strong><h2><%=courses[i].courseName%></h2></strong>
-              </p>
-              <p style="color: blue">
-                Course description <%=i %>: <%= courses[i].courseDescription %>
-              </p>
-              <button
-                style="
-                  background-color: #4d639f;
-                  color: white;
-                  border-radius: 10px;
-                  border: none;
-                "
-              >
-                <a href="/courses/view/<%= courses[i]._id %>"> <strong>View</strong></a>
-                <a href="/courses/add/<%= courses[i]._id %>"> <strong>Add</strong></a>
-              </button>
-            </div>
-          </div>
-          <!-- </a> -->
-        </div>
-        <% } %>
-      </div>
-    </div>
-  </body>
-</html>
