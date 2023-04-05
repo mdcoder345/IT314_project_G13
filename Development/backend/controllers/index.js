@@ -1,66 +1,45 @@
 const User = require("../models/User");
 const Course = require("../models/Course");
+const courseContent = require("../models/CourseContent");
 const bcrypt = require("bcrypt");
 
 const getHome = (req, res) => {
   res.render("home");
 };
-const view_course = (req, res) => {
-  const courses = [
-    {
-      name: "Introduction to Computer Science",
-      code: "CS101",
-      professor: "Dr. Jane Doe",
-      location: "Room 101"
-    },
-    {
-      name: "Web Development",
-      code: "CS201",
-      professor: "Dr. John Smith",
-      location: "Room 201"
-    },
-    {
-      name: "Introduction to Computer Science",
-      code: "CS101",
-      professor: "Dr. Jane Doe",
-      location: "Room 101"
-    },
-    {
-      name: "Web Development",
-      code: "CS201",
-      professor: "Dr. John Smith",
-      location: "Room 201"
-    },
-    {
-      name: "Introduction to Computer Science",
-      code: "CS101",
-      professor: "Dr. Jane Doe",
-      location: "Room 101"
-    },
-    {
-      name: "Web Development",
-      code: "CS201",
-      professor: "Dr. John Smith",
-      location: "Room 201"
-    },
-    {
-      name: "Introduction to Computer Science",
-      code: "CS101",
-      professor: "Dr. Jane Doe",
-      location: "Room 101"
-    },
-    {
-      name: "Web Development",
-      code: "CS201",
-      professor: "Dr. John Smith",
-      location: "Room 201"
-    }
-  ];
-  const showCourses = req.query.showCourses === 'true';
-  res.render('view_courses.ejs', { courses: courses, showCourses: showCourses });
 
-}
+const view_course = async (req, res) => {
+  const showCourses = req.query.showCourses === "true";
+  const courses = await Course.find();
+  res.render("view_courses.ejs", {
+    courses: courses,
+    showCourses: showCourses,
+  });
+};
 
+const viewOneCourse = async (req, res, id) => {
+  const course = await Course.findOne({ _id: id });
+  res.render("viewOneCourse.ejs", { course });
+};
+
+const addContent = async (req, res, id) => {
+  const course = await Course.findOne({ _id: id });
+  const { creatorName, courseContentDescription, videoLink, documentLink } =
+    req.body;
+  const content = new courseContent({
+    creatorName,
+    courseContentDescription,
+    videoLink,
+    documentLink,
+  });
+  try {
+    const result = await content.save();
+    course.courseContent.push(result);
+    await course.save();
+    res.send("Added successfully");
+  } catch (error) {
+    console.log("Internal Error", error);
+  }
+};
 
 const registeruser = async (req, res) => {
   const { username, email, age, institute, password, confirmedPassword } =
@@ -107,10 +86,10 @@ const loginuser = async (req, res) => {
 };
 
 const createCourse = async (req, res) => {
-  const { courseName, courseDescription} = req.body;
+  const { courseName, courseDescription } = req.body;
   const course = new Course({
     courseName,
-    courseDescription
+    courseDescription,
   });
   try {
     await course.save();
@@ -118,7 +97,7 @@ const createCourse = async (req, res) => {
   } catch (error) {
     console.log("Internal Error", error);
   }
-}
+};
 
 const getCourses = async (req, res) => {
   try {
@@ -135,7 +114,7 @@ const getCourses = async (req, res) => {
       error: "Internal Server Error",
     });
   }
-}
+};
 
 const updateCourse = async (req, res) => {
   console.log("Hello");
@@ -161,8 +140,9 @@ const updateCourse = async (req, res) => {
     });
   }
 };
+
 const deleteCourse = async (req, res) => {
-  const { id } = req.params;  
+  const { id } = req.params;
   try {
     const course = await Course.findByIdAndDelete(id);
     console.log(course);
@@ -205,4 +185,6 @@ module.exports = {
   deleteCourse,
   requireLogin,
   view_course,
+  viewOneCourse,
+  addContent,
 };

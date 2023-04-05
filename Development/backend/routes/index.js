@@ -3,45 +3,43 @@ const mongoose = require("mongoose");
 const router = express.Router();
 const auth = require("../controllers/index");
 
-router.get("/",(req,res)=>{
+router.get("/", (req, res) => {
   res.render("home");
-})
-router.get("/register", (req, res) => {
-  res.render("auth/register");
 });
 
-router.post("/register", async (req, res) => {
-  auth.registeruser(req, res);
-});
-
-router.get("/login", (req, res) => {
-  res.render("auth/login");
-});
-
-router.post("/login", async (req, res) => {
-  auth.loginuser(req, res);
-});
-
-router.post("/logout", (req, res) => {
-  auth.logoutUser(req, res);
-});
-router.get("/courses", (req, res) => {
-  auth.requireLogin(req, res);
+router.get("/courses", auth.requireLogin, (req, res) => {
   res.render("courses");
-})
-router.post("/courses", (req, res) => {
-  auth.requireLogin(req, res, "courses");
+});
+
+router.get("/courses/view", auth.requireLogin, (req, res) => {
+  auth.view_course(req, res);
+});
+
+router.get("/courses/view/:id", auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  auth.viewOneCourse(req, res, id);
+});
+
+router.get("/courses/add/:id", auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  res.render("addContent.ejs", { id });
+});
+
+router.post("/courses/add/:id", auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  auth.addContent(req, res, id);
+});
+
+router.post("/courses", auth.requireLogin, (req, res) => {
   auth.createCourse(req, res);
-})
-router.patch("/courses/:id", (req, res) => {
-  auth.requireLogin(req, res);
+});
+
+router.patch("/courses/:id", auth.requireLogin, (req, res) => {
   auth.updateCourse(req, res);
 });
-router.delete("/courses/:id", (req, res) => {
-  auth.requireLogin(req, res);
+
+router.delete("/courses/:id", auth.requireLogin, (req, res) => {
   auth.deleteCourse(req, res);
 });
-router.get("/test", (req, res) => {
-  auth.requireLogin(req, res);
-});
+
 module.exports = router;

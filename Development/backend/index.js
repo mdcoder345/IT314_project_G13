@@ -5,7 +5,8 @@ const path = require("path");
 const mongoose = require("mongoose");
 const mongoStore = require("connect-mongo");
 const session = require("express-session");
-const authRoutes = require("./routes");
+const authRoutes = require("./routes/auth");
+const indexRoutes = require("./routes/index");
 
 const PORT = 3000;
 
@@ -25,7 +26,7 @@ mongoose
   .catch((error) => console.log(error));
 
 const sessionObject = {
-  secret: "process.env.SECRET_KEY",
+  secret: process.env.SECRET_KEY,
   saveUninitialized: false,
   resave: false,
   store: mongoStore.create({
@@ -45,6 +46,7 @@ app.use(express.static(path.join(__dirname, "../frontend/public")));
 app.use(session(sessionObject));
 
 app.use("/", authRoutes);
+app.use("/", indexRoutes);
 
 app.listen(`${PORT}`, () => {
   console.log(`The server is listening on PORT ${PORT}`);
