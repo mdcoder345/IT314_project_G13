@@ -171,6 +171,14 @@ const requireLogin = (req, res, next) => {
   next();
 };
 
+const isLoggedIn = (req, res, next) => {
+  if (req.session.user_id) {
+    req.flash("message", "You are already logged in!");
+    return res.redirect("/");
+  }
+  next();
+};
+
 module.exports = {
   getHome,
   registeruser,
@@ -183,4 +191,5 @@ module.exports = {
   requireLogin,
   viewOneCourse,
   addContent,
+  isLoggedIn,
 };
