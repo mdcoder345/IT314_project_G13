@@ -1,0 +1,111 @@
+body, .form-bottom input[type="submit"]  {
+    /* background: url("../../image/flat-layout-2.jpg") no-repeat 0px 0px;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed; */
+
+    font-family: 'Nunito', sans-serif;
+    /* fallback for old browsers */
+    background-color: hsl(218, 41%, 15%);
+        background-image: radial-gradient(650px circle at 0% 0%,
+            hsl(0, 1%, 17%) 15%,
+            hsl(0, 0%, 15%) 35%,
+            hsl(0, 0%, 12%) 75%,
+            hsl(0, 0%, 0%) 85%,
+            transparent 100%),
+        radial-gradient(1250px circle at 100% 100%,
+            hsl(0, 1%, 17%) 15%,
+            hsl(0, 0%, 15%) 35%,
+            hsl(0, 0%, 12%) 75%,
+            hsl(0, 0%, 0%) 85%,
+            transparent 100%);
+    margin-bottom: 30px;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+.u-body {
+    text-align: center;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    margin: 40px auto 30px;
+    color: #ffffff;
+    font-size: 35px;
+    font-weight: bolder;
+}
+
+.inner-form {
+    width: 400px;
+    margin: 0 auto;
+    background-color: #ffffffcc;
+    padding: 40px;
+    border-style: none;
+    border-radius: 25px;
+}
+
+h2 {
+    font-weight: bolder;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.form-top a {
+    text-align: center;
+    display: block;
+    padding: 15px 30px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bolder;
+    color: #ffffff;
+    border-style: none;
+    border-radius: 30px;
+}
+
+.form-bottom input[type="text"], input[type="submit"], textarea{
+    /* text-align: center; */
+    width: 100%;
+    outline: none;
+    display: block;
+    margin: 0 auto;
+    padding: 15px 30px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 100;
+    border: 2px solid rgb(212, 212, 212);
+    border-radius: 30px;
+}
+
+textarea{
+    resize: none;
+    font-family: 'Nunito', sans-serif;
+}
+
+.form-bottom button[type="submit"] {
+    /* background-color: rgb(252, 172, 98); */
+    
+    border: none;
+    outline: none;
+    font-size: 17px;
+    font-weight: 600;
+    background-color: black;
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.3s all;
+    -webkit-transition: 0.3s all;
+    margin-bottom: 5px;
+    padding: 1em 3em;
+    border-radius: 0.5em;
+}
+
+
+
