@@ -8,7 +8,8 @@ router.get("/", (req, res) => {
 });
 
 router.get("/courses", auth.requireLogin, (req, res) => {
-  res.render("course_new");
+  auth.getCourses(req, res);
+  
 });
 
 router.get("/courses/view", auth.requireLogin, (req, res) => {
