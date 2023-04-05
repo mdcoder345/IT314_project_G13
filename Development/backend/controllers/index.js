@@ -7,14 +7,7 @@ const getHome = (req, res) => {
   res.render("home");
 };
 
-const view_course = async (req, res) => {
-  const showCourses = req.query.showCourses === "true";
-  const courses = await Course.find();
-  res.render("view_courses.ejs", {
-    courses: courses,
-    showCourses: showCourses,
-  });
-};
+
 
 const viewOneCourse = async (req, res, id) => {
   const course = await Course.findOne({ _id: id });
@@ -184,7 +177,6 @@ module.exports = {
   updateCourse,
   deleteCourse,
   requireLogin,
-  view_course,
   viewOneCourse,
   addContent,
 };
