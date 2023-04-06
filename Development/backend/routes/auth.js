@@ -5,7 +5,8 @@ const User = require("../models/User");
 const auth = require("../controllers/index");
 
 router.get("/register", auth.isLoggedIn, (req, res) => {
-  res.render("auth/register");
+  let username = req.session ? req.session.username : null;
+  res.render("auth/register", { username });
 });
 
 router.post("/register", auth.isLoggedIn, async (req, res) => {
@@ -13,7 +14,8 @@ router.post("/register", auth.isLoggedIn, async (req, res) => {
 });
 
 router.get("/login", auth.isLoggedIn, (req, res) => {
-  res.render("auth/login");
+  let username = req.session ? req.session.username : null;
+  res.render("auth/login", { username });
 });
 
 router.post("/login", auth.isLoggedIn, async (req, res) => {

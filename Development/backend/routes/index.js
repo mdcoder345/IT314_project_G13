@@ -11,7 +11,6 @@ router.get("/", async (req, res) => {
 
 router.get("/courses", auth.requireLogin, (req, res) => {
   auth.getCourses(req, res);
-  
 });
 
 router.get("/courses/view", auth.requireLogin, (req, res) => {
