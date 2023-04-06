@@ -98,20 +98,9 @@ const createCourse = async (req, res) => {
 };
 
 const getCourses = async (req, res) => {
-  try {
-    const courses = await Course.find();
-    return res.status(200).send({
-      data: courses,
-      success: true,
-      error: null,
-    });
-  } catch (error) {
-    return res.status(404).send({
-      data: {},
-      success: false,
-      error: "Internal Server Error",
-    });
-  }
+ const courses = await Course.find();
+  res.render("course_new", { data : courses });
+
 };
 
 const updateCourse = async (req, res) => {
