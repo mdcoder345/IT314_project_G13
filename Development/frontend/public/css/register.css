@@ -5,14 +5,14 @@
   box-sizing: border-box;
   font-family: 'Poppins',sans-serif;
 }
-body{
+.main-container{
   height: 100vh;
   display: flex;
   align-items: center;
   padding: 0px;
   background: #eeeff3;
 }
-.container{
+.container-register{
   max-width: 700px;
   width: 100%;
   align-self: auto;
@@ -21,12 +21,12 @@ body{
   border-radius: 5px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.15);
 }
-.container .title{
+.container-register .title{
   font-size: 25px;
   font-weight: 500;
   position: relative;
 }
-.container .title::before{
+.container-register .title::before{
   content: "";
   position: absolute;
   left: 0;

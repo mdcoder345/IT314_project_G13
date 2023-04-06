@@ -34,9 +34,124 @@
       </form>
     </div>
     <div class="container card-container"></div>
-    <a href="/add-course" class="btn add-course btn-success btn-lg m-3">
-      <i class="fa-solid fa-plus"></i>
-    </a>
+    <button
+      type="button"
+      class="btn btn-success btn-insert-modal position-fixed"
+      data-bs-toggle="modal"
+      data-bs-target="#insertModal"
+      style="right: 2em; bottom: 2em; height: 3em; width: 3em"
+    >
+      <i class="fa-solid fa-plus btn-insert-modal"></i>
+    </button>
+
+    <!-- form to create new course -->
+    <form action="/add-course" method="post">
+      <!-- Modal to create product -->
+      <div
+        class="modal fade"
+        id="insertModal"
+        tabindex="-1"
+        aria-labelledby="insertModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content p-5">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="insertModalLabel">
+                Add new Course
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="mb-3">
+              <label for="coursename-in" class="form-label">Course Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="courseName-in"
+                value=""
+                name="courseName"
+                required
+                placeholder="Course Name"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="coursedescription-in" class="form-label"
+                >Course Description</label
+              >
+              <textarea
+                class="form-control"
+                id="courseDescrition"
+                value=""
+                name="courseDescription"
+                required
+                placeholder="Course Descrition of few lines"
+                rows="3"
+              >
+              </textarea>
+            </div>
+            <button type="submit" class="btn btn-primary insert-submit-btn">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- modal to edit the courses -->
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      aria-labelledby="editModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-5">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="editModalLabel">Edit Course</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="mb-3">
+            <label for="courseName" class="form-label">Course Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="courseName"
+              value=""
+              name="courseName"
+              required
+              placeholder="Course Name"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="courseDescrition" class="form-label"
+              >Product Name</label
+            >
+            <textarea
+              class="form-control"
+              id="courseDescription"
+              value=""
+              name="courseDescription"
+              required
+              placeholder="Course Descrition of few lines"
+              rows="3"
+            >
+            </textarea>
+          </div>
+          <button class="btn btn-primary submit-btn">Submit</button>
+        </div>
+      </div>
+    </div>
   </body>
   <script>
     var data = <%- JSON.stringify(data) %>
@@ -56,8 +171,8 @@
             <a href="#" class="btn btn-info mx-3">View Courses</a>
           </div>
           <div class="card-functionality-right">
-            <a href="#" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-            <a href="#" data-id = "${course._id}" class="btn btn-danger mx-3 delete-course"><i class="fa-solid fa-trash" data-id = "${course._id}"></i></a>
+            <a href="#" data-id = "${course._id}" class="btn btn-modal btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i data-id = "${course._id}" class="fa-solid fa-pen-to-square"></i></a>
+            <a href="#" data-id = "${course._id}" class="btn btn-danger mx-3 delete-course" ><i class="fa-solid fa-trash" data-id = "${course._id}"></i></a>
             </div>
           </div>
 
@@ -66,24 +181,69 @@
       </div>
       `
     });
-    console.log(document.querySelectorAll('.delete-course'));
+
+
+
+    // functionality to delete the course
     document.querySelector('.card-container').innerHTML += content;
     document.querySelectorAll('.delete-course').forEach((course)=>{
       course.addEventListener('click', (e)=>{
        const id = e.target.dataset.id;
        if(confirm(`Are you sure you want to delete this course ${id}?`))
-                            {
-                              fetch(`/courses/${e.target.dataset.id}`, {
-                                method: 'DELETE'
-                              }).then((res)=>{
-                                return res.json();
-                              }).then((data)=>{
-                                console.log(data);
-                                if(confirm(`Course ${id} deleted successfully`))
-                                window.location.reload();
-                              })
-                            }
+        {
+          fetch(`/courses/${e.target.dataset.id}`, {
+            method: 'DELETE'
+          }).then((res)=>{
+            return res.json();
+          }).then((data)=>{
+            console.log(data);
+            if(confirm(`Course ${id} deleted successfully`))
+            window.location.reload();
+          })
+        }
       })
     })
+
+
+    // functionality to edit the course
+      var response = {};
+      console.log(document.querySelectorAll('.btn-modal'))
+      document.querySelectorAll('.btn-modal').forEach((row)=>row.addEventListener('click', (e)=>{
+      console.log(e.target)
+      let obj = undefined;
+      data.forEach((course)=> {
+        if(course._id === e.target.dataset.id)
+        {
+          console.log(e.target.dataset.id)
+          obj = course;
+          return;
+        }
+      })
+      response = obj;
+      console.log(response)
+      document.querySelector('#courseName').value = obj.courseName
+      document.querySelector("#courseDescription").value = obj.courseDescription;
+      }))
+      document.querySelector('.submit-btn').addEventListener('click', ()=> {
+      response.courseName = document.querySelector('#courseName').value;
+      response.courseDescription = document.querySelector('#courseDescription').value;
+      if(response.product_name!=='' &&  response.courseDescription !=='')
+      {
+        fetch(`http://localhost:3000/courses/${response._id}`, {
+        method: 'PATCH',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify(response)
+        })
+          if(!(alert(`Course ${response.courseName} updated successfully`)))
+          {
+            location.reload()
+          }
+        }
+        else {
+          alert('All fields must be non empty')
+        }
+      })
   </script>
 </html>
