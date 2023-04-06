@@ -2,9 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const auth = require("../controllers/index");
+const User = require("../models/User");
 
-router.get("/", (req, res) => {
-  res.render("home");
+router.get("/", async (req, res) => {
+  let username = req.session ? req.session.username : null;
+  res.render("home", { username });
 });
 
 router.get("/courses", auth.requireLogin, (req, res) => {

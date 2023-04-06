@@ -4,19 +4,19 @@ const router = express.Router();
 const User = require("../models/User");
 const auth = require("../controllers/index");
 
-router.get("/register", (req, res) => {
+router.get("/register", auth.isLoggedIn, (req, res) => {
   res.render("auth/register");
 });
 
-router.post("/register", async (req, res) => {
+router.post("/register", auth.isLoggedIn, async (req, res) => {
   auth.registeruser(req, res);
 });
 
-router.get("/login", (req, res) => {
+router.get("/login", auth.isLoggedIn, (req, res) => {
   res.render("auth/login");
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", auth.isLoggedIn, async (req, res) => {
   auth.loginuser(req, res);
 });
 

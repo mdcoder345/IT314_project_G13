@@ -7,8 +7,6 @@ const getHome = (req, res) => {
   res.render("home");
 };
 
-
-
 const viewOneCourse = async (req, res, id) => {
   const course = await Course.findOne({ _id: id });
   res.render("viewOneCourse.ejs", { course });
@@ -62,12 +60,19 @@ const loginuser = async (req, res) => {
     const foundUsername = await User.findOne({ username: username_email });
     const foundUseremail = await User.findOne({ email: username_email });
     const foundUser = foundUsername || foundUseremail;
+    if (!foundUser) {
+      req.flash("message", "Invalid Credentials!");
+      return res.redirect("/login");
+    }
     const isValid = await bcrypt.compare(password, foundUser.password);
     if (!isValid) {
-      res.send("FAILED TO LOGIN!!");
+      req.flash("message", "Invalid Credentials!");
+      return res.redirect("/login");
     } else {
+      req.flash("message", "Successfully Logged in!");
       req.session.user_id = foundUser._id;
-      res.redirect("/");
+      req.session.username = foundUser.username;
+      return res.redirect("/");
     }
   } catch (error) {
     return res.status(404).send({
@@ -146,12 +151,22 @@ const deleteCourse = async (req, res) => {
 
 const logoutUser = async (req, res) => {
   req.session.user_id = null;
-  res.redirect("/login");
+  req.session.username = null;
+  req.flash("message", "Logged out successfully");
+  res.redirect("/");
 };
 
 const requireLogin = (req, res, next) => {
   if (!req.session.user_id) {
     return res.redirect("/login");
+  }
+  next();
+};
+
+const isLoggedIn = (req, res, next) => {
+  if (req.session.user_id) {
+    req.flash("message", "You are already logged in!");
+    return res.redirect("/");
   }
   next();
 };
@@ -168,4 +183,5 @@ module.exports = {
   requireLogin,
   viewOneCourse,
   addContent,
+  isLoggedIn,
 };
