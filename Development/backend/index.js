@@ -27,7 +27,7 @@ mongoose
   .catch((error) => console.log(error));
 
 const sessionObject = {
-  secret: "process.env.SECRET_KEY",
+  secret: process.env.SECRET_KEY,
   saveUninitialized: false,
   resave: false,
   store: mongoStore.create({

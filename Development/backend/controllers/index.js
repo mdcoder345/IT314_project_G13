@@ -98,9 +98,9 @@ const createCourse = async (req, res) => {
 };
 
 const getCourses = async (req, res) => {
- const courses = await Course.find();
-  res.render("course_new", { data : courses });
-
+  let username = req.session ? req.session.username : null;
+  const courses = await Course.find();
+  res.render("course_new", { data: courses, username });
 };
 
 const updateCourse = async (req, res) => {
@@ -152,7 +152,7 @@ const deleteCourse = async (req, res) => {
 const logoutUser = async (req, res) => {
   req.session.user_id = null;
   req.session.username = null;
-  req.flash("message", "Logged out successfully");
+  req.flash("message", "Logged out successfully!");
   res.redirect("/");
 };
 
