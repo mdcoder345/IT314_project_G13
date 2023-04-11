@@ -36,10 +36,10 @@
     <div class="container card-container"></div>
     <button
       type="button"
-      class="btn btn-success btn-insert-modal position-fixed"
+      class="btn btn-success btn-insert-modal position-sticky"
       data-bs-toggle="modal"
       data-bs-target="#insertModal"
-      style="right: 2em; bottom: 2em; height: 3em; width: 3em"
+      style="right: 2em; bottom: 2em; height: 3em; width: 3em;float:right;"
     >
       <i class="fa-solid fa-plus btn-insert-modal"></i>
     </button>
@@ -152,6 +152,7 @@
         </div>
       </div>
     </div>
+    <%- include('partials/footer') %>
   </body>
   <script>
     var data = <%- JSON.stringify(data) %>
