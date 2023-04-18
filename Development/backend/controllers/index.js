@@ -15,6 +15,7 @@ const viewOneCourse = async (req, res, id) => {
 };
 
 const addContent = async (req, res, id) => {
+  console.log("Hello");
   const course = await Course.findOne({ _id: id });
   const { creatorName, courseContentDescription, videoLink, documentLink } =
     req.body;
@@ -152,12 +153,28 @@ const deleteCourse = async (req, res) => {
 };
 
 
-// const addQuestion = async (req, res) => {
-//   const course = Course.find({ _id: req.params.id });
-//   const { questionText } = req.body;
-//   const question = new Question({
-//     questionText,
-//   });
+const addQuestion = async (req, res, id) => {
+  console.log("Hello");
+  const course = await Course.findOne({ _id: req.params.id });
+  
+  const _id = req.session.user_id;
+  const user = await User.findOne({ _id });
+  const { questionText } = req.body;
+  const question = new Question({
+    userid: _id,
+    username : user.username,
+    questionText,
+  });
+  try {
+    const result = await question.save();
+    course.questions.push(result);
+    await course.save();
+    res.send("Added successfully");
+  }
+  catch (error) {
+    console.log("Internal Error", error);
+  }
+}
 
   
 const logoutUser = async (req, res) => {
@@ -175,7 +192,7 @@ const requireLogin = (req, res, next) => {
 };
 
 const isLoggedIn = (req, res, next) => {
-  console.log(req.session.user_id);
+  //console.log(req.session.user_id);
   if (req.session.user_id) {
     req.flash("message", "You are already logged in!");
     return res.redirect("/");
@@ -196,4 +213,5 @@ module.exports = {
   viewOneCourse,
   addContent,
   isLoggedIn,
+  addQuestion
 };
