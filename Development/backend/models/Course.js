@@ -14,7 +14,12 @@ const CourseSchema = new mongoose.Schema({
   },
   courseContent: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'courseContent',
+    ref: 'CourseContent',
+    default: []
+  }],
+  questions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Question',
     default: []
   }]
   // questions:

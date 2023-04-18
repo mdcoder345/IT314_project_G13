@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const Course = require("../models/Course");
 const courseContent = require("../models/CourseContent");
+const Question = require("../models/Questions");
+const Reply = require("../models/Reply");
 const bcrypt = require("bcrypt");
 
 const getHome = (req, res) => {
@@ -149,6 +151,15 @@ const deleteCourse = async (req, res) => {
   }
 };
 
+
+// const addQuestion = async (req, res) => {
+//   const course = Course.find({ _id: req.params.id });
+//   const { questionText } = req.body;
+//   const question = new Question({
+//     questionText,
+//   });
+
+  
 const logoutUser = async (req, res) => {
   req.session.user_id = null;
   req.session.username = null;
@@ -164,6 +175,7 @@ const requireLogin = (req, res, next) => {
 };
 
 const isLoggedIn = (req, res, next) => {
+  console.log(req.session.user_id);
   if (req.session.user_id) {
     req.flash("message", "You are already logged in!");
     return res.redirect("/");
