@@ -43,6 +43,15 @@ router.patch("/courses/:id", auth.requireLogin, (req, res) => {
   auth.updateCourse(req, res);
 });
 
+router.get("/courses/questions/:id", auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  res.render("questions.ejs", { id });
+});
+router.post("/courses/questions/:id",auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  auth.addQuestion(req, res,id);
+});
+
 router.delete("/courses/:id", auth.requireLogin, (req, res) => {
   auth.deleteCourse(req, res);
 });
