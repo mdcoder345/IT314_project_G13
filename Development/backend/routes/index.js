@@ -47,4 +47,7 @@ router.delete("/courses/:id", auth.requireLogin, (req, res) => {
   auth.deleteCourse(req, res);
 });
 
+router.get("/logout",auth.isLoggedIn,(req,res)=>{
+  auth.logoutUser(req,res);
+})
 module.exports = router;
