@@ -38,14 +38,24 @@ router.post("/courses/add/:id", auth.requireLogin, (req, res) => {
 });
 
 
-router.get("/courses/questions/:id", auth.requireLogin, (req, res) => {
+router.get("/courses/question/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
   res.render("questions.ejs", { id });
 });
-router.post("/courses/questions/:id",auth.requireLogin, (req, res) => {
+router.post("/courses/question/:id",auth.requireLogin, (req, res) => {
   const { id } = req.params;
   auth.addQuestion(req, res,id);
 });
+
+router.get("/courses/question/reply/:id",auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+});
+
+router.post("/courses/question/reply/:id",auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  auth.addReply(req, res,id);
+});
+
 
 router.get("/logout",auth.isLoggedIn,(req,res)=>{
   auth.logoutUser(req,res);

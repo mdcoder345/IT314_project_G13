@@ -8,7 +8,7 @@
   </head>
   <body>
     <h1>Adding content</h1>
-    <form action="/courses/questions/<%= id %>" method="POST">
+    <form action="/courses/question/<%= id %>" method="POST">
       <div>
         <span>question Text</span>
         <input
@@ -20,6 +20,21 @@
         />
         
         <button type="submit">Add</button>
+      </div>
+    </form>
+
+    <form action="/courses/question/reply/<%= id %>" method="POST">
+      <div>
+        <span>reply Text</span>
+        <input
+          type="text"
+          name="replyText"
+          id="replyText"
+          placeholder="Enter your reply"
+          required
+        />
+        
+        <button type="submit">Submit</button>
       </div>
     </form>
   </body>

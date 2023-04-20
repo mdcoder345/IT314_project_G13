@@ -172,13 +172,36 @@ const addQuestion = async (req, res, id) => {
     const result = await question.save();
     course.questions.push(result);
     await course.save();
-    res.send("Added successfully");
+    res.send(200,"Added successfully");
   }
   catch (error) {
+   
     console.log("Internal Error", error);
   }
 }
 
+const addReply = async (req, res, id) => {
+  console.log("Hello");
+  const question = await Question.findOne({ _id: req.params.id });
+  const _id = req.session.user_id;
+  const user = await User.findOne({ _id });
+  const { replyText } = req.body;
+  const reply = new Reply({
+    userid: _id,
+    username : user.username,
+    replyText,
+  });
+  try {
+    const result = await reply.save();
+    question.replies.push(result);
+    await question.save();
+    res.send(200,"Added successfully");
+  }
+  catch (error) {
+  
+    console.log("Internal Error", error);
+  }
+}
   
 const logoutUser = async (req, res) => {
   req.session.user_id = null;
@@ -216,5 +239,6 @@ module.exports = {
   viewOneCourse,
   addContent,
   isLoggedIn,
-  addQuestion
+  addQuestion,
+  addReply,
 };
