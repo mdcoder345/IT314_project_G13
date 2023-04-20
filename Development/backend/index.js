@@ -54,9 +54,11 @@ app.use((req, res, next) => {
 
 app.use("/", authRoutes);
 app.use("/", indexRoutes);
-
+if(!module.parent)
+{
 app.listen(`${PORT}`, () => {
   console.log(`The server is listening on PORT ${PORT}`);
 });
+}
 
-module.exports = { app };
+module.exports =  app ;
