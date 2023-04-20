@@ -18,16 +18,17 @@
     <div class="container-register">
       <div class="title">Registration</div>
       <div class="content">
-        <form action="/register" method="POST">
+        <form onsubmit="return validation()" action="/register" method="POST">
           <div class="user-details">
             <div class="input-box">
-              <span class="details">Name</span>
+              <span class="details">UserName</span>
               <input
                 type="text"
                 name="username"
                 id="username"
                 placeholder="Enter your name"
               />
+              <span id="usernameerror" class="text-danger font-weight-bold"></span>
             </div>
             <div class="input-box">
               <span class="details">Email ID</span>
@@ -37,6 +38,7 @@
                 id="email"
                 placeholder="Enter your email"
               />
+              <span id="emailerror" class="text-danger font-weight-bold"></span>
             </div>
             <div class="input-box">
               <span class="details">Age</span>
@@ -64,6 +66,7 @@
                 id="password"
                 placeholder="Enter password"
               />
+              <span id="passworderror" class="text-danger font-weight-bold"></span>
             </div>
             <div class="input-box">
               <span class="details">Confirm Password</span>
@@ -73,6 +76,7 @@
                 id="password"
                 placeholder="Enter confirm password"
               />
+              <span id="confirmpassworderror" class="text-danger font-weight-bold"></span>
             </div>
           </div>
           <div class="button">
@@ -93,5 +97,46 @@
     </div>
   </div>
   <%- include('../partials/footer') %>
+  <script type="text/javascript">
+    function validation(){
+      var username = document.getElementById('username').value;
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+
+      var usercheck = /^[A-Za-z. ]{3,20}$/ ;
+      var passwordcheck = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+      var emailcheck = /^[A-Za-z_]{3,}@[A-Za-z]{3,}[.]{1}[A-Za-z.]{2,6}$/;
+
+      if(usercheck.test(username))
+      {
+        document.getElementById('usernameerror').innerHTML = "";
+      }
+      else
+      {
+        document.getElementById('usernameerror').innerHTML = "*Username is Invalid";
+        return false;
+      }
+
+      if(emailcheck.test(email))
+      {
+        document.getElementById('emailerror').innerHTML = "";
+      }
+      else
+      {
+        document.getElementById('emailerror').innerHTML = "*Email is Invalid";
+        return false;
+      }
+
+      if(passwordcheck.test(password))
+      {
+        document.getElementById('passworderror').innerHTML = "";
+      }
+      else
+      {
+        document.getElementById('passworderror').innerHTML = "*Password is Invalid";
+        return false;
+      }
+    }
+  </script>
   </body>
 </html>
