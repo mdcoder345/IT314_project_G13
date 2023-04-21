@@ -15,7 +15,6 @@ const viewOneCourse = async (req, res, id) => {
 };
 
 const addContent = async (req, res, id) => {
-  console.log("Hello");
   const course = await Course.findOne({ _id: id });
   const { creatorName, courseContentDescription, videoLink, documentLink } =
     req.body;
@@ -29,7 +28,7 @@ const addContent = async (req, res, id) => {
     const result = await content.save();
     course.courseContent.push(result);
     await course.save();
-    res.send("Added successfully");
+    res.send(200,"Added successfully");
   } catch (error) {
     console.log("Internal Error", error);
   }
@@ -39,7 +38,7 @@ const registeruser = async (req, res) => {
   const { username, email, age, institute, password, confirmedPassword } =
     req.body;
   if (password != confirmedPassword) {
-    res.redirect("/register");
+    res.redirect(400,"/register");
   }
   const hashPw = await bcrypt.hash(password, 12);
   const user = new User({
@@ -51,7 +50,7 @@ const registeruser = async (req, res) => {
   });
   try {
     await user.save();
-    return res.redirect("/login");
+    return res.redirect(200,"/login");
   } catch (error) {
     console.log("Internal Error", error);
   }
@@ -65,17 +64,18 @@ const loginuser = async (req, res) => {
     const foundUser = foundUsername || foundUseremail;
     if (!foundUser) {
       req.flash("message", "Invalid Credentials!");
-      return res.redirect("/login");
+      return res.redirect(400,"/login");
     }
     const isValid = await bcrypt.compare(password, foundUser.password);
     if (!isValid) {
       req.flash("message", "Invalid Credentials!");
-      return res.redirect("/login");
+      
+      return res.redirect(400,"/login");
     } else {
       req.flash("message", "Successfully Logged in!");
       req.session.user_id = foundUser._id;
       req.session.username = foundUser.username;
-      return res.redirect("/");
+      return res.redirect(200,"/");
     }
   } catch (error) {
     return res.status(404).send({
@@ -94,15 +94,18 @@ const createCourse = async (req, res) => {
   });
   try {
     await course.save();
-    return res.redirect("/courses");
+    return res.redirect(200,"/courses");
   } catch (error) {
     console.log("Internal Error", error);
+    return res.redirect(400,"/courses");
+
   }
 };
 
 const getCourses = async (req, res) => {
   let username = req.session ? req.session.username : null;
   const courses = await Course.find();
+  console.log(courses);
   res.render("course_new", { data: courses, username });
 };
 
@@ -169,13 +172,36 @@ const addQuestion = async (req, res, id) => {
     const result = await question.save();
     course.questions.push(result);
     await course.save();
-    res.send("Added successfully");
+    res.send(200,"Added successfully");
   }
   catch (error) {
+   
     console.log("Internal Error", error);
   }
 }
 
+const addReply = async (req, res, id) => {
+  console.log("Hello");
+  const question = await Question.findOne({ _id: req.params.id });
+  const _id = req.session.user_id;
+  const user = await User.findOne({ _id });
+  const { replyText } = req.body;
+  const reply = new Reply({
+    userid: _id,
+    username : user.username,
+    replyText,
+  });
+  try {
+    const result = await reply.save();
+    question.replies.push(result);
+    await question.save();
+    res.send(200,"Added successfully");
+  }
+  catch (error) {
+  
+    console.log("Internal Error", error);
+  }
+}
   
 const logoutUser = async (req, res) => {
   req.session.user_id = null;
@@ -213,5 +239,6 @@ module.exports = {
   viewOneCourse,
   addContent,
   isLoggedIn,
-  addQuestion
+  addQuestion,
+  addReply,
 };

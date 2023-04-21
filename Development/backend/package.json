@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test":"mocha --timeout 10000",
     "start": "node index.js",
     "dev": "nodemon index.js -e js, css, ejs"
   },
@@ -23,5 +24,10 @@
     "mongo": "^0.1.0",
     "mongoose": "^7.0.2",
     "nodemon": "^2.0.20"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.2.0"
   }
 }
