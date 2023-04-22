@@ -9,9 +9,14 @@ const getHome = (req, res) => {
   res.render("home");
 };
 
-const viewOneCourse = async (req, res, id) => {
-  const course = await Course.findOne({ _id: id });
-  res.render("viewOneCourse.ejs", { course });
+const getCourse = async (req, res, id) => {
+  const course = await Course.findOne({ _id: id }).populate("courseContent");
+  res.render("getCourse.ejs", { course });
+};
+
+const getContent = async (req, res, id1, id2) => {
+  const content = await courseContent.findOne({ _id: id2 });
+  res.send(content);
 };
 
 const addContent = async (req, res, id) => {
@@ -28,9 +33,55 @@ const addContent = async (req, res, id) => {
     const result = await content.save();
     course.courseContent.push(result);
     await course.save();
-    res.send(200,"Added successfully");
+    res.send(200, "Added successfully");
   } catch (error) {
     console.log("Internal Error", error);
+  }
+};
+
+const updateContent = async (req, res, id) => {
+  try {
+    const oldContent = await courseContent.findOne({ _id: id });
+    const { creatorName, courseContentDescription, videoLink, documentLink } =
+      req.body;
+    const newContent = {
+      creatorName,
+      courseContentDescription,
+      videoLink,
+      documentLink,
+    };
+    for (let c in newContent) {
+      oldContent[`${c}`] = newContent[`${c}`];
+    }
+    await oldContent.save();
+    return res.status(200).send({
+      data: oldContent,
+      success: true,
+      error: null,
+    });
+  } catch (error) {
+    return res.status(404).send({
+      data: {},
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
+};
+
+const deleteContent = async (req, res, id) => {
+  try {
+    const content = await courseContent.findOneAndDelete({ _id: id });
+    return res.status(200).send({
+      data: content,
+      success: true,
+      error: null,
+    });
+  } catch (error) {
+    return res.status(404).send({
+      data: {},
+      success: false,
+      error: "Internal Server Error",
+    });
   }
 };
 
@@ -38,7 +89,7 @@ const registeruser = async (req, res) => {
   const { username, email, age, institute, password, confirmedPassword } =
     req.body;
   if (password != confirmedPassword) {
-    res.redirect(400,"/register");
+    res.redirect(400, "/register");
   }
   const hashPw = await bcrypt.hash(password, 12);
   const user = new User({
@@ -50,7 +101,7 @@ const registeruser = async (req, res) => {
   });
   try {
     await user.save();
-    return res.redirect(200,"/login");
+    return res.redirect(200, "/login");
   } catch (error) {
     console.log("Internal Error", error);
   }
@@ -64,18 +115,17 @@ const loginuser = async (req, res) => {
     const foundUser = foundUsername || foundUseremail;
     if (!foundUser) {
       req.flash("message", "Invalid Credentials!");
-      return res.redirect(400,"/login");
+      return res.redirect(400, "/login");
     }
     const isValid = await bcrypt.compare(password, foundUser.password);
     if (!isValid) {
       req.flash("message", "Invalid Credentials!");
-      
-      return res.redirect(400,"/login");
+      return res.redirect(200, "/login");
     } else {
       req.flash("message", "Successfully Logged in!");
       req.session.user_id = foundUser._id;
       req.session.username = foundUser.username;
-      return res.redirect(200,"/");
+      return res.redirect(200, "/");
     }
   } catch (error) {
     return res.status(404).send({
@@ -94,11 +144,10 @@ const createCourse = async (req, res) => {
   });
   try {
     await course.save();
-    return res.redirect(200,"/courses");
+    return res.redirect(200, "/courses");
   } catch (error) {
     console.log("Internal Error", error);
-    return res.redirect(400,"/courses");
-
+    return res.redirect(400, "/courses");
   }
 };
 
@@ -155,30 +204,27 @@ const deleteCourse = async (req, res) => {
   }
 };
 
-
 const addQuestion = async (req, res, id) => {
   console.log("Hello");
   const course = await Course.findOne({ _id: req.params.id });
-  
+
   const _id = req.session.user_id;
   const user = await User.findOne({ _id });
   const { questionText } = req.body;
   const question = new Question({
     userid: _id,
-    username : user.username,
+    username: user.username,
     questionText,
   });
   try {
     const result = await question.save();
     course.questions.push(result);
     await course.save();
-    res.send(200,"Added successfully");
-  }
-  catch (error) {
-   
+    res.send(200, "Added successfully");
+  } catch (error) {
     console.log("Internal Error", error);
   }
-}
+};
 
 const addReply = async (req, res, id) => {
   console.log("Hello");
@@ -188,21 +234,19 @@ const addReply = async (req, res, id) => {
   const { replyText } = req.body;
   const reply = new Reply({
     userid: _id,
-    username : user.username,
+    username: user.username,
     replyText,
   });
   try {
     const result = await reply.save();
     question.replies.push(result);
     await question.save();
-    res.send(200,"Added successfully");
-  }
-  catch (error) {
-  
+    res.send(200, "Added successfully");
+  } catch (error) {
     console.log("Internal Error", error);
   }
-}
-  
+};
+
 const logoutUser = async (req, res) => {
   req.session.user_id = null;
   req.session.username = null;
@@ -236,9 +280,12 @@ module.exports = {
   updateCourse,
   deleteCourse,
   requireLogin,
-  viewOneCourse,
+  getCourse,
   addContent,
   isLoggedIn,
   addQuestion,
   addReply,
+  getContent,
+  updateContent,
+  deleteContent,
 };
