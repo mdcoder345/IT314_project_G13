@@ -42,9 +42,16 @@ router.get("/courses/question/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
   res.render("questions.ejs", { id });
 });
+
 router.post("/courses/question/:id",auth.requireLogin, (req, res) => {
   const { id } = req.params;
   auth.addQuestion(req, res,id);
+});
+
+router.patch("/courses/update-question/:id",auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  //console.log(id);
+  auth.updateQuestion(req, res,id);
 });
 
 router.get("/courses/question/reply/:id",auth.requireLogin, (req, res) => {
