@@ -50,14 +50,11 @@
 <script>
   const editBtn = document.getElementById("edit-btn");
   editBtn.addEventListener("click", () => {
-    fetch("http://localhost:3000/courses/update-question/643ed561f606f38142ed52d5", {
-      method: "PATCH",
+    fetch("http://localhost:3000/courses/delete-question/644420b2aeb8da1da9d3155d", {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        questionText: "What is the difference between a function and a method?",
-      }),
+      }
     })
       .then((res) => res.json())
       .then((data) => console.log(data));
