@@ -4,9 +4,8 @@ const router = express.Router();
 const auth = require("../controllers/index");
 const User = require("../models/User");
 
-router.get("/", async (req, res) => {
-  let username = req.session ? req.session.username : null;
-  res.render("home", { username });
+router.get("/", (req, res) => {
+  auth.getHome(req,res);
 });
 
 router.get("/aboutUs", async (req, res) => {

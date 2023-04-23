@@ -5,8 +5,12 @@ const Question = require("../models/Questions");
 const Reply = require("../models/Reply");
 const bcrypt = require("bcrypt");
 
-const getHome = (req, res) => {
-  res.render("home");
+const getHome = async (req, res) => {
+  let username = req.session ? req.session.username : null;
+  const url = "https://zenquotes.io/api/today";
+  const data = await fetch(url);
+  const data1 = await data.json();
+  res.render("home", { username,data1 });
 };
 
 const viewOneCourse = async (req, res, id) => {
