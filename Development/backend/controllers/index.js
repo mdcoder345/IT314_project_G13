@@ -7,10 +7,10 @@ const bcrypt = require("bcrypt");
 
 const getHome = async (req, res) => {
   let username = req.session ? req.session.username : null;
-  const url = "https://zenquotes.io/api/today";
-  const data = await fetch(url);
-  const data1 = await data.json();
-  res.render("home", { username,data1 });
+  // const url = "https://zenquotes.io/api/today";
+  // const data = await fetch(url);
+  // const data1 = await data.json();
+  res.render("home", { username});
 };
 
 const viewOneCourse = async (req, res, id) => {
@@ -340,6 +340,41 @@ const updateReply = async(req,res,id)=>{
   }
 }
 
+const deleteReply = async(req,res,id)=>{
+  const reply = await Reply.findById(id);
+  const _id = req.session.user_id;
+  let r_id = reply.userid.toString();
+  if(r_id === _id){
+    try{
+      const rep = await Reply.findByIdAndDelete(id);
+      console.log("Deleted successfully");
+      return res.status(200).json({
+        data: rep,
+        success: true,
+        error: null,
+      });
+    }
+    catch(error)
+    {
+      console.log("Internal Error", error);
+      return res.status(404).json({
+        data: {},
+        success: false,
+        error: error,
+      });
+    }
+  }
+  else
+  {
+    console.log("Not authenticated user");
+    return res.status(404).json({
+      data: {},
+      success: false,
+      error: "Not authenticated user",
+  });
+  }
+}
+
 const logoutUser = async (req, res) => {
   req.session.user_id = null;
   req.session.username = null;
@@ -380,4 +415,6 @@ module.exports = {
   addReply,
   updateQuestion,
   deleteQuestion,
+  updateReply,
+  deleteReply,
 };
