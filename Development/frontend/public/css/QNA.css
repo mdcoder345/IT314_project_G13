@@ -1,0 +1,10 @@
+.replies{
+    margin-left: 5em;
+    border: none;
+}
+
+.card-header{
+    margin-top: 1em;
+    border: none;
+    background-color:aliceblue;
+}

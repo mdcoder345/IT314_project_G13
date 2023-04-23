@@ -78,7 +78,7 @@ const loginuser = async (req, res) => {
     const foundUser = foundUsername || foundUseremail;
     if (!foundUser) {
       req.flash("message", "Invalid Credentials!");
-      return res.redirect(400,"/login");
+      return res.redirect(200,"/login");
     }
     const isValid = await bcrypt.compare(password, foundUser.password);
     if (!isValid) {
