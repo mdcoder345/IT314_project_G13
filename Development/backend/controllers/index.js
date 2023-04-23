@@ -7,9 +7,6 @@ const bcrypt = require("bcrypt");
 
 const getHome = async (req, res) => {
   let username = req.session ? req.session.username : null;
-  // const url = "https://zenquotes.io/api/today";
-  // const data = await fetch(url);
-  // const data1 = await data.json();
   res.render("home", { username});
 };
 
