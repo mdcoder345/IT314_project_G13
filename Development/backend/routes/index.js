@@ -55,6 +55,10 @@ router.delete("/courses/delete/:id", auth.requireLogin, (req, res) => {
   auth.deleteContent(req, res, id);
 });
 
+router.post("/courses/ratings/:id", auth.requireLogin, (req, res) => {
+  auth.addRatings(req,res);
+});
+
 router.get("/courses/question/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
   res.render("questions.ejs", { id });
