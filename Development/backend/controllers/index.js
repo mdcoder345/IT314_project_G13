@@ -112,6 +112,65 @@ const addRatings = async (req, res) => {
   }
 };
 
+const updateRatings = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({ _id: req.session.user_id });
+    const content = await courseContent.findOne({ _id: id });
+    const oldRating = await Ratings.findOne({ user, content });
+    const { rating: newRating } = req.body;
+    oldRating.rating = newRating;
+    await oldRating.save();
+    return res.status(200).send({
+      data: oldRating,
+      success: true,
+      error: null,
+    });
+  } catch (error) {
+    return res.status(404).send({
+      data: {},
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
+};
+
+const deleteRatings = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({ _id: req.session.user_id });
+    const content = await courseContent.findOne({ _id: id });
+    const rating = await Ratings.findOneAndDelete({ user, content });
+    return res.status(200).send({
+      data: rating,
+      success: true,
+      error: null,
+    });
+  } catch (error) {
+    return res.status(404).send({
+      data: {},
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
+};
+
+const calculateRatings = async (id) => {
+  try {
+    let ratings = 0;
+    const content = await courseContent.find({ _id: id });
+    const filter = await Ratings.find({ content });
+    for (let f of filter) {
+      ratings += parseInt(f.rating);
+    }
+    ratings /= filter.length;
+    ratings = Math.round(ratings);
+    return ratings;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const registeruser = async (req, res) => {
   const { username, email, age, institute, password, confirmedPassword } =
     req.body;
@@ -308,4 +367,7 @@ module.exports = {
   updateContent,
   deleteContent,
   addRatings,
+  updateRatings,
+  deleteRatings,
+  calculateRatings,
 };

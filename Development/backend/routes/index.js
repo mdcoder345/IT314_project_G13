@@ -56,7 +56,15 @@ router.delete("/courses/delete/:id", auth.requireLogin, (req, res) => {
 });
 
 router.post("/courses/ratings/:id", auth.requireLogin, (req, res) => {
-  auth.addRatings(req,res);
+  auth.addRatings(req, res);
+});
+
+router.patch("/courses/ratings/:id", auth.requireLogin, (req, res) => {
+  auth.updateRatings(req, res);
+});
+
+router.delete("/courses/ratings/:id", auth.requireLogin, (req, res) => {
+  auth.deleteRatings(req, res);
 });
 
 router.get("/courses/question/:id", auth.requireLogin, (req, res) => {
