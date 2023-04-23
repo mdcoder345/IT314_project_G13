@@ -24,8 +24,9 @@ const getHome = async (req, res) => {
 };
 
 const viewOneCourse = async (req, res, id) => {
+  let username = req.session ? req.session.username : null;
   const course = await Course.findOne({ _id: id });
-  res.render("viewOneCourse.ejs", { course });
+  res.render("viewOneCourse.ejs", { course,username });
 };
 
 const addContent = async (req, res, id) => {

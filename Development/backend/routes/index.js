@@ -41,6 +41,11 @@ router.post("/courses/add/:id", auth.requireLogin, (req, res) => {
   auth.addContent(req, res, id);
 });
 
+router.get("/courses/view/:id", auth.requireLogin, (req, res) => {
+  let username = req.session ? req.session.username : null;
+  const { id } = req.params;
+  auth.viewOneCourse(req, res, id);
+});
 
 router.get("/courses/question/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
