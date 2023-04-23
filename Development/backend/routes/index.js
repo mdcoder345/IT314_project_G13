@@ -5,12 +5,12 @@ const auth = require("../controllers/index");
 const User = require("../models/User");
 
 router.get("/", (req, res) => {
-  auth.getHome(req,res);
+  auth.getHome(req, res);
 });
 
 router.get("/aboutUs", async (req, res) => {
   let username = req.session ? req.session.username : null;
- res.render("aboutUs", { username });
+  res.render("aboutUs", { username });
 });
 
 router.get("/courses", auth.requireLogin, (req, res) => {
@@ -29,7 +29,15 @@ router.delete("/courses/:id", auth.requireLogin, (req, res) => {
   auth.deleteCourse(req, res);
 });
 
+router.get("/courses/view/:id", auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  auth.getCourse(req, res, id);
+});
 
+router.get("/courses/view/:id1/:id2", auth.requireLogin, (req, res) => {
+  const { id1, id2 } = req.params;
+  auth.getContent(req, res, id1, id2);
+});
 
 router.get("/courses/add/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
@@ -41,50 +49,70 @@ router.post("/courses/add/:id", auth.requireLogin, (req, res) => {
   auth.addContent(req, res, id);
 });
 
+router.patch("/courses/update/:id", auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  auth.updateContent(req, res, id);
+});
+
+router.delete("/courses/delete/:id", auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  auth.deleteContent(req, res, id);
+});
+
+router.post("/courses/ratings/:id", auth.requireLogin, (req, res) => {
+  auth.addRatings(req, res);
+});
+
+router.patch("/courses/ratings/:id", auth.requireLogin, (req, res) => {
+  auth.updateRatings(req, res);
+});
+
+router.delete("/courses/ratings/:id", auth.requireLogin, (req, res) => {
+  auth.deleteRatings(req, res);
+});
 
 router.get("/courses/question/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
   res.render("questions.ejs", { id });
 });
 
-router.post("/courses/question/:id",auth.requireLogin, (req, res) => {
+router.post("/courses/question/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
-  auth.addQuestion(req, res,id);
+  auth.addQuestion(req, res, id);
 });
 
-router.patch("/courses/update-question/:id",auth.requireLogin, (req, res) => {
+router.patch("/courses/update-question/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
   //console.log(id);
-  auth.updateQuestion(req, res,id);
+  auth.updateQuestion(req, res, id);
 });
 
-router.delete("/courses/delete-question/:id",auth.requireLogin, (req, res) => {
+router.delete("/courses/delete-question/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
   console.log(id);
-  auth.deleteQuestion(req, res,id);
+  auth.deleteQuestion(req, res, id);
 });
 
-router.get("/courses/question/reply/:id",auth.requireLogin, (req, res) => {
+router.get("/courses/question/reply/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
 });
 
-router.post("/courses/question/reply/:id",auth.requireLogin, (req, res) => {
+router.post("/courses/question/reply/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
-  auth.addReply(req, res,id);
+  auth.addReply(req, res, id);
 });
 
-router.patch("/courses/update-reply/:id",auth.requireLogin, (req, res) => {
+router.patch("/courses/update-reply/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
-  auth.updateReply(req, res,id);
+  auth.updateReply(req, res, id);
 });
 
-router.delete("/courses/delete-reply/:id",auth.requireLogin, (req, res) => {
+router.delete("/courses/delete-reply/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
-  auth.deleteReply(req, res,id);
+  auth.deleteReply(req, res, id);
 });
 
-
-router.get("/logout",auth.isLoggedIn,(req,res)=>{
-  auth.logoutUser(req,res);
-})
+router.get("/logout", auth.isLoggedIn, (req, res) => {
+  auth.logoutUser(req, res);
+});
 module.exports = router;

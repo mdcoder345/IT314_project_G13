@@ -1,27 +1,29 @@
 const mongoose = require("mongoose");
 
 const CourseSchema = new mongoose.Schema({
-  courseName:
-  {
-    type:String,
-    unique:true,
-    required:[true,"Course Name cannot be blank."]
+  courseName: {
+    type: String,
+    unique: true,
+    required: [true, "Course Name cannot be blank."],
   },
-  courseDescription:
-  {
-    type:String,
-    required:[true,"Course Description cannot be blank."]
+  courseDescription: {
+    type: String,
+    required: [true, "Course Description cannot be blank."],
   },
-  courseContent: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'CourseContent',
-    default: []
-  }],
-  questions: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Question',
-    default: []
-  }]
+  courseContent: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CourseContent",
+      default: [],
+    },
+  ],
+  questions: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Question",
+      default: [],
+    },
+  ],
   // questions:
   // [
   //   {
