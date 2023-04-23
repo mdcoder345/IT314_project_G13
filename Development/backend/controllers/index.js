@@ -4,13 +4,23 @@ const courseContent = require("../models/CourseContent");
 const Question = require("../models/Questions");
 const Reply = require("../models/Reply");
 const bcrypt = require("bcrypt");
+const https = require("https");
 
 const getHome = async (req, res) => {
   let username = req.session ? req.session.username : null;
   const url = "https://zenquotes.io/api/today";
-  const data = await fetch(url);
-  const data1 = await data.json();
-  res.render("home", { username,data1 });
+  let data1="";
+  https.get(url,resp => {
+    let data = "";
+    resp.on("data",chunk => {
+      data += chunk
+    })
+
+    resp.on("end",() => {
+      data1 = JSON.parse(data);
+      res.render("home", { username,data1 });
+    })
+  })
 };
 
 const viewOneCourse = async (req, res, id) => {
