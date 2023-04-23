@@ -7,6 +7,7 @@
     <title>Add Question</title>
   </head>
   <body>
+
     <h1>Adding content</h1>
     <form action="/courses/question/<%= id %>" method="POST">
       <div>
@@ -19,9 +20,17 @@
           required
         />
         
+        
         <button type="submit">Add</button>
       </div>
     </form>
+    <h1>Edit Question</h1>
+    
+        <input type="hidden" name="courseId" value="<%= id %>" />
+
+        
+        <button type="submit" id="edit-btn">Edit</button>
+    
 
     <form action="/courses/question/reply/<%= id %>" method="POST">
       <div>
@@ -38,4 +47,17 @@
       </div>
     </form>
   </body>
+<script>
+  const editBtn = document.getElementById("edit-btn");
+  editBtn.addEventListener("click", () => {
+    fetch("http://localhost:3000/courses/delete-question/644420b2aeb8da1da9d3155d", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  });
+</script>
 </html>

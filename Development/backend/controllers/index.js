@@ -5,9 +5,23 @@ const Question = require("../models/Questions");
 const Reply = require("../models/Reply");
 const Ratings = require("../models/Ratings");
 const bcrypt = require("bcrypt");
+const https = require("https");
 
-const getHome = (req, res) => {
-  res.render("home");
+const getHome = async (req, res) => {
+  let username = req.session ? req.session.username : null;
+  const url = "https://zenquotes.io/api/today";
+  let data1 = "";
+  https.get(url, (resp) => {
+    let data = "";
+    resp.on("data", (chunk) => {
+      data += chunk;
+    });
+
+    resp.on("end", () => {
+      data1 = JSON.parse(data);
+      res.render("home", { username, data1 });
+    });
+  });
 };
 
 const getCourse = async (req, res, id) => {
@@ -300,9 +314,83 @@ const addQuestion = async (req, res, id) => {
     const result = await question.save();
     course.questions.push(result);
     await course.save();
-    res.send(200, "Added successfully");
+    return res.status(200).json({
+      data: question,
+      success: true,
+      error: null,
+    });
   } catch (error) {
     console.log("Internal Error", error);
+    return res.status(404).json({
+      data: {},
+      success: false,
+      error: error,
+    });
+  }
+};
+
+const updateQuestion = async (req, res, id) => {
+  const question = await Question.findOne({ _id: id });
+  const course_id = req.body.courseId;
+  const _id = req.session.user_id;
+  let q_id = question.userid.toString();
+  if (q_id === _id) {
+    try {
+      const { questionText } = req.body;
+      question.questionText = questionText;
+      await question.save();
+      return res.status(200).json({
+        data: question,
+        success: true,
+        error: null,
+      });
+    } catch (error) {
+      console.log("Internal Error", error);
+      return res.status(404).json({
+        data: {},
+        success: false,
+        error: error,
+      });
+    }
+  } else {
+    console.log("Not authenticated user");
+    return res.status(404).json({
+      data: {},
+      success: false,
+      error: "Not authenticated user",
+    });
+  }
+};
+
+const deleteQuestion = async (req, res, id) => {
+  const question = await Question.findOne({ _id: id });
+  const course_id = req.body.courseId;
+  const _id = req.session.user_id;
+  let q_id = question.userid.toString();
+  if (q_id === _id) {
+    try {
+      const quest = await Question.findByIdAndDelete(id);
+      console.log("Deleted successfully");
+      return res.status(200).json({
+        data: quest,
+        success: true,
+        error: null,
+      });
+    } catch (error) {
+      console.log("Internal Error", error);
+      return res.status(404).json({
+        data: {},
+        success: false,
+        error: error,
+      });
+    }
+  } else {
+    console.log("Not authenticated user");
+    return res.status(404).json({
+      data: {},
+      success: false,
+      error: "Not authenticated user",
+    });
   }
 };
 
@@ -320,9 +408,82 @@ const addReply = async (req, res, id) => {
     const result = await reply.save();
     question.replies.push(result);
     await question.save();
-    res.send(200, "Added successfully");
+    return res.status(200).json({
+      data: reply,
+      success: true,
+      error: null,
+    });
   } catch (error) {
     console.log("Internal Error", error);
+    return res.status(404).json({
+      data: {},
+      success: false,
+      error: error,
+    });
+  }
+};
+
+const updateReply = async (req, res, id) => {
+  const reply = await Reply.findById(id);
+  const _id = req.session.user_id;
+  let r_id = reply.userid.toString();
+  if (r_id === _id) {
+    try {
+      const { replyText } = req.body;
+      reply.replyText = replyText;
+      await reply.save();
+      console.log("Updated successfully");
+      return res.status(200).json({
+        data: reply,
+        success: true,
+        error: null,
+      });
+    } catch (error) {
+      console.log("Internal Error", error);
+      return res.status(404).json({
+        data: {},
+        success: false,
+        error: error,
+      });
+    }
+  } else {
+    console.log("Not authenticated user");
+    return res.status(404).json({
+      data: {},
+      success: false,
+      error: "Not authenticated user",
+    });
+  }
+};
+
+const deleteReply = async (req, res, id) => {
+  const reply = await Reply.findById(id);
+  const _id = req.session.user_id;
+  let r_id = reply.userid.toString();
+  if (r_id === _id) {
+    try {
+      const rep = await Reply.findByIdAndDelete(id);
+      console.log("Deleted successfully");
+      return res.status(200).json({
+        data: rep,
+        success: true,
+        error: null,
+      });
+    } catch (error) {
+      console.log("Internal Error", error);
+      return res.status(404).json({
+        data: {},
+        success: false,
+        error: error,
+      });
+    }
+  } else {
+    console.log("Not authenticated user");
+    return res.status(404).json({
+      data: {},
+      success: false,
+      error: "Not authenticated user",
+    });
   }
 };
 
@@ -370,4 +531,8 @@ module.exports = {
   updateRatings,
   deleteRatings,
   calculateRatings,
+  updateQuestion,
+  deleteQuestion,
+  updateReply,
+  deleteReply,
 };
