@@ -171,12 +171,20 @@ const addQuestion = async (req, res, id) => {
     const result = await question.save();
     course.questions.push(result);
     await course.save();
-    return res.redirect(200,"/courses/question/"+id);
+    return res.status(200).json({
+      data: question,
+      success: true,
+      error: null,
+    });
   }
   catch (error) {
    
     console.log("Internal Error", error);
-    return res.redirect(400,"/courses/question/"+id);
+    return res.status(404).json({
+      data: {},
+      success: false,
+      error: error,
+    });
   }
 }
 
@@ -191,25 +199,75 @@ const updateQuestion = async(req,res,id)=>{
       const { questionText } = req.body;
       question.questionText = questionText;
       await question.save();
-      console.log("Updated successfully");
-      return res.redirect(200,"/courses/question/"+course_id);
+      return res.status(200).json({
+        data: question,
+        success: true,
+        error: null,
+    });
     }
     catch(error)
     {
       console.log("Internal Error", error);
-      return res.redirect(400,"/courses/question/"+course_id);
+      return res.status(404).json({
+        data: {},
+        success: false,
+        error: error,
+    });
     }
   }
   else
   {
     console.log("Not authenticated user");
-    return res.redirect(400,"/courses/question/"+course_id);
+    return res.status(404).json({
+      data: {},
+      success: false,
+      error: "Not authenticated user",
+  });
   }
 
 }
 
+const deleteQuestion = async(req,res,id)=>{
+  const question = await Question.findOne({ _id: id });
+ // console.log(question);
+  const course_id = req.body.courseId;
+  const _id = req.session.user_id;
+  let q_id = question.userid.toString();
+  if(q_id === _id){
+    try{
+      const quest = await Question.findByIdAndDelete(id);
+      console.log("Deleted successfully");
+      return res.status(200).json({
+        data: quest,
+        success: true,
+        error: null,
+      });
+    }
+    catch(error)
+    {
+      console.log("Internal Error", error);
+      return res.status(404).json({
+        data: {},
+        success: false, 
+        error: error,
+      });
+
+    }
+  }
+  else
+  {
+    console.log("Not authenticated user");
+    return res.status(404).json({
+      data: {},
+      success: false,
+      error: "Not authenticated user",
+  });
+  }
+}
+
+
+
 const addReply = async (req, res, id) => {
-  console.log("Hello");
   const question = await Question.findOne({ _id: req.params.id });
   const _id = req.session.user_id;
   const user = await User.findOne({ _id });
@@ -223,13 +281,61 @@ const addReply = async (req, res, id) => {
     const result = await reply.save();
     question.replies.push(result);
     await question.save();
-    res.send(200,"Added successfully");
+    return res.status(200).json({
+      data: reply,
+      success: true,
+      error: null,
+    });
   }
   catch (error) {
     console.log("Internal Error", error);
+    return res.status(404).json({
+      data: {},
+      success: false,
+      error: error,
+    });
   }
 }
-  
+ 
+
+const updateReply = async(req,res,id)=>{
+  const reply = await Reply.findById(id);
+  const _id = req.session.user_id;
+  let r_id = reply.userid.toString();
+  if(r_id === _id){
+    try{
+      const {replyText} = req.body;
+      reply.replyText = replyText;
+      await reply.save();
+      console.log("Updated successfully");
+      return res.status(200).json({
+        data: reply,
+        success: true,
+        error: null,
+      });
+
+    }
+    catch(error)
+    {
+      console.log("Internal Error", error);
+      return res.status(404).json({
+        data: {},
+        success: false,
+        error: error,
+      });
+    }
+  }
+  else
+  {
+    console.log("Not authenticated user");
+    return res.status(404).json({
+      data: {},
+      success: false,
+      error: "Not authenticated user",
+  });
+  }
+}
+
 const logoutUser = async (req, res) => {
   req.session.user_id = null;
   req.session.username = null;
@@ -269,4 +375,5 @@ module.exports = {
   addQuestion,
   addReply,
   updateQuestion,
+  deleteQuestion,
 };

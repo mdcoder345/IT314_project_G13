@@ -9,6 +9,11 @@ router.get("/", async (req, res) => {
   res.render("home", { username });
 });
 
+router.get("/aboutUs", async (req, res) => {
+  let username = req.session ? req.session.username : null;
+ res.render("aboutUs", { username });
+});
+
 router.get("/courses", auth.requireLogin, (req, res) => {
   auth.getCourses(req, res);
 });
@@ -52,6 +57,12 @@ router.patch("/courses/update-question/:id",auth.requireLogin, (req, res) => {
   const { id } = req.params;
   //console.log(id);
   auth.updateQuestion(req, res,id);
+});
+
+router.delete("/courses/delete-question/:id",auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  auth.deleteQuestion(req, res,id);
 });
 
 router.get("/courses/question/reply/:id",auth.requireLogin, (req, res) => {
