@@ -24,6 +24,7 @@
     "https": "^1.0.0",
     "mongo": "^0.1.0",
     "mongoose": "^7.0.2",
+    "nodemailer": "^6.9.1",
     "nodemon": "^2.0.22"
   },
   "devDependencies": {

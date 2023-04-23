@@ -6,6 +6,7 @@ const Reply = require("../models/Reply");
 const Ratings = require("../models/Ratings");
 const bcrypt = require("bcrypt");
 const https = require("https");
+const nodemailer = require("nodemailer");
 
 const getHome = async (req, res) => {
   let username = req.session ? req.session.username : null;
@@ -501,6 +502,39 @@ const requireLogin = (req, res, next) => {
   next();
 };
 
+const contactus = (req,res) => {
+  const { username,email,subject,message } = req.body;
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: "mspatel7623@gmail.com",
+      pass: "zgokoaomhlapfapo"
+
+    }
+  })
+
+  const mailOptions = {
+    from: email,
+    to: 'mspatel7623@gmail.com',
+    subject: subject,
+    text: message
+  }
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if(error)
+    {
+      console.log(error);
+      req.flash("message","Email not sent");
+      res.redirect("contactus");
+    }
+    else
+    {
+      req.flash("message","Email Sent");
+      res.redirect("contactus");
+    }
+  })
+}
+
 const isLoggedIn = (req, res, next) => {
   if (req.session.user_id) {
     req.flash("message", "You are already logged in!");
@@ -535,4 +569,5 @@ module.exports = {
   deleteQuestion,
   updateReply,
   deleteReply,
+  contactus,
 };

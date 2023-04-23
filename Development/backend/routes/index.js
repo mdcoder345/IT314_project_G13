@@ -13,6 +13,15 @@ router.get("/aboutUs", async (req, res) => {
   res.render("aboutUs", { username });
 });
 
+router.get("/contactus",async (req,res) => {
+  let username = req.session ? req.session.username : null;
+  res.render("contactUs", { username });
+});
+
+router.post("/contactus",(req,res) => {
+  auth.contactus(req,res);
+});
+
 router.get("/courses", auth.requireLogin, (req, res) => {
   auth.getCourses(req, res);
 });
