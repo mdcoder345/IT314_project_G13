@@ -4,9 +4,8 @@ const router = express.Router();
 const auth = require("../controllers/index");
 const User = require("../models/User");
 
-router.get("/", async (req, res) => {
-  let username = req.session ? req.session.username : null;
-  res.render("home", { username });
+router.get("/", (req, res) => {
+  auth.getHome(req,res);
 });
 
 router.get("/courses", auth.requireLogin, (req, res) => {
@@ -42,9 +41,16 @@ router.get("/courses/question/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
   res.render("questions.ejs", { id });
 });
+
 router.post("/courses/question/:id",auth.requireLogin, (req, res) => {
   const { id } = req.params;
   auth.addQuestion(req, res,id);
+});
+
+router.patch("/courses/update-question/:id",auth.requireLogin, (req, res) => {
+  const { id } = req.params;
+  //console.log(id);
+  auth.updateQuestion(req, res,id);
 });
 
 router.get("/courses/question/reply/:id",auth.requireLogin, (req, res) => {

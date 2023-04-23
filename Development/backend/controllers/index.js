@@ -5,8 +5,12 @@ const Question = require("../models/Questions");
 const Reply = require("../models/Reply");
 const bcrypt = require("bcrypt");
 
-const getHome = (req, res) => {
-  res.render("home");
+const getHome = async (req, res) => {
+  let username = req.session ? req.session.username : null;
+  const url = "https://zenquotes.io/api/today";
+  const data = await fetch(url);
+  const data1 = await data.json();
+  res.render("home", { username,data1 });
 };
 
 const viewOneCourse = async (req, res, id) => {
@@ -105,7 +109,7 @@ const createCourse = async (req, res) => {
 const getCourses = async (req, res) => {
   let username = req.session ? req.session.username : null;
   const courses = await Course.find();
-  console.log(courses);
+  //console.log(courses);
   res.render("course_new", { data: courses, username });
 };
 
@@ -159,7 +163,6 @@ const deleteCourse = async (req, res) => {
 const addQuestion = async (req, res, id) => {
   console.log("Hello");
   const course = await Course.findOne({ _id: req.params.id });
-  
   const _id = req.session.user_id;
   const user = await User.findOne({ _id });
   const { questionText } = req.body;
@@ -172,12 +175,41 @@ const addQuestion = async (req, res, id) => {
     const result = await question.save();
     course.questions.push(result);
     await course.save();
-    res.send(200,"Added successfully");
+    return res.redirect(200,"/courses/question/"+id);
   }
   catch (error) {
    
     console.log("Internal Error", error);
+    return res.redirect(400,"/courses/question/"+id);
   }
+}
+
+
+const updateQuestion = async(req,res,id)=>{
+  const question = await Question.findOne({ _id: id });
+  const course_id = req.body.courseId;
+  const _id = req.session.user_id;
+  let q_id = question.userid.toString(); 
+  if(q_id === _id){
+    try{
+      const { questionText } = req.body;
+      question.questionText = questionText;
+      await question.save();
+      console.log("Updated successfully");
+      return res.redirect(200,"/courses/question/"+course_id);
+    }
+    catch(error)
+    {
+      console.log("Internal Error", error);
+      return res.redirect(400,"/courses/question/"+course_id);
+    }
+  }
+  else
+  {
+    console.log("Not authenticated user");
+    return res.redirect(400,"/courses/question/"+course_id);
+  }
+
 }
 
 const addReply = async (req, res, id) => {
@@ -198,7 +230,6 @@ const addReply = async (req, res, id) => {
     res.send(200,"Added successfully");
   }
   catch (error) {
-  
     console.log("Internal Error", error);
   }
 }
@@ -241,4 +272,5 @@ module.exports = {
   isLoggedIn,
   addQuestion,
   addReply,
+  updateQuestion,
 };
