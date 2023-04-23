@@ -8,11 +8,11 @@ const replySchema = new mongoose.Schema({
   userid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    },
+  },
   replyText: {
     type: String,
     required: [true, "Reply cannot be blank."],
-  }
+  },
 });
 
 const replies = new mongoose.model("Reply", replySchema);

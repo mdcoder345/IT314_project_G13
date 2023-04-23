@@ -23,6 +23,11 @@
   <body>
     <%- include('partials/navbar') %>
     <header>
+      <% if(username) { %>
+        <blockquote style="color:white;text-align: center;padding:15px">
+          Tip of the day: "<%= data1[0].q %>"
+        </blockquote>
+      <% } %>
       <div class="banner-text">
         <h1>AcadOnline</h1>
         <p>

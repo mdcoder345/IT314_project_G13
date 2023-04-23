@@ -1,0 +1,88 @@
+body {
+  background-color: rgb(239, 229, 239);
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+  }
+  .card {
+    background-color: rgb(207, 172, 207);
+    color: rgb(222, 18, 18);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+  }
+  .title {
+    color: grey;
+    font-size: 18px;
+  }
+  div.container {
+    
+    background-color: rgb(203, 40, 203);
+    text-align: center;
+  }
+  
+  ul.myUL {
+    margin: 1%;
+    background-color: rgb(203, 40, 203);
+    color: grey;
+    display: inline-block;
+    text-align: left;
+  }
+  button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+  }
+  a {
+    color: grey;
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+  }
+  
+  button:hover, a:hover {
+    opacity: 0.7;
+  }
+  header {
+    background-color: #100101;
+    color: #e77c7c;
+    padding: 20px;
+    margin: 0.1%;
+    padding: 20px;
+  }
+  .back-button {
+    color: #e77c7c;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  h1 {
+    margin: 0;
+    font-size: 36px;
+  }
+  
+  section {
+    background-color: rgb(203, 40, 203);
+    color: rgb(6, 7, 24);
+    padding: 20px;
+    margin: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    align-items: center;
+  }
+  
+  h2 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+    
