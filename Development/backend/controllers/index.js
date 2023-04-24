@@ -264,9 +264,9 @@ const getCourses = async (req, res) => {
 const searchCourse = async(req,res) => {
   let username = req.session ? req.session.username : null;
   const { searchname } = req.body;
-  const courses = await Course.find({ courseName: searchname});
+  const courses = await Course.find({ courseName: searchname}).collation({ locale: 'en', strength:2 });
   res.render("course_new", { data: courses, username });
-}
+};
 
 const updateCourse = async (req, res) => {
   const { courseName, courseDescription } = req.body;
