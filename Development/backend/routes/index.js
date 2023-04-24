@@ -82,9 +82,7 @@ router.delete("/courses/ratings/:id", auth.requireLogin, (req, res) => {
 });
 
 router.get("/courses/question/:id", auth.requireLogin, (req, res) => {
-  const { id } = req.params;
-  let username = req.session ? req.session.username : null;
-  res.render("QNA.ejs", { id,username });
+  auth.getQuestions(req, res, req.params.id);
 });
 
 router.post("/courses/question/:id", auth.requireLogin, (req, res) => {
