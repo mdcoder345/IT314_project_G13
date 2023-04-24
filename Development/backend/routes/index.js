@@ -28,7 +28,14 @@ router.get("/courses", auth.requireLogin, (req, res) => {
 
 
 router.post("/courses", auth.requireLogin, (req, res) => {
-  auth.createCourse(req, res);
+  if(req.body.searchname!=null)
+  {
+    auth.searchCourse(req,res);
+  }
+  else
+  {
+    auth.createCourse(req, res);
+  }
 });
 
 router.patch("/courses/:id", auth.requireLogin, (req, res) => {
