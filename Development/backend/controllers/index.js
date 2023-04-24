@@ -175,6 +175,9 @@ const calculateRatings = async (id) => {
     let ratings = 0;
     const content = await courseContent.find({ _id: id });
     const filter = await Ratings.find({ content });
+    if (!filter.length) {
+      return 0;
+    }
     for (let f of filter) {
       ratings += parseInt(f.rating);
     }

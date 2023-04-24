@@ -42,7 +42,15 @@
         >
       </p>
       <p>
-        Current Rating : <% if(rating==1) { %>
+        Current Rating : <% if(rating==0) { %>
+        <span class="star-rating">
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
+        <% }else if(rating==1) {%>
         <span class="star-rating">
           <i style="opacity: 1"></i>
           <i></i>
