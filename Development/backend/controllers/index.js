@@ -311,8 +311,24 @@ const deleteCourse = async (req, res) => {
   }
 };
 
+
+const getQuestions = async (req, res, id) => {
+  try
+  {
+    const course = await Course.findOne({_id:id});
+    //console.log(course);
+    const questions = await Question.find({ _id: { $in: course.questions } });
+    //console.log(questions);
+    return res.render("QNA",{id,questions,username:req.session.username});
+  }
+  catch(error)
+  {
+    console.log("Internal Error", error);
+    return res.render("QNA",{id,questions:[],username:req.session.username});
+  }
+};
 const addQuestion = async (req, res, id) => {
-  const course = await Course.findOne({ _id: req.params.id });
+  const course = await Course.findOne({ _id:id });
   const _id = req.session.user_id;
   const user = await User.findOne({ _id });
   const { questionText } = req.body;
@@ -580,5 +596,6 @@ module.exports = {
   updateReply,
   deleteReply,
   contactus,
-  searchCourse,
+  getQuestions,
+  searchCourse
 };
