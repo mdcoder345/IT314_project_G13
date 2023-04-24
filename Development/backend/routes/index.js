@@ -128,4 +128,12 @@ router.delete("/courses/delete-reply/:id", auth.requireLogin, (req, res) => {
 router.get("/logout", auth.isLoggedIn, (req, res) => {
   auth.logoutUser(req, res);
 });
+
+router.get("/terms-of-use",(req,res)=>{
+  res.render("terms");
+})
+
+router.get("/privacy-policy",(req,res)=>{
+  res.render("privacy");
+})
 module.exports = router;
