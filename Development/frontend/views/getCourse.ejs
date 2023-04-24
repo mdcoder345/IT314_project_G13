@@ -4,16 +4,138 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <title>Viewing one course</title>
   </head>
   <body>
-    <h1>Viewing Content of <%= course.courseName %></h1>
-    <div>
-        <% for(let content of course.courseContent){ %>
-          <p><%= content.creatorName%></p>
-          <p><%= content.courseContentDescription %></p>
-          <button><a href=<%= `/courses/view/${course._id}/${content._id}` %> >View Details</a></button>
-        <% } %>
+    <%- include('partials/navbar') %>
+    <div class="container justify-content-between mt-4 my-4">
+      <h1><%= course.courseName %></h1>
+      <div class="container">
+          <p>
+              <%= course.courseDescription %>
+          </p>
+      </div>
+      <h3>Course Contents</h3>
     </div>
+        <% for(let content of course.courseContent){ %>
+          <div class="container card-container">
+            <div class="card mb-5">
+              <h5 class="card-header bg-dark text-light"><%= content.creatorName%></h5>
+              <div class="card-body">
+                <p class="card-text">Content Description: <%= content.courseContentDescription %></p>
+                <br>
+                <div class="card-functionality-right">
+                  <a href=<%= `/courses/view/${course._id}/${content._id}` %> class="btn btn-info mx-3">View Details</a></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% } %>
+        <button
+          type="button"
+          class="btn btn-success btn-insert-modal position-sticky"
+          data-bs-toggle="modal"
+          data-bs-target="#insertModal"
+          style="right: 2em; bottom: 2em; height: 3em; width: 3em;float:right;"
+        >
+        <i class="fa-solid fa-plus btn-insert-modal"></i>
+        </button>
+        <%- include('partials/footer') %>
+
+    <!-- Modal -->
+    <form action="/courses/add/<%= course._id%>" method="post">
+      <!-- Modal to create product -->
+      <div
+        class="modal fade"
+        id="insertModal"
+        tabindex="-1"
+        aria-labelledby="insertModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content p-5">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="insertModalLabel">
+                Add new content for <%= course.courseName %>
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="mb-3">
+              <label for="creatorname-in" class="form-label">Creator Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="creatorname-in"
+                value=""
+                name="creatorName"
+                required
+                placeholder="Creator Name"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="coursedescription-in" class="form-label"
+                >Content Description</label
+              >
+              <textarea
+                class="form-control"
+                id="coursedescription-in"
+                value=""
+                name="courseContentDescription"
+                required
+                placeholder="Course Descrition of few lines"
+                rows="3"
+              >
+              </textarea>
+              
+            </div>
+            <div class="mb-3">
+              <label for="videolink-in" class="form-label">Video Link</label>
+              <input
+                type="text"
+                class="form-control"
+                id="videolink-in"
+                value=""
+                name="videoLink"
+                required
+                placeholder="Video Link"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="documentlink-in" class="form-label">Document Link</label>
+              <input
+                type="text"
+                class="form-control"
+                id="documentlink-in"
+                value=""
+                name="documentLink"
+                required
+                placeholder="Document Link"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary insert-submit-btn">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
   </body>
 </html>

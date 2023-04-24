@@ -26,13 +26,16 @@ const getHome = async (req, res) => {
 };
 
 const getCourse = async (req, res, id) => {
+  let username = req.session ? req.session.username : null;
   const course = await Course.findOne({ _id: id }).populate("courseContent");
-  res.render("getCourse.ejs", { course });
+  res.render("getCourse.ejs", { course,username });
 };
 
 const getContent = async (req, res, id1, id2) => {
+  let username = req.session ? req.session.username : null;
   const content = await courseContent.findOne({ _id: id2 });
-  res.send(content);
+  const rating = await calculateRatings(id2);
+  res.render("getcontent.ejs",{content,username,rating});
 };
 
 const addContent = async (req, res, id) => {
@@ -49,7 +52,7 @@ const addContent = async (req, res, id) => {
     const result = await content.save();
     course.courseContent.push(result);
     await course.save();
-    res.send(200, "Added successfully");
+    res.redirect(200,"/courses/view/"+ id);
   } catch (error) {
     console.log("Internal Error", error);
   }
