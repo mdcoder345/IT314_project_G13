@@ -53,19 +53,18 @@ form .input-box span.details{
   margin-bottom: 5px;
 }
 .user-details .input-box input{
-  height: 45px;
-  width: 100%;
-  outline: none;
-  font-size: 16px;
-  border-radius: 5px;
-  padding-left: 15px;
-  border: 1px solid #ccc;
-  border-bottom-width: 2px;
-  transition: all 0.3s ease;
+    width: 100%;
+    padding: 5px 0;
+    font-size: 16px;
+    margin: 10px 0;
+    border: none;
+    border-bottom: 2px solid #333;
+    outline: none;
+    resize: none;
 }
 .user-details .input-box input:focus,
 .user-details .input-box input:valid{
-  border-color: rgb(100, 121, 212);
+  border-color: rgb(0, 139, 164);
 }
  form .gender-details .gender-title{
   font-size: 20px;
@@ -87,14 +86,14 @@ form .input-box span.details{
   width: 18px;
   border-radius: 50%;
   margin-right: 10px;
-  background: rgb(100, 121, 212);
+  background: #00bcd4;
   border: 5px solid transparent;
   transition: all 0.3s ease;
 }
  #dot-1:checked ~ .category label .one,
  #dot-2:checked ~ .category label .two,
  #dot-3:checked ~ .category label .three{
-   background: rgb(100, 121, 212);
+   background: #00bcd4;
    border-color: #d9d9d9;
  }
  form input[type="radio"]{
@@ -115,11 +114,11 @@ form .input-box span.details{
    letter-spacing: 1px;
    cursor: pointer;
    transition: all 0.3s ease;
-   background: rgb(100, 121, 212);
+   background: #00bcd4;
  }
  form .button input:hover{
   /* transform: scale(0.99); */
-  background: rgb(0, 47, 255);
+  background: rgb(0, 139, 164);
   }
  @media(max-width: 584px){
  .container{
@@ -162,8 +161,8 @@ p{
   }
 
   .student-image img{
-    width:100%;
-    height: 100%;
+    width: 390px;
+    height: 260px;
   }
 
   .container-register{

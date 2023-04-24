@@ -28,7 +28,14 @@ router.get("/courses", auth.requireLogin, (req, res) => {
 
 
 router.post("/courses", auth.requireLogin, (req, res) => {
-  auth.createCourse(req, res);
+  if(req.body.searchname!=null)
+  {
+    auth.searchCourse(req,res);
+  }
+  else
+  {
+    auth.createCourse(req, res);
+  }
 });
 
 router.patch("/courses/:id", auth.requireLogin, (req, res) => {
@@ -82,9 +89,7 @@ router.delete("/courses/ratings/:id", auth.requireLogin, (req, res) => {
 });
 
 router.get("/courses/question/:id", auth.requireLogin, (req, res) => {
-  const { id } = req.params;
-  let username = req.session ? req.session.username : null;
-  res.render("QNA.ejs", { id,username });
+  auth.getQuestions(req, res, req.params.id);
 });
 
 router.post("/courses/question/:id", auth.requireLogin, (req, res) => {
