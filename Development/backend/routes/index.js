@@ -109,19 +109,16 @@ router.delete("/courses/delete-question/:id", auth.requireLogin, (req, res) => {
   auth.deleteQuestion(req, res, id);
 });
 
-router.get("/courses/question/reply/:id", auth.requireLogin, (req, res) => {
-  const { id } = req.params;
-});
+// router.get("/courses/question/reply/:id", auth.requireLogin, (req, res) => {
+//   const { id } = req.params;
+//   auth.getReplies(req, res, id);
+// });
 
 router.post("/courses/question/reply/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
   auth.addReply(req, res, id);
 });
 
-router.patch("/courses/update-reply/:id", auth.requireLogin, (req, res) => {
-  const { id } = req.params;
-  auth.updateReply(req, res, id);
-});
 
 router.delete("/courses/delete-reply/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
