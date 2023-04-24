@@ -26,6 +26,7 @@ router.get("/courses", auth.requireLogin, (req, res) => {
   auth.getCourses(req, res);
 });
 
+
 router.post("/courses", auth.requireLogin, (req, res) => {
   auth.createCourse(req, res);
 });
@@ -82,7 +83,8 @@ router.delete("/courses/ratings/:id", auth.requireLogin, (req, res) => {
 
 router.get("/courses/question/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
-  res.render("questions.ejs", { id });
+  let username = req.session ? req.session.username : null;
+  res.render("QNA.ejs", { id,username });
 });
 
 router.post("/courses/question/:id", auth.requireLogin, (req, res) => {
