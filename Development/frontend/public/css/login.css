@@ -31,7 +31,6 @@ p {
   font-size: 25px;
   font-weight: 500;
   position: relative;
-  left: 50%;
 }
 .container-login .title::before {
   content: "";
@@ -41,6 +40,7 @@ p {
   height: 3px;
   width: 30px;
   border-radius: 5px;
+  background: #666976;
 }
 .content form .user-details {
   margin: 20px 0 12px 0;
@@ -64,32 +64,30 @@ form .password-box span.details {
   margin-bottom: 5px;
 }
 .user-details .input-box input {
-  height: 45px;
-  width: 100%;
-  outline: none;
-  font-size: 16px;
-  border-radius: 5px;
-  padding-left: 15px;
-  border: 1px solid #ccc;
-  border-bottom-width: 2px;
-  transition: all 0.3s ease;
+    width: 100%;
+    padding: 5px 0;
+    font-size: 16px;
+    margin: 10px 0;
+    border: none;
+    border-bottom: 2px solid #00bcd4;
+    outline: none;
+    resize: none;
 }
 
 .user-details .password-box input {
-  height: 45px;
-  width: 100%;
-  outline: none;
-  font-size: 16px;
-  border-radius: 5px;
-  padding-left: 15px;
-  border: 1px solid #ccc;
-  border-bottom-width: 2px;
-  transition: all 0.3s ease;
+    width: 100%;
+    padding: 5px 0;
+    font-size: 16px;
+    margin: 10px 0;
+    border: none;
+    border-bottom: 2px solid #00bcd4;
+    outline: none;
+    resize: none;
 }
 .user-details .input-box input:focus,
 .user-details .password-box input:focus,
 .user-details .input-box input:valid {
-  border-color: rgb(100, 121, 212);
+  border-color: rgb(0, 139, 164);
 }
 
 form .button {
@@ -108,11 +106,11 @@ form .button input {
   letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: rgb(100, 121, 212);
+  background: #00bcd4;
 }
 form .button input:hover {
   /* transform: scale(0.99); */
-  background: rgb(0, 47, 255);
+  background: rgb(0, 139, 164);
 }
 @media (max-width: 584px) {
   .container-login {
@@ -154,8 +152,8 @@ form .button input:hover {
   }
 
   .student-image img {
-    width: 100%;
-    height: 100%;
+    width: 390px;
+    height: 260px;
   }
 
   .container-login {
