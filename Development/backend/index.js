@@ -8,6 +8,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const authRoutes = require("./routes/auth");
 const indexRoutes = require("./routes/index");
+const methodOverride = require("method-override");
 
 const PORT = 3000;
 
@@ -46,19 +47,20 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "../frontend/public")));
 app.use(session(sessionObject));
 app.use(flash());
+app.use(methodOverride("_method"));
 
 app.use((req, res, next) => {
   res.locals.messages = req.flash("message");
+  res.locals.ratingMessage = req.flash("ratingMessage");
   next();
 });
 
 app.use("/", authRoutes);
 app.use("/", indexRoutes);
-if(!module.parent)
-{
-app.listen(`${PORT}`, () => {
-  console.log(`The server is listening on PORT ${PORT}`);
-});
+if (!module.parent) {
+  app.listen(`${PORT}`, () => {
+    console.log(`The server is listening on PORT ${PORT}`);
+  });
 }
 
-module.exports =  app ;
+module.exports = app;
