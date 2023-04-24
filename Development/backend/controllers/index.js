@@ -261,6 +261,13 @@ const getCourses = async (req, res) => {
   res.render("course_new", { data: courses, username });
 };
 
+const searchCourse = async(req,res) => {
+  let username = req.session ? req.session.username : null;
+  const { searchname } = req.body;
+  const courses = await Course.find({ courseName: searchname});
+  res.render("course_new", { data: courses, username });
+}
+
 const updateCourse = async (req, res) => {
   const { courseName, courseDescription } = req.body;
   const { id } = req.params;
@@ -573,4 +580,5 @@ module.exports = {
   updateReply,
   deleteReply,
   contactus,
+  searchCourse,
 };
