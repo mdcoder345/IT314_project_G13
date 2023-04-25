@@ -316,10 +316,16 @@ const getQuestions = async (req, res, id) => {
   try
   {
     const course = await Course.findOne({_id:id});
-    //console.log(course);
     const questions = await Question.find({ _id: { $in: course.questions } });
+    const replies = [];
+    for(let question of questions)
+    {
+      const reply = await Reply.find({ _id: { $in: question.replies } });
+      replies.push(reply);
+    }
+    console.log(replies);
     //console.log(questions);
-    return res.render("QNA",{id,questions,username:req.session.username});
+    return res.render("QNA",{id,questions,replies,username:req.session.username});
   }
   catch(error)
   {
@@ -421,6 +427,17 @@ const deleteQuestion = async (req, res, id) => {
   }
 };
 
+const getReplies = async(req,res,id)=>{
+  try{
+  const question = await Question.findOne({_id:id});
+  const replies = await Reply.find({ _id: { $in: question.replies } });
+  return res.render("QNA",{id,replies,username:req.session.username});
+  }
+  catch(error)
+   {
+    res.render("QNA",{id,replies,username:req.session.username});
+   }
+}
 const addReply = async (req, res, id) => {
   const question = await Question.findOne({ _id: req.params.id });
   const _id = req.session.user_id;
@@ -593,5 +610,5 @@ module.exports = {
   deleteReply,
   contactus,
   getQuestions,
-  searchCourse
+  searchCourse,
 };
