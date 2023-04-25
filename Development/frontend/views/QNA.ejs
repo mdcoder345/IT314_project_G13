@@ -26,13 +26,30 @@
     .blockquote-footer {
        margin-left: 2em;
     }
+    .bg-color{
+        background-color: #F0F0F0;
+    }
+    .card-bg{
+        background-color: #fff;
+    }
+    .alert-info {
+      color: black !important;
+      background-color: #D0D0D0 !important;
+      border-color: #D0D0D0 !important;
+    }
+    .accordion-button:not(.collapsed) {
+    color: black !important;
+    background-color: #e7f1ff !important;
+    box-shadow: none !important;
+    }
+    
 
 
 </style>
-<body class="bg-secondary">
+<body class="bg-color">
   <%- include('./partials/navbar') %>
 
-  <h3 class="my-3 mx-5 text-light"> Course Name </h3>
+  <h3 class="my-3 mx-5 text-dark"> Course Name </h3>
    
     <div class="container-fluid question-container">
        
@@ -138,8 +155,6 @@
   var questions = <%- JSON.stringify(questions) %>;
   var id = <%- JSON.stringify(id) %>;
   var replies = <%- JSON.stringify(replies) %>;
-  var username = <%- JSON.stringify(username) %>;
-  console.log(username);
   var content = ``;
 
   questions.forEach((question,idx) => {
@@ -154,16 +169,16 @@
           </div>
         </div>`
     })
-    content += `<div class="accordion my-3 shadow" id="accordionExample" >
+    content += `<div class="accordion my-3 shadow" id="accordionExample">
     <div class="accordion-item">
       <h2 class="accordion-header" id="headingOne">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${question._id}" aria-expanded="true" aria-controls="collapse${question._id}">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${question._id}" aria-expanded="true" aria-controls="collapse${question._id}">
 
             <blockquote class="blockquote w-100">
-                <p class="mb-4">${question.questionText}</p>
+                <p class="text-dark">${question.questionText}</p>
                 <div class="card-functionality-right d-flex justify-content-end">
-                  <a href="#" data-id = "${question._id}" class="btn btn-modal btn-primary edit-question" data-bs-toggle="modal" data-bs-target="#editModal" style = ${username !== question.username ? "pointer-events:none;" : ""}><i data-id = "${question._id}" class="fa-solid fa-pen-to-square"></i></a>
-                  <a href="#" data-id = "${question._id}" class="btn btn-danger mx-3 delete-question" style = ${username !== question.username ? "pointer-events:none;" : ""}><i class="fa-solid fa-trash" data-id = "${question._id}"></i></a>
+                  <a href="#" data-id = "${question._id}" class="btn btn-modal btn-primary edit-question" data-bs-toggle="modal" data-bs-target="#editModal"><i data-id = "${question._id}" class="fa-solid fa-pen-to-square"></i></a>
+                  <a href="#" data-id = "${question._id}" class="btn btn-danger mx-3 delete-question" ><i class="fa-solid fa-trash" data-id = "${question._id}"></i></a>
                   </div>
                 <footer class="blockquote-footer mt-3">Posted by <cite title="Asked by">${question.username}</cite></footer>
               </blockquote>
@@ -178,7 +193,7 @@
               <textarea class="form-control" placeholder="Leave a  reply here" id="replyText" style="height: 100px" name="replyText"></textarea>
               <label for="floatingTextarea2">Add your reply..</label>
             </div>
-            <button type="submit" class="btn btn-primary reply-btn mt-3" data-id = "${question._id}">Submit</button>
+            <button type="submit" class="btn btn-primary reply-btn mt-3" data-id = "${question._id}">Reply</button>
          
         </div>
       </div>
@@ -187,7 +202,7 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id="headingTwo">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${question._id}Two" aria-expanded="false" aria-controls="collapse${question._id}Two">
-          All replies 
+          <div>View replies</div>
         </button>
       </h2>
       <div id="collapse${question._id}Two" class="accordion-collapse collapse" aria-labelledby="headingTwo">
