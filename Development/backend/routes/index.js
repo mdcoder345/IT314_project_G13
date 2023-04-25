@@ -23,6 +23,7 @@ router.post("/contactus",(req,res) => {
 });
 
 router.get("/courses", auth.requireLogin, (req, res) => {
+  
   auth.getCourses(req, res);
 });
 
@@ -130,6 +131,7 @@ router.get("/logout", auth.isLoggedIn, (req, res) => {
 });
 
 router.get("/terms-of-use",(req,res)=>{
+  
   res.render("terms");
 })
 

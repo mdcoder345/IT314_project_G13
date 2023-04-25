@@ -229,6 +229,7 @@ const loginuser = async (req, res) => {
       req.flash("message", "Successfully Logged in!");
       req.session.user_id = foundUser._id;
       req.session.username = foundUser.username;
+      req.session.role = foundUser.role;
       return res.redirect(200, "/");
     }
   } catch (error) {
@@ -257,8 +258,9 @@ const createCourse = async (req, res) => {
 
 const getCourses = async (req, res) => {
   let username = req.session ? req.session.username : null;
+  let role = req.session ? req.session.role : null;
   const courses = await Course.find();
-  res.render("course_new", { data: courses, username });
+  res.render("course_new", { data: courses, username , role});
 };
 
 const searchCourse = async(req,res) => {
