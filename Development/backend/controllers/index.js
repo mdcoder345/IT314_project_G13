@@ -27,18 +27,26 @@ const getHome = async (req, res) => {
 
 const getCourse = async (req, res, id) => {
   let username = req.session ? req.session.username : null;
-  const course = await Course.findOne({ _id: id }).populate("courseContent");
-  res.render("getCourse.ejs", { course, username });
+  try {
+    const course = await Course.findOne({ _id: id }).populate("courseContent");
+    res.render("getCourse.ejs", { course, username });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getContent = async (req, res, id1, id2) => {
   let username = req.session ? req.session.username : null;
-  const content = await courseContent.findOne({ _id: id2 });
-  const user = await User.findOne({ _id: req.session.user_id });
-  const ratings = await Ratings.findOne({ user, content });
-  const userRating = ratings ? ratings.rating : null;
-  const rating = await calculateRatings(id2);
-  res.render("getcontent.ejs", { content, username, rating, userRating });
+  try {
+    const content = await courseContent.findOne({ _id: id2 });
+    const user = await User.findOne({ _id: req.session.user_id });
+    const ratings = await Ratings.findOne({ user, content });
+    const userRating = ratings ? ratings.rating : null;
+    const rating = await calculateRatings(id2);
+    res.render("getcontent.ejs", { content, username, rating, userRating });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const addContent = async (req, res, id) => {
@@ -195,24 +203,25 @@ const registeruser = async (req, res) => {
   if (password != confirmedPassword) {
     res.redirect(400, "/register");
   }
-  const exists = await User.findOne({ $or: [{ username }, { email }] });
-  if (exists) {
-    req.flash("registerMessage", "User name or email not available");
-    return res.redirect("/register");
-  }
-  const hashPw = await bcrypt.hash(password, 12);
-  const user = new User({
-    username,
-    email,
-    password: hashPw,
-    age,
-    institute,
-  });
   try {
+    const exists = await User.findOne({ $or: [{ username }, { email }] });
+    if (exists) {
+      req.flash("registerMessage", "User name or email not available");
+      return res.redirect("/register");
+    }
+    const hashPw = await bcrypt.hash(password, 12);
+    const user = new User({
+      username,
+      email,
+      password: hashPw,
+      age,
+      institute,
+    });
     await user.save();
     return res.redirect("/login");
   } catch (error) {
     console.log("Internal Error", error);
+    res.redirect("/register");
   }
 };
 
@@ -229,12 +238,12 @@ const loginuser = async (req, res) => {
     const isValid = await bcrypt.compare(password, foundUser.password);
     if (!isValid) {
       req.flash("message", "Invalid Credentials!");
-      return res.redirect(200, "/login");
+      return res.redirect("/login");
     } else {
       req.flash("message", "Successfully Logged in!");
       req.session.user_id = foundUser._id;
       req.session.username = foundUser.username;
-      return res.redirect(200, "/");
+      return res.redirect("/");
     }
   } catch (error) {
     return res.status(404).send({
