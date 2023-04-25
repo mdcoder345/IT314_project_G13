@@ -52,6 +52,7 @@ app.use(methodOverride("_method"));
 app.use((req, res, next) => {
   res.locals.messages = req.flash("message");
   res.locals.ratingMessage = req.flash("ratingMessage");
+  res.locals.registerMessage = req.flash("registerMessage");
   next();
 });
 
