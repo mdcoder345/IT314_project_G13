@@ -19,7 +19,7 @@
         <p id="messages"><%= registerMessage %></p>
         <div class="content">
           <!-- <form onsubmit="return validation()" action="/register" method="POST"> -->
-          <form action="/register" method="POST">
+          <form onsubmit="return validation()" action="/register" method="POST">
             <div class="user-details">
               <div class="input-box">
                 <span class="details">UserName</span>
@@ -73,10 +73,28 @@
                   id="password"
                   placeholder="Enter password"
                 />
-                <span
+                <div
                   id="passworderror"
                   class="text-danger font-weight-bold"
-                ></span>
+                ></div>
+                <div
+                  id="passworderror1"
+                  class="text-danger font-weight-bold"
+                ></div>
+                <div
+                  id="passworderror2"
+                  class="text-danger font-weight-bold"
+                ></div>
+                <div
+                  id="passworderror3"
+                  class="text-danger font-weight-bold"
+                ></div>
+                <div
+                  id="passworderror3"
+                  class="text-danger font-weight-bold"
+                ></div>
+                <div id="passworderror4" class="text-danger font-weight-bold">
+                </div>
               </div>
               <div class="input-box">
                 <span class="details">Confirm Password</span>
@@ -113,10 +131,10 @@
         var email = document.getElementById("email").value;
         var password = document.getElementById("password").value;
 
-        var usercheck = /^[A-Za-z. ]{3,20}$/;
-        var passwordcheck =
-          /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
-        var emailcheck = /^[A-Za-z_]{3,}@[A-Za-z]{3,}[.]{1}[A-Za-z.]{2,6}$/;
+        var usercheck = /^[A-Za-z0-9.]{3,20}$/;
+        console.log(usercheck)
+        var passwordcheck = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+        var emailcheck = /^[A-Za-z_0-9]{3,}@[A-Za-z]{3,}[.]{1}[A-Za-z.]{2,6}$/;
 
         if (usercheck.test(username)) {
           document.getElementById("usernameerror").innerHTML = "";
@@ -137,7 +155,11 @@
           document.getElementById("passworderror").innerHTML = "";
         } else {
           document.getElementById("passworderror").innerHTML =
-            "*Password is Invalid";
+            "*Password must contain capital letter [A-Z]";
+          document.getElementById("passworderror1").innerHTML = "must contain small letter [a-z]";
+          document.getElementById("passworderror2").innerHTML = "must contain number [0-9]";
+          document.getElementById("passworderror3").innerHTML = "must contain special character [!@#$%^&*]";
+          document.getElementById("passworderror4").innerHTML = "must contai between 8-16 characters"
           return false;
         }
       }
