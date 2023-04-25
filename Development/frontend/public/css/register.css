@@ -144,7 +144,7 @@ form .button input:hover {
   height: 470px;
 }
 
-p {
+.centerMate {
   text-align: center;
 }
 @media screen and (max-width: 1060px) {
