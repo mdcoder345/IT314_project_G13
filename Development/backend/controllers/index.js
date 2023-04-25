@@ -55,7 +55,7 @@ const addContent = async (req, res, id) => {
     const result = await content.save();
     course.courseContent.push(result);
     await course.save();
-    res.redirect(200, "/courses/view/" + id);
+    res.redirect("/courses/view/" + id);
   } catch (error) {
     console.log("Internal Error", error);
   }
@@ -261,10 +261,13 @@ const getCourses = async (req, res) => {
   res.render("course_new", { data: courses, username });
 };
 
-const searchCourse = async(req,res) => {
+const searchCourse = async (req, res) => {
   let username = req.session ? req.session.username : null;
   const { searchname } = req.body;
-  const courses = await Course.find({ courseName: searchname}).collation({ locale: 'en', strength:2 });
+  const courses = await Course.find({ courseName: searchname }).collation({
+    locale: "en",
+    strength: 2,
+  });
   res.render("course_new", { data: courses, username });
 };
 
@@ -311,30 +314,34 @@ const deleteCourse = async (req, res) => {
   }
 };
 
-
 const getQuestions = async (req, res, id) => {
-  try
-  {
-    const course = await Course.findOne({_id:id});
+  try {
+    const course = await Course.findOne({ _id: id });
     const questions = await Question.find({ _id: { $in: course.questions } });
     const replies = [];
-    for(let question of questions)
-    {
+    for (let question of questions) {
       const reply = await Reply.find({ _id: { $in: question.replies } });
       replies.push(reply);
     }
     console.log(replies);
     //console.log(questions);
-    return res.render("QNA",{id,questions,replies,username:req.session.username});
-  }
-  catch(error)
-  {
+    return res.render("QNA", {
+      id,
+      questions,
+      replies,
+      username: req.session.username,
+    });
+  } catch (error) {
     console.log("Internal Error", error);
-    return res.render("QNA",{id,questions:[],username:req.session.username});
+    return res.render("QNA", {
+      id,
+      questions: [],
+      username: req.session.username,
+    });
   }
 };
 const addQuestion = async (req, res, id) => {
-  const course = await Course.findOne({ _id:id });
+  const course = await Course.findOne({ _id: id });
   const _id = req.session.user_id;
   const user = await User.findOne({ _id });
   const { questionText } = req.body;
@@ -427,17 +434,15 @@ const deleteQuestion = async (req, res, id) => {
   }
 };
 
-const getReplies = async(req,res,id)=>{
-  try{
-  const question = await Question.findOne({_id:id});
-  const replies = await Reply.find({ _id: { $in: question.replies } });
-  return res.render("QNA",{id,replies,username:req.session.username});
+const getReplies = async (req, res, id) => {
+  try {
+    const question = await Question.findOne({ _id: id });
+    const replies = await Reply.find({ _id: { $in: question.replies } });
+    return res.render("QNA", { id, replies, username: req.session.username });
+  } catch (error) {
+    res.render("QNA", { id, replies, username: req.session.username });
   }
-  catch(error)
-   {
-    res.render("QNA",{id,replies,username:req.session.username});
-   }
-}
+};
 const addReply = async (req, res, id) => {
   const question = await Question.findOne({ _id: req.params.id });
   const _id = req.session.user_id;
