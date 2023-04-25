@@ -28,14 +28,17 @@ const getHome = async (req, res) => {
 const getCourse = async (req, res, id) => {
   let username = req.session ? req.session.username : null;
   const course = await Course.findOne({ _id: id }).populate("courseContent");
-  res.render("getCourse.ejs", { course,username });
+  res.render("getCourse.ejs", { course, username });
 };
 
 const getContent = async (req, res, id1, id2) => {
   let username = req.session ? req.session.username : null;
   const content = await courseContent.findOne({ _id: id2 });
+  const user = await User.findOne({ _id: req.session.user_id });
+  const ratings = await Ratings.findOne({ user, content });
+  const userRating = ratings ? ratings.rating : null;
   const rating = await calculateRatings(id2);
-  res.render("getcontent.ejs",{content,username,rating});
+  res.render("getcontent.ejs", { content, username, rating, userRating });
 };
 
 const addContent = async (req, res, id) => {
@@ -52,7 +55,7 @@ const addContent = async (req, res, id) => {
     const result = await content.save();
     course.courseContent.push(result);
     await course.save();
-    res.redirect(200,"/courses/view/"+ id);
+    res.redirect(200, "/courses/view/" + id);
   } catch (error) {
     console.log("Internal Error", error);
   }
@@ -109,6 +112,7 @@ const addRatings = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.session.user_id });
     const content = await courseContent.findOne({ _id: id });
+    const course = await Course.findOne({ courseContent: content });
     const { rating } = req.body;
     const ratings = new Ratings({
       user,
@@ -116,11 +120,8 @@ const addRatings = async (req, res) => {
       rating,
     });
     await ratings.save();
-    return res.status(200).send({
-      data: ratings,
-      success: true,
-      error: null,
-    });
+    req.flash("ratingMessage", "Thanks for rating this course!");
+    return res.redirect(`/courses/view/${course._id}/${id}`);
   } catch (error) {
     return res.status(404).send({
       data: {},
@@ -135,15 +136,13 @@ const updateRatings = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.session.user_id });
     const content = await courseContent.findOne({ _id: id });
+    const course = await Course.findOne({ courseContent: content });
     const oldRating = await Ratings.findOne({ user, content });
     const { rating: newRating } = req.body;
     oldRating.rating = newRating;
     await oldRating.save();
-    return res.status(200).send({
-      data: oldRating,
-      success: true,
-      error: null,
-    });
+    req.flash("ratingMessage", "Your response has been updated!");
+    return res.redirect(`/courses/view/${course._id}/${id}`);
   } catch (error) {
     return res.status(404).send({
       data: {},
@@ -159,11 +158,9 @@ const deleteRatings = async (req, res) => {
     const user = await User.findOne({ _id: req.session.user_id });
     const content = await courseContent.findOne({ _id: id });
     const rating = await Ratings.findOneAndDelete({ user, content });
-    return res.status(200).send({
-      data: rating,
-      success: true,
-      error: null,
-    });
+    const course = await Course.findOne({ courseContent: content });
+    req.flash("ratingMessage", "Your response has been deleted!");
+    return res.redirect(`/courses/view/${course._id}/${id}`);
   } catch (error) {
     return res.status(404).send({
       data: {},
@@ -178,6 +175,9 @@ const calculateRatings = async (id) => {
     let ratings = 0;
     const content = await courseContent.find({ _id: id });
     const filter = await Ratings.find({ content });
+    if (!filter.length) {
+      return 0;
+    }
     for (let f of filter) {
       ratings += parseInt(f.rating);
     }
@@ -528,38 +528,34 @@ const requireLogin = (req, res, next) => {
   next();
 };
 
-const contactus = (req,res) => {
-  const { username,email,subject,message } = req.body;
+const contactus = (req, res) => {
+  const { username, email, subject, message } = req.body;
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
       user: "mspatel7623@gmail.com",
-      pass: "zgokoaomhlapfapo"
-
-    }
-  })
+      pass: "zgokoaomhlapfapo",
+    },
+  });
 
   const mailOptions = {
     from: email,
-    to: 'mspatel7623@gmail.com',
+    to: "mspatel7623@gmail.com",
     subject: subject,
-    text: message
-  }
-  
-  transporter.sendMail(mailOptions, function(error, info){
-    if(error)
-    {
+    text: message,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
       console.log(error);
-      req.flash("message","Email not sent");
+      req.flash("message", "Email not sent");
+      res.redirect("contactus");
+    } else {
+      req.flash("message", "Email Sent");
       res.redirect("contactus");
     }
-    else
-    {
-      req.flash("message","Email Sent");
-      res.redirect("contactus");
-    }
-  })
-}
+  });
+};
 
 const isLoggedIn = (req, res, next) => {
   if (req.session.user_id) {
