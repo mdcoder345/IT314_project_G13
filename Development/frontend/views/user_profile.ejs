@@ -4,21 +4,16 @@
   
   <meta charset="UTF-8">
   <title style="background-color:rgb(234, 232, 230);">User Profile Page</title>
-  <link rel="stylesheet" href="/css/user_profile.css">
+  <link rel="stylesheet" href="user_profile.css">
   
 </head>
 
 <body style="background-color:rgb(159, 157, 154);">
-  <%- include('./partials/navbar') %>
+  <%- include('partials/navbar') %>
   <header>
     
     <a href="#" class="back-button">&#8592; Back</a>
-    <h1>User Profile</h1>
-    <% if(role === 'admin') { %>
-    <a href="/user-info" class="btn btn-primary view-users">
-      View Users
-    </a>
-    <% } %>
+    <h1 align="middle" >User Profile</h1>
   </header>
   <br>
   <div class="card">
@@ -47,5 +42,4 @@
   </section>
   <%- include('partials/footer') %>
 </body>
-
 </html>
