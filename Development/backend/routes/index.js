@@ -23,7 +23,6 @@ router.post("/contactus",(req,res) => {
 });
 
 router.get("/courses", auth.requireLogin, (req, res) => {
-  
   auth.getCourses(req, res);
 });
 
@@ -138,4 +137,18 @@ router.get("/terms-of-use",(req,res)=>{
 router.get("/privacy-policy",(req,res)=>{
   res.render("privacy");
 })
+
+router.get("/user-profile",(req,res)=>{
+  res.render("user_profile", { username: req.session.username ,role:req.session.role});
+});
+
+router.get("/user-info",(req,res)=>{
+  auth.getUsers(req,res);
+});
+
+router.delete("/user/:id", auth.requireLogin, (req, res) => {
+  const {id} = req.params.id;
+  auth.deleteUser(req, res, id);
+});
+
 module.exports = router;
