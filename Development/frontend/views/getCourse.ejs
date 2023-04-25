@@ -40,10 +40,12 @@
             <div class="card-functionality-left">
               <a href=<%=`/courses/view/${course._id}/${content._id}` %> class="btn btn-info mx-3">View Details</a></i>
             </div>
-            <div class="card-functionality-right">
-              <a href="#" data-id = "<%= content._id %>" class="btn btn-modal btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i data-id = "<%= content._id %>" class="fa-solid fa-pen-to-square"></i></a>
-              <a href="#" data-id = "<%= content._id %>" class="btn btn-danger mx-3 delete-course" ><i class="fa-solid fa-trash" data-id = "<%= content._id %>"></i></a>
-            </div>
+            <% if(content.creatorName === username){ %>
+              <div class="card-functionality-right">
+                <a href="#" data-id = "<%= content._id %>" class="btn btn-modal btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i data-id = "<%= content._id %>" class="fa-solid fa-pen-to-square"></i></a>
+                <a href="#" data-id = "<%= content._id %>" class="btn btn-danger mx-3 delete-course" ><i class="fa-solid fa-trash" data-id = "<%= content._id %>"></i></a>
+              </div>
+              <% } %>
             </div>
           </div>
         </div>
@@ -71,8 +73,11 @@
                   </div>
                   <div class="mb-3">
                     <label for="creatorname-in" class="form-label">Creator Name</label>
-                    <input type="text" class="form-control" id="creatorname-in" value="" name="creatorName" required
-                      placeholder="Creator Name" />
+                    <input type="text" class="form-control" id="creatorname-in" 
+                    value="<%= username %>"
+                    name="creatorName" required
+                      placeholder="Creator Name" 
+                      readonly/>
                   </div>
                   <div class="mb-3">
                     <label for="coursedescription-in" class="form-label">Content Description</label>
@@ -109,8 +114,10 @@
                 </div>
                 <div class="mb-3">
                   <label for="creatorName" class="form-label">Creator Name</label>
-                  <input type="text" class="form-control" id="creatorName" value="" name="creatorName" required
-                    placeholder="Course Name" />
+                  <input type="text" 
+                  class="form-control" id="creatorName" value="<%= username %>" name="creatorName" required
+                    placeholder="Course Name"
+                    readonly />
                 </div>
                 <div class="mb-3">
                   <label for="coursecontentDescrition" class="form-label">Course Content Description</label>
