@@ -207,7 +207,7 @@ const registeruser = async (req, res) => {
     const exists = await User.findOne({ $or: [{ username }, { email }] });
     if (exists) {
       req.flash("registerMessage", "User name or email not available");
-      return res.redirect("/register");
+      return res.redirect(400,"/register");
     }
     const hashPw = await bcrypt.hash(password, 12);
     const user = new User({
@@ -218,10 +218,10 @@ const registeruser = async (req, res) => {
       institute,
     });
     await user.save();
-    return res.redirect("/login");
+    return res.redirect(200,"/login");
   } catch (error) {
     console.log("Internal Error", error);
-    res.redirect("/register");
+    res.redirect(400,"/register");
   }
 };
 
@@ -238,12 +238,12 @@ const loginuser = async (req, res) => {
     const isValid = await bcrypt.compare(password, foundUser.password);
     if (!isValid) {
       req.flash("message", "Invalid Credentials!");
-      return res.redirect("/login");
+      return res.redirect(200,"/login");
     } else {
       req.flash("message", "Successfully Logged in!");
       req.session.user_id = foundUser._id;
       req.session.username = foundUser.username;
-      return res.redirect("/");
+      return res.redirect(200,"/");
     }
   } catch (error) {
     return res.status(404).send({
