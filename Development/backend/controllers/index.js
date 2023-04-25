@@ -195,6 +195,11 @@ const registeruser = async (req, res) => {
   if (password != confirmedPassword) {
     res.redirect(400, "/register");
   }
+  const exists = await User.findOne({ $or: [{ username }, { email }] });
+  if (exists) {
+    req.flash("registerMessage", "User name or email not available");
+    return res.redirect("/register");
+  }
   const hashPw = await bcrypt.hash(password, 12);
   const user = new User({
     username,
@@ -205,7 +210,7 @@ const registeruser = async (req, res) => {
   });
   try {
     await user.save();
-    return res.redirect(200, "/login");
+    return res.redirect("/login");
   } catch (error) {
     console.log("Internal Error", error);
   }
