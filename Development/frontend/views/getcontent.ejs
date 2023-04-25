@@ -42,7 +42,7 @@
         >
       </p>
       <p>
-        Current Rating : <% if(rating==0) { %>
+        Current Rating : <% if(rating==0 || rating==NaN) { %>
         <span class="star-rating">
           <i></i>
           <i></i>

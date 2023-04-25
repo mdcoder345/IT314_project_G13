@@ -37,14 +37,13 @@
     <div class="container card-container"></div>
     <button
       type="button"
-      class="btn btn-success btn-insert-modal position-sticky"
+      class="btn btn-success btn-insert-modal"
       data-bs-toggle="modal"
       data-bs-target="#insertModal"
-      style="right: 2em; bottom: 2em; height: 3em; width: 3em;float:right;"
+      style="height: 3em; width: 3em;margin-right:1em;margin-left: auto;margin-bottom: 0.5em; position:sticky;bottom:0.5em"
     >
-      <i class="fa-solid fa-plus btn-insert-modal"></i>
+    <i class="fa-solid fa-plus btn-insert-modal"></i>
     </button>
-
     <!-- form to create new course -->
     <form action="/courses" method="post">
       <!-- Modal to create product -->
@@ -102,7 +101,7 @@
         </div>
       </div>
     </form>
-
+    <%- include('partials/footer') %>
     <!-- modal to edit the courses -->
     <div
       class="modal fade"
@@ -153,13 +152,17 @@
         </div>
       </div>
     </div>
-    <%- include('partials/footer') %>
   </body>
   <script>
     var data = <%- JSON.stringify(data) %>
-    console.log(data);
+    console.log(data.length);
     var content = ``;
-    data.forEach((course)=>{
+    if(data.length==0)
+    {
+      content += `<h3>Sorry,No Courses Found</h3>`;
+    }
+    else{
+      data.forEach((course)=>{
       content += `
       <div class="card mb-5">
         <h5 class="card-header bg-dark text-light">${course.courseName}</h5>
@@ -183,9 +186,8 @@
       </div>
       `
     });
-
-
-
+    }
+    
     // functionality to delete the course
     document.querySelector('.card-container').innerHTML += content;
     document.querySelectorAll('.delete-course').forEach((course)=>{

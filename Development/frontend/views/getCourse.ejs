@@ -1,141 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <title>Viewing one course</title>
-  </head>
-  <body>
-    <%- include('partials/navbar') %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Viewing one course</title>
+</head>
+
+<body>
+  <%- include('partials/navbar') %>
     <div class="container justify-content-between mt-4 my-4">
-      <h1><%= course.courseName %></h1>
+      <h1>
+        <%= course.courseName %>
+      </h1>
       <div class="container">
-          <p>
-              <%= course.courseDescription %>
-          </p>
+        <p>
+          <%= course.courseDescription %>
+        </p>
       </div>
       <h3>Course Contents</h3>
     </div>
-        <% for(let content of course.courseContent){ %>
-          <div class="container card-container">
-            <div class="card mb-5">
-              <h5 class="card-header bg-dark text-light"><%= content.creatorName%></h5>
-              <div class="card-body">
-                <p class="card-text">Content Description: <%= content.courseContentDescription %></p>
-                <br>
-                <div class="card-functionality-right">
-                  <a href=<%= `/courses/view/${course._id}/${content._id}` %> class="btn btn-info mx-3">View Details</a></i>
-                </div>
-              </div>
+    <% for(let content of course.courseContent){ %>
+      <div class="container card-container">
+        <div class="card mb-5">
+          <h5 class="card-header bg-dark text-light">
+            <%= content.creatorName%>
+          </h5>
+          <div class="card-body">
+            <p class="card-text">Content Description: <%= content.courseContentDescription %>
+            </p>
+            <br>
+            <div class="card-footer text-muted  d-flex justify-content-between">
+            <div class="card-functionality-left">
+              <a href=<%=`/courses/view/${course._id}/${content._id}` %> class="btn btn-info mx-3">View Details</a></i>
             </div>
-          </div>
-        <% } %>
-        <button
-          type="button"
-          class="btn btn-success btn-insert-modal position-sticky"
-          data-bs-toggle="modal"
-          data-bs-target="#insertModal"
-          style="right: 2em; bottom: 2em; height: 3em; width: 3em;float:right;"
-        >
-        <i class="fa-solid fa-plus btn-insert-modal"></i>
-        </button>
-        <%- include('partials/footer') %>
-
-    <!-- Modal -->
-    <form action="/courses/add/<%= course._id%>" method="post">
-      <!-- Modal to create product -->
-      <div
-        class="modal fade"
-        id="insertModal"
-        tabindex="-1"
-        aria-labelledby="insertModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content p-5">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="insertModalLabel">
-                Add new content for <%= course.courseName %>
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+            <div class="card-functionality-right">
+              <a href="#" data-id = "<%= content._id %>" class="btn btn-modal btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i data-id = "<%= content._id %>" class="fa-solid fa-pen-to-square"></i></a>
+              <a href="#" data-id = "<%= content._id %>" class="btn btn-danger mx-3 delete-course" ><i class="fa-solid fa-trash" data-id = "<%= content._id %>"></i></a>
             </div>
-            <div class="mb-3">
-              <label for="creatorname-in" class="form-label">Creator Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="creatorname-in"
-                value=""
-                name="creatorName"
-                required
-                placeholder="Creator Name"
-              />
             </div>
-            <div class="mb-3">
-              <label for="coursedescription-in" class="form-label"
-                >Content Description</label
-              >
-              <textarea
-                class="form-control"
-                id="coursedescription-in"
-                value=""
-                name="courseContentDescription"
-                required
-                placeholder="Course Descrition of few lines"
-                rows="3"
-              >
-              </textarea>
-              
-            </div>
-            <div class="mb-3">
-              <label for="videolink-in" class="form-label">Video Link</label>
-              <input
-                type="text"
-                class="form-control"
-                id="videolink-in"
-                value=""
-                name="videoLink"
-                required
-                placeholder="Video Link"
-              />
-            </div>
-            <div class="mb-3">
-              <label for="documentlink-in" class="form-label">Document Link</label>
-              <input
-                type="text"
-                class="form-control"
-                id="documentlink-in"
-                value=""
-                name="documentLink"
-                required
-                placeholder="Document Link"
-              />
-            </div>
-            <button type="submit" class="btn btn-primary insert-submit-btn">
-              Submit
-            </button>
           </div>
         </div>
       </div>
-    </form>
-  </body>
+      <% } %>
+        <button type="button" class="btn btn-success btn-insert-modal" data-bs-toggle="modal"
+          data-bs-target="#insertModal"
+          style="height: 3em; width: 3em;margin-right:1em;margin-left: auto;margin-bottom: 0.5em; position:sticky;bottom:0.5em">
+          <i class="fa-solid fa-plus btn-insert-modal"></i>
+        </button>
+        <%- include('partials/footer') %>
+
+          <!-- Modal -->
+          <form action="/courses/add/<%= course._id%>" method="post">
+            <!-- Modal to create product -->
+            <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content p-5">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="insertModalLabel">
+                      Add new content for <%= course.courseName %>
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="mb-3">
+                    <label for="creatorname-in" class="form-label">Creator Name</label>
+                    <input type="text" class="form-control" id="creatorname-in" value="" name="creatorName" required
+                      placeholder="Creator Name" />
+                  </div>
+                  <div class="mb-3">
+                    <label for="coursedescription-in" class="form-label">Content Description</label>
+                    <textarea class="form-control" id="coursedescription-in" value="" name="courseContentDescription"
+                      required placeholder="Course Descrition of few lines" rows="3">
+              </textarea>
+
+                  </div>
+                  <div class="mb-3">
+                    <label for="videolink-in" class="form-label">Video Link</label>
+                    <input type="text" class="form-control" id="videolink-in" value="" name="videoLink" required
+                      placeholder="Video Link" />
+                  </div>
+                  <div class="mb-3">
+                    <label for="documentlink-in" class="form-label">Document Link</label>
+                    <input type="text" class="form-control" id="documentlink-in" value="" name="documentLink" required
+                      placeholder="Document Link" />
+                  </div>
+                  <button type="submit" class="btn btn-primary insert-submit-btn">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- Modal to edit course content-->
+          <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content p-5">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="editModalLabel">Edit Course content</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="mb-3">
+                  <label for="creatorName" class="form-label">Creator Name</label>
+                  <input type="text" class="form-control" id="creatorName" value="" name="creatorName" required
+                    placeholder="Course Name" />
+                </div>
+                <div class="mb-3">
+                  <label for="coursecontentDescrition" class="form-label">Course Content Description</label>
+                  <textarea class="form-control" id="coursecontentDescription" value="" name="coursecontentDescription" required
+                    placeholder="Course Descrition of few lines" rows="3">
+            </textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="videoLink" class="form-label">Video Link</label>
+                  <input type="text" class="form-control" id="videoLink" value="" name="videoLink" required
+                    placeholder="Course Name" />
+                </div>
+                <div class="mb-3">
+                  <label for="documentLink" class="form-label">Document Link</label>
+                  <input type="text" class="form-control" id="documentLink" value="" name="documentLink" required
+                    placeholder="Course Name" />
+                </div>
+                <button class="btn btn-primary submit-btn">Submit</button>
+              </div>
+            </div>
+          </div>
+</body>
+  <script>
+    var data = <%- JSON.stringify(course) %>
+    console.log(data);
+    var courseContent = data.courseContent;
+    console.log(courseContent);
+
+
+    //Functionality to delte the course content
+    document.querySelectorAll('.delete-course').forEach((coursecontent)=>{
+      coursecontent.addEventListener('click', (e)=>{
+       const id = e.target.dataset.id;
+       if(confirm(`Are you sure you want to delete this course content ${id}?`))
+        {
+          fetch(`/courses/delete/${e.target.dataset.id}`, {
+            method: 'DELETE'
+          }).then((res)=>{
+            return res.json();
+          }).then((data)=>{
+            console.log(data);
+            if(confirm(`Course content ${id} deleted successfully`))
+            window.location.reload();
+          })
+        }
+      })
+    })
+
+    //Functionality to edit the course
+
+      var response = {};
+      console.log(document.querySelectorAll('.btn-modal'))
+      document.querySelectorAll('.btn-modal').forEach((row)=>row.addEventListener('click', (e)=>{
+      console.log(e.target)
+      let obj = undefined;
+      courseContent.forEach((coursecontent)=> {
+        if(coursecontent._id === e.target.dataset.id)
+        {
+          console.log(e.target.dataset.id)
+          obj = coursecontent;
+          return;
+        }
+      })
+      response = obj;
+      console.log(obj)
+      console.log(response)
+      document.querySelector('#creatorName').value = obj.creatorName
+      document.querySelector("#coursecontentDescription").value = obj.courseContentDescription;
+      document.querySelector("#videoLink").value = obj.videoLink;
+      document.querySelector("#documentLink").value = obj.documentLink;
+      }))
+      document.querySelector('.submit-btn').addEventListener('click', ()=> {
+      response.creatorName = document.querySelector('#creatorName').value;
+      response.courseContentDescription = document.querySelector('#coursecontentDescription').value;
+      response.videoLink = document.querySelector('#videoLink').value;
+      response.documentLink = document.querySelector('#documentLink').value;
+      if(response.courseName!=='' &&  response.courseDescription !=='' && response.videoLink !=='' &&  response.documentLink !== '')
+      {
+        fetch(`http://localhost:3000/courses/update/${response._id}`, {
+        method: 'PATCH',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify(response)
+        })
+          if(!(alert(`Course content with creator ${response.creatorName} updated successfully`)))
+          {
+            location.reload()
+          }
+        }
+        else {
+          alert('All fields must be non empty')
+        }
+      })
+  </script>
 </html>

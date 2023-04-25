@@ -554,22 +554,22 @@ const contactus = (req, res) => {
       pass: "zgokoaomhlapfapo",
     },
   });
-
+  let message1 = "This message is from " + email + "\n" + message;
   const mailOptions = {
     from: email,
     to: "mspatel7623@gmail.com",
     subject: subject,
-    text: message,
+    text: message1,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
       req.flash("message", "Email not sent");
-      res.redirect("contactus");
+      res.redirect("/contactus");
     } else {
       req.flash("message", "Email Sent");
-      res.redirect("contactus");
+      res.redirect("/contactus");
     }
   });
 };
