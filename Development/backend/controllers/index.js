@@ -41,6 +41,29 @@ const getContent = async (req, res, id1, id2) => {
   res.render("getcontent.ejs", { content, username, rating, userRating });
 };
 
+const getUsers = async (req, res) => {
+  const users = await User.find();
+  res.render("userTable", { users});
+};
+
+const deleteUser = async (req, res, id) => {
+  console.log(id);
+  try {
+    const user = await User.findByIdAndDelete(id);
+    res.status(200).json({
+      data: user,
+      success: true,
+      error: null,
+    });
+  } catch (error) {
+    res.status(404).json({
+      data: null,
+      success: false,
+      error: "Internal Server Error",
+    });
+  }
+};
+
 const addContent = async (req, res, id) => {
   const course = await Course.findOne({ _id: id });
   const { creatorName, courseContentDescription, videoLink, documentLink } =
@@ -229,6 +252,7 @@ const loginuser = async (req, res) => {
       req.flash("message", "Successfully Logged in!");
       req.session.user_id = foundUser._id;
       req.session.username = foundUser.username;
+      req.session.role = foundUser.role;
       return res.redirect(200, "/");
     }
   } catch (error) {
@@ -257,8 +281,9 @@ const createCourse = async (req, res) => {
 
 const getCourses = async (req, res) => {
   let username = req.session ? req.session.username : null;
+  let role = req.session ? req.session.role : null;
   const courses = await Course.find();
-  res.render("course_new", { data: courses, username });
+  res.render("course_new", { data: courses, username , role});
 };
 
 const searchCourse = async(req,res) => {
@@ -611,4 +636,6 @@ module.exports = {
   contactus,
   getQuestions,
   searchCourse,
+  getUsers,
+  deleteUser
 };
