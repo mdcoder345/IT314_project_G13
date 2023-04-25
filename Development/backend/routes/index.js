@@ -147,8 +147,8 @@ router.get("/user-info",(req,res)=>{
 });
 
 router.delete("/user/:id", auth.requireLogin, (req, res) => {
-  const {id} = req.params.id;
-  auth.deleteUser(req, res, id);
+  console.log(req.params.id);
+  auth.deleteUser(req, res, req.params.id);
 });
 
 module.exports = router;

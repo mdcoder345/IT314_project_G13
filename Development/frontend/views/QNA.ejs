@@ -138,6 +138,8 @@
   var questions = <%- JSON.stringify(questions) %>;
   var id = <%- JSON.stringify(id) %>;
   var replies = <%- JSON.stringify(replies) %>;
+  var username = <%- JSON.stringify(username) %>;
+  console.log(username);
   var content = ``;
 
   questions.forEach((question,idx) => {
@@ -160,8 +162,8 @@
             <blockquote class="blockquote w-100">
                 <p class="mb-4">${question.questionText}</p>
                 <div class="card-functionality-right d-flex justify-content-end">
-                  <a href="#" data-id = "${question._id}" class="btn btn-modal btn-primary edit-question" data-bs-toggle="modal" data-bs-target="#editModal"><i data-id = "${question._id}" class="fa-solid fa-pen-to-square"></i></a>
-                  <a href="#" data-id = "${question._id}" class="btn btn-danger mx-3 delete-question" ><i class="fa-solid fa-trash" data-id = "${question._id}"></i></a>
+                  <a href="#" data-id = "${question._id}" class="btn btn-modal btn-primary edit-question" data-bs-toggle="modal" data-bs-target="#editModal" style = ${username !== question.username ? "pointer-events:none;" : ""}><i data-id = "${question._id}" class="fa-solid fa-pen-to-square"></i></a>
+                  <a href="#" data-id = "${question._id}" class="btn btn-danger mx-3 delete-question" style = ${username !== question.username ? "pointer-events:none;" : ""}><i class="fa-solid fa-trash" data-id = "${question._id}"></i></a>
                   </div>
                 <footer class="blockquote-footer mt-3">Posted by <cite title="Asked by">${question.username}</cite></footer>
               </blockquote>
