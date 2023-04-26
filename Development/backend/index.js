@@ -32,8 +32,7 @@ const sessionObject = {
   saveUninitialized: false,
   resave: false,
   store: mongoStore.create({
-    mongoUrl:
-      "mongodb+srv://isha_121:1234@cluster0.w0kyzdk.mongodb.net/?retryWrites=true&w=majority",
+    mongoUrl:process.env.MONGO_URI,
   }),
   cookie: {
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,

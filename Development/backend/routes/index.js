@@ -130,10 +130,25 @@ router.get("/logout", auth.isLoggedIn, (req, res) => {
 });
 
 router.get("/terms-of-use",(req,res)=>{
+  
   res.render("terms");
 })
 
 router.get("/privacy-policy",(req,res)=>{
   res.render("privacy");
 })
+
+router.get("/user-profile",(req,res)=>{
+  res.render("user_profile", { username: req.session.username ,role:req.session.role});
+});
+
+router.get("/user-info",(req,res)=>{
+  auth.getUsers(req,res);
+});
+
+router.delete("/user/:id", auth.requireLogin, (req, res) => {
+  console.log(req.params.id);
+  auth.deleteUser(req, res, req.params.id);
+});
+
 module.exports = router;

@@ -35,6 +35,7 @@
       </form>
     </div>
     <div class="container card-container"></div>
+    <% if(role=="admin"){ %>
     <button
       type="button"
       class="btn btn-success btn-insert-modal"
@@ -42,8 +43,10 @@
       data-bs-target="#insertModal"
       style="height: 3em; width: 3em;margin-right:1em;margin-left: auto;margin-bottom: 0.5em; position:sticky;bottom:0.5em"
     >
-    <i class="fa-solid fa-plus btn-insert-modal"></i>
+    <i class="fa-solid fa-plus btn-insert-modal "></i>
+   
     </button>
+    <% } %>
     <!-- form to create new course -->
     <form action="/courses" method="post">
       <!-- Modal to create product -->
@@ -154,7 +157,9 @@
     </div>
   </body>
   <script>
-    var data = <%- JSON.stringify(data) %>
+    var data = <%- JSON.stringify(data) %>;
+    var role = <%- JSON.stringify(role) %>;
+    console.log(role);
     console.log(data.length);
     var content = ``;
     if(data.length==0)
@@ -172,10 +177,10 @@
 
           <div class="card-footer text-muted  d-flex justify-content-between">
             <div class="card-functionality-left">
-            <a href="#" class="btn btn-primary">Ask Questions</a>
+            <a href="/courses/question/${course._id}" class="btn btn-primary">View Questions</a>
             <a href="/courses/view/${course._id}" class="btn btn-info mx-3">View Courses</a>
           </div>
-          <div class="card-functionality-right">
+          <div class="card-functionality-right" style="display:${role === "admin" ? "block" : "none"}">
             <a href="#" data-id = "${course._id}" class="btn btn-modal btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i data-id = "${course._id}" class="fa-solid fa-pen-to-square"></i></a>
             <a href="#" data-id = "${course._id}" class="btn btn-danger mx-3 delete-course" ><i class="fa-solid fa-trash" data-id = "${course._id}"></i></a>
             </div>

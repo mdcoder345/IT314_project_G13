@@ -22,6 +22,12 @@ const UserSchema = new mongoose.Schema({
   institute: {
     type: String,
   },
+  role:
+  {
+    type: String,
+    enum: ["admin", "user"], // enum is an array of strings
+    default: "user"
+  }
 });
 
 const User = new mongoose.model("User", UserSchema);
