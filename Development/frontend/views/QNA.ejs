@@ -141,7 +141,7 @@
           <br>
           <div class="reply-info d-flex justify-content-between">
           <cite title="Replied by" class="blockquote-footer" style="margin-left : 2em; margin-top: 0.3em;">${reply.username}</cite>
-          <a href="#" data-id = "${reply._id}" class="btn btn-danger mx-3 delete-reply" ><i class="fa-solid fa-trash" data-id = "${reply._id}"></i></a>
+          <a href="#" data-id = "${reply._id}" class="${username !== question.username ? "btn btn-secondary mx-3 delete-question" : "btn btn-danger mx-3 delete-question"}" ><i class="fa-solid fa-trash" data-id = "${reply._id}"></i></a>
           </div>
         </div>`
     })
@@ -152,8 +152,8 @@
               <blockquote class="blockquote w-100">
                   <p class="mb-4">${question.questionText}</p>
                   <div class="card-functionality-right d-flex justify-content-end">
-                    <a href="#" data-id = "${question._id}" class="btn btn-modal btn-primary edit-question" data-bs-toggle="modal" data-bs-target="#editModal" style = ${username !== question.username ? "pointer-events:none;" : ""}><i data-id = "${question._id}" class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="#" data-id = "${question._id}" class="btn btn-danger mx-3 delete-question" style = ${username !== question.username ? "pointer-events:none;" : ""}><i class="fa-solid fa-trash" data-id = "${question._id}"></i></a>
+                    <a href="#" data-id = "${question._id}"class="${username !== question.username ? "btn btn-secondary mx-3 delete-question" : "btn btn-primary mx-3 delete-question"}" data-bs-toggle="modal" data-bs-target="#editModal" style = ${username !== question.username ? "pointer-events:none;" : ""}><i data-id = "${question._id}" class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="#" data-id = "${question._id}" class="${username !== question.username ? "btn btn-secondary mx-3 delete-question" : "btn btn-danger mx-3 delete-question"}"  style = ${username !== question.username ? "pointer-events:none" : ""}><i class="fa-solid fa-trash" data-id = "${question._id}"></i></a>
                     </div>
                   <footer class="blockquote-footer mt-3">Posted by <cite title="Asked by">${question.username}</cite></footer>
                 </blockquote>
