@@ -17,7 +17,15 @@
     .blockquote-footer {
        margin-left: 2em;
     }
-
+    .al-items{
+      display: flex;
+      align-items: center;
+      height: auto;
+    }
+    .sub-al-items{
+      position: absolute;
+      right: 40px;
+      }
 
 </style>
 <body class="bg-secondary">
@@ -151,11 +159,12 @@
           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${question._id}" aria-expanded="true" aria-controls="collapse${question._id}">
               <blockquote class="blockquote w-100">
                   <p class="mb-4">${question.questionText}</p>
-                  <div class="card-functionality-right d-flex justify-content-end">
-                    <a href="#" data-id = "${question._id}"class="${username !== question.username ? "btn btn-secondary mx-3 delete-question" : "btn btn-primary mx-3 delete-question"}" data-bs-toggle="modal" data-bs-target="#editModal" style = ${username !== question.username ? "pointer-events:none;" : ""}><i data-id = "${question._id}" class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="#" data-id = "${question._id}" class="${username !== question.username ? "btn btn-secondary mx-3 delete-question" : "btn btn-danger mx-3 delete-question"}"  style = ${username !== question.username ? "pointer-events:none" : ""}><i class="fa-solid fa-trash" data-id = "${question._id}"></i></a>
+                  <footer class="blockquote-footer mt-3 al-items">Posted by <cite title="Asked by">${question.username}</cite>
+                    <div class="card-functionality-right d-flex justify-content-end sub-al-items">
+                    <a href="#" data-id = "${question._id}" class="btn btn-modal btn-primary edit-question" data-bs-toggle="modal" data-bs-target="#editModal" style = ${username !== question.username ? "pointer-events:none;" : ""}><i data-id = "${question._id}" class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="#" data-id = "${question._id}" class="btn btn-danger mx-3 delete-question" style = ${username !== question.username ? "pointer-events:none;" : ""}><i class="fa-solid fa-trash" data-id = "${question._id}"></i></a>
                     </div>
-                  <footer class="blockquote-footer mt-3">Posted by <cite title="Asked by">${question.username}</cite></footer>
+                  </footer>
                 </blockquote>
           </button>
         </h2>
@@ -166,7 +175,7 @@
                 <textarea class="form-control" placeholder="Leave a  reply here" id="replyText" style="height: 100px" name="replyText"></textarea>
                 <label for="floatingTextarea2">Add your reply..</label>
               </div>
-              <button type="submit" class="btn btn-primary reply-btn mt-3" data-id = "${question._id}">Submit</button>
+              <button type="submit" class="btn btn-primary reply-btn mt-3" data-id = "${question._id}">Reply</button>
            
           </div>
         </div>
