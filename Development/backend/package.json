@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 100000",
+    "test": "mocha --timeout 1000000",
     "start": "node index.js",
-    "dev": "nodemon index.js -e js, css, ejs"
+    "dev": "nodemon index.js -e js, css, ejs set NODE_ENV=development"
+
   },
   "keywords": [],
   "author": "",

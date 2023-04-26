@@ -16,6 +16,35 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="/css/courses.css" />
+    <style>
+      body{
+       background-image: linear-gradient(rgba(0, 0, 0, 0.65),rgba(0, 0, 0, 0.65)) , url('https://media.istockphoto.com/id/1287121465/photo/background-blue-navy-black-abstract-glittering-pattern-noise-dark-stained-frosted-glasstexture.jpg?b=1&s=170667a&w=0&k=20&c=--Xm--FghZWqLf-J228043T-fib0F2dK2TGOVUcWxZg='); 
+      
+     }
+     .card-body{
+       color:white;
+       background: linear-gradient(to left, rgb(27, 90, 153) 50%, #00203FFF 50%);
+       background-size: 200%;
+       background-position: right;
+       transition: all .5s;
+     }
+     .card-body:hover{
+       background-position: left;
+     }
+     .card-header{
+       color: #ffff;
+       background-color: #2b4162;
+ background-image: linear-gradient(315deg, #2b4162 0%, #12100e 74%);
+     }
+     .my-btn{
+       background-color: green;
+       opacity: 0.6;
+       cursor: not-allowed;
+     }
+     h1, h2, h3, h4 ,h5,h6{
+       font-weight: bold;
+     }
+  </style> 
   </head>
   <body>
     <%- include('partials/navbar') %>
@@ -157,6 +186,9 @@
     </div>
   </body>
   <script>
+    var env = <%- JSON.stringify(env) %>;
+    console.log(env);
+    var env = <%- JSON.stringify(env) %>;
     var data = <%- JSON.stringify(data) %>;
     var role = <%- JSON.stringify(role) %>;
     console.log(role);
@@ -200,7 +232,8 @@
        const id = e.target.dataset.id;
        if(confirm(`Are you sure you want to delete this course ${id}?`))
         {
-          fetch(`/courses/${e.target.dataset.id}`, {
+          const url = env === "development" ? `/courses/${e.target.dataset.id}` : `https://acadonline.onrender.com/courses/${e.target.dataset.id}`;
+          fetch(url , {
             method: 'DELETE'
           }).then((res)=>{
             return res.json();
@@ -238,7 +271,7 @@
       response.courseDescription = document.querySelector('#courseDescription').value;
       if(response.product_name!=='' &&  response.courseDescription !=='')
       {
-        fetch(`http://localhost:3000/courses/${response._id}`, {
+        fetch(`/courses/${response._id}`, {
         method: 'PATCH',
           headers: {
             'Content-type': 'application/json'
