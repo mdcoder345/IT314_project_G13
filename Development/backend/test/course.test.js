@@ -13,7 +13,6 @@ describe("Course", () => {
         .request(app)
         .get("/courses")
         .end((err, res) => {
-          console.log(res);
           res.statusCode.should.equal(200);
           res.body.should.be.a("object");
           done();
