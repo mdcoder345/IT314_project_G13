@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const mongoose = require("mongoose");
 const Course = require("../models/Course");
 const courseContent = require("../models/CourseContent");
 const Question = require("../models/Questions");
@@ -376,6 +377,7 @@ const getQuestions = async (req, res, id) => {
       questions,
       replies,
       username: req.session.username,
+      courseName: course.courseName,
     });
   } catch (error) {
     console.log("Internal Error", error);
@@ -451,11 +453,14 @@ const updateQuestion = async (req, res, id) => {
 const deleteQuestion = async (req, res, id) => {
   const question = await Question.findOne({ _id: id });
   const course_id = req.body.courseId;
+  console.log(course_id);
   const _id = req.session.user_id;
   let q_id = question.userid.toString();
   if (q_id === _id) {
     try {
       const quest = await Question.findByIdAndDelete(id);
+      const course  = await Course.findByIdAndUpdate(course_id, { $pull: { questions: id } });
+      await course.save();
       console.log("Deleted successfully");
       return res.status(200).json({
         data: quest,
@@ -555,9 +560,12 @@ const deleteReply = async (req, res, id) => {
   const reply = await Reply.findById(id);
   const _id = req.session.user_id;
   let r_id = reply.userid.toString();
+  const questionId = req.body.questionId;
   if (r_id === _id) {
     try {
       const rep = await Reply.findByIdAndDelete(id);
+      const question = await Question.findByIdAndUpdate(questionId, { $pull: { replies: id } });
+      await question.save();
       console.log("Deleted successfully");
       return res.status(200).json({
         data: rep,

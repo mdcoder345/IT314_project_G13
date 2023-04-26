@@ -31,7 +31,7 @@
 <body class="bg-secondary">
  <%- include('./partials/navbar') %>
   
-  <h3 class="my-3 mx-5 text-light"> Course Name </h3>
+  <h3 class="my-3 mx-5 text-light"> <%= courseName %> </h3>
    
     <div class="container-fluid question-container">
        
@@ -140,6 +140,8 @@
   var username = <%- JSON.stringify(username) %>;
   console.log(username);
   var content = ``;
+  var url = window.location.href;
+  var courseId = url.substring(url.lastIndexOf('/') + 1);
 
   questions.forEach((question,idx) => {
     var replycontent = ``;
@@ -149,7 +151,7 @@
           <br>
           <div class="reply-info d-flex justify-content-between">
           <cite title="Replied by" class="blockquote-footer" style="margin-left : 2em; margin-top: 0.3em;">${reply.username}</cite>
-          <a href="#" data-id = "${reply._id}" class="${username !== question.username ? "btn btn-secondary mx-3 delete-question" : "btn btn-danger mx-3 delete-question"}" ><i class="fa-solid fa-trash" data-id = "${reply._id}"></i></a>
+          <a href="#" data-id = "${reply._id}" data-q_id = "${question._id}" class="${username !== question.username ? "btn btn-secondary mx-3 delete-question" : "btn btn-danger mx-3 delete-question"}" ><i class="fa-solid fa-trash" data-id = "${reply._id}" data-q_id="${question._id}"></i></a>
           </div>
         </div>`
     })
@@ -241,7 +243,13 @@ document.querySelectorAll('.delete-question').forEach((question)=>{
    if(confirm(`Are you sure you want to delete this question?`))
     {
       fetch(`/courses/delete-question/${e.target.dataset.id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          courseId
+        })
       }).then((res)=>{
         return res.json();
       }).then((data)=>{
@@ -342,10 +350,17 @@ document.querySelectorAll('.reply-btn').forEach((reply)=>{
 document.querySelectorAll('.delete-reply').forEach((reply)=>{
   reply.addEventListener('click', (e)=>{
    const id = e.target.dataset.id;
+   const q_id = e.target.dataset.q_id;
    if(confirm(`Are you sure you want to delete this reply?`))
     {
       fetch(`/courses/delete-reply/${e.target.dataset.id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({
+          questionId: q_id
+        })
       }).then((res)=>{
         return res.json();
       }).then((data)=>{
