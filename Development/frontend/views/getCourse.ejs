@@ -76,8 +76,8 @@
               </div>
             <% }else {%>
               <div class="card-functionality-right">
-                <a href="#" data-id = "<%= content._id %>" class="btn btn-modal btn-secondary" data-bs-toggle="modal" data-bs-target="#editModal"><i data-id = "<%= content._id %>" class="fa-solid fa-pen-to-square"></i></a>
-                <a href="#" data-id = "<%= content._id %>" class="btn btn-secondary mx-3 delete-course" ><i class="fa-solid fa-trash" data-id = "<%= content._id %>"></i></a>
+                <a href="#" data-id = "<%= content._id %>" class="btn btn-modal btn-secondary" style="cursor:not-allowed;pointer-events: none;" data-bs-toggle="modal" data-bs-target="#editModal"><i data-id = "<%= content._id %>" class="fa-solid fa-pen-to-square"></i></a>
+                <a href="#" data-id = "<%= content._id %>" class="btn btn-secondary mx-3 delete-course" style="cursor:not-allowed;pointer-events: none;"><i class="fa-solid fa-trash" data-id = "<%= content._id %>"></i></a>
               </div>
             <% } %>
             </div>
