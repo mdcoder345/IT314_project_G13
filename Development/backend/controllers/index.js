@@ -54,9 +54,9 @@ const getUsers = async (req, res) => {
   res.render("userTable", { users });
 };
 
-const getUserProfile = async (req, res,id) => {
+const getUserProfile = async (req, res, id) => {
   const user = await User.findById(id);
-  res.render("userProfile", { user ,username: user.username});
+  res.render("userProfile", { user, username: user.username });
 };
 
 const deleteUser = async (req, res, id) => {
@@ -229,7 +229,8 @@ const registeruser = async (req, res) => {
   const { username, email, age, institute, password, confirmedPassword } =
     req.body;
   if (password != confirmedPassword) {
-    res.redirect(400, "/register");
+    req.flash("registerMessage", "Password and confirmed password don't match");
+    return res.redirect(400, "/register");
   }
   try {
     const exists = await User.findOne({ $or: [{ username }, { email }] });
