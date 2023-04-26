@@ -303,7 +303,9 @@ const getCourses = async (req, res) => {
   let username = req.session ? req.session.username : null;
   let role = req.session ? req.session.role : null;
   const courses = await Course.find();
-  res.render("course_new", { data: courses, username, role });
+  const env = process.env.NODE_ENV;
+  console.log(env);
+  res.render("course_new", { data: courses, username, role, env });
 };
 
 const searchCourse = async (req, res) => {

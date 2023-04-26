@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha --timeout 100000",
     "start": "node index.js",
-    "dev": "nodemon index.js -e js, css, ejs"
+    "dev": "nodemon index.js -e js, css, ejs set NODE_ENV=development"
+
   },
   "keywords": [],
   "author": "",

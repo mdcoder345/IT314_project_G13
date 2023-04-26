@@ -157,6 +157,9 @@
     </div>
   </body>
   <script>
+    var env = <%- JSON.stringify(env) %>;
+    console.log(env);
+    var env = <%- JSON.stringify(env) %>;
     var data = <%- JSON.stringify(data) %>;
     var role = <%- JSON.stringify(role) %>;
     console.log(role);
@@ -200,7 +203,8 @@
        const id = e.target.dataset.id;
        if(confirm(`Are you sure you want to delete this course ${id}?`))
         {
-          fetch(`/courses/${e.target.dataset.id}`, {
+          const url = env === "development" ? `/courses/${e.target.dataset.id}` : `https://acadonline.onrender.com/courses/${e.target.dataset.id}`;
+          fetch(url , {
             method: 'DELETE'
           }).then((res)=>{
             return res.json();
@@ -238,7 +242,7 @@
       response.courseDescription = document.querySelector('#courseDescription').value;
       if(response.product_name!=='' &&  response.courseDescription !=='')
       {
-        fetch(`http://localhost:3000/courses/${response._id}`, {
+        fetch(`/courses/${response._id}`, {
         method: 'PATCH',
           headers: {
             'Content-type': 'application/json'

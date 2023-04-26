@@ -208,7 +208,7 @@
       else
       {
         const postQuestion = async ()=>{
-          const json = await fetch(`http://localhost:3000/courses/question/${id}`, {
+          const json = await fetch(`/courses/question/${id}`, {
             method: "POST",
           
             headers: {
@@ -277,7 +277,7 @@ document.querySelectorAll('.delete-question').forEach((question)=>{
       response.questionText = document.querySelector('#questionText-edit').value;
       if(response.questionText!=='')
       {
-        fetch(`http://localhost:3000/courses/update-question/${response._id}`, {
+        fetch(`/courses/update-question/${response._id}`, {
         method: 'PATCH',
           headers: {
             'Content-type': 'application/json'
@@ -310,7 +310,7 @@ document.querySelectorAll('.reply-btn').forEach((reply)=>{
     else
     {
       const postReply = async ()=>{
-        const json = await fetch(`http://localhost:3000/courses/question/reply/${e.target.dataset.id}`, {
+        const json = await fetch(`/courses/question/reply/${e.target.dataset.id}`, {
           method: "POST",
         
           headers: {
