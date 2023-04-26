@@ -23,6 +23,7 @@ router.post("/contactus",(req,res) => {
 });
 
 router.get("/courses", auth.requireLogin, (req, res) => {
+  const env = process.env.NODE_ENV;
   auth.getCourses(req, res);
 });
 

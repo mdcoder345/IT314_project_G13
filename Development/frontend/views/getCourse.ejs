@@ -230,7 +230,7 @@
       response.documentLink = document.querySelector('#documentLink').value;
       if(response.courseName!=='' &&  response.courseDescription !=='' && response.videoLink !=='' &&  response.documentLink !== '')
       {
-        fetch(`http://localhost:3000/courses/update/${response._id}`, {
+        fetch(`/courses/update/${response._id}`, {
         method: 'PATCH',
           headers: {
             'Content-type': 'application/json'
