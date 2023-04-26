@@ -12,6 +12,8 @@ describe("Course", () => {
       chai
         .request(app)
         .get("/courses")
+        .send({
+        })
         .end((err, res) => {
           res.statusCode.should.equal(200);
           res.body.should.be.a("object");
