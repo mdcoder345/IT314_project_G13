@@ -24,8 +24,10 @@
     <%- include('partials/navbar') %>
     <header>
       <% if(username) { %>
-        <blockquote style="color:white;text-align: center;padding:15px">
-          Tip of the day: "<%= data1[0].q %>"
+        <blockquote style="display: flex;justify-content: center;margin-top:10px;">
+          <div class="alert alert-success text-center" role="alert">
+            Tip of the day: "<%= data1[0].q %>"
+          </div>
         </blockquote>
       <% } %>
       <div class="banner-text">
