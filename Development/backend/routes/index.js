@@ -132,11 +132,11 @@ router.get("/logout", auth.isLoggedIn, (req, res) => {
 
 router.get("/terms-of-use",(req,res)=>{
   
-  res.render("terms");
+  res.render("terms",{username:req.session.username});
 })
 
 router.get("/privacy-policy",(req,res)=>{
-  res.render("privacy");
+  res.render("privacy",{username:req.session.username});
 })
 
 router.get("/user-profile",(req,res)=>{
