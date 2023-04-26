@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
@@ -10,7 +11,9 @@ const authRoutes = require("./routes/auth");
 const indexRoutes = require("./routes/index");
 const methodOverride = require("method-override");
 
+
 const PORT = 3000;
+
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../frontend/views"));
@@ -40,7 +43,15 @@ const sessionObject = {
   },
 };
 
+const corsOptions = {
+  origin:"*",
+  successStatus:200,
+}
+
+app.use(cors(corsOptions));
+
 //Middlewares
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../frontend/public")));
