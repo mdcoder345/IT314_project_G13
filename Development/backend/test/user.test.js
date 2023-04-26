@@ -27,6 +27,7 @@ describe("User", () => {
         });
     });
   });
+
   //login module
   describe("POST /login", () => {
     it("it should login user", (done) => {

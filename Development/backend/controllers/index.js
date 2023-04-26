@@ -323,7 +323,6 @@ const updateCourse = async (req, res) => {
   console.log(id);
   try {
     const course = await Course.findById(id);
-    console.log(course);
     course.courseName = courseName;
     course.courseDescription = courseDescription;
     await course.save();
@@ -345,7 +344,6 @@ const deleteCourse = async (req, res) => {
   const { id } = req.params;
   try {
     const course = await Course.findByIdAndDelete(id);
-    await course.remove();
     return res.status(200).send({
       data: course,
       success: true,
