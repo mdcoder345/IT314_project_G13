@@ -376,6 +376,7 @@ const getQuestions = async (req, res, id) => {
       questions,
       replies,
       username: req.session.username,
+      courseName: course.courseName,
     });
   } catch (error) {
     console.log("Internal Error", error);
