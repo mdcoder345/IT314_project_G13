@@ -51,6 +51,8 @@ describe("Course", () => {
         .send({
           courseName: "DSA",
           courseDescription: "Data Structures and Algorithms",
+        .get("/courses")
+        .send({
         })
         .end((err, res) => {
           res.statusCode.should.equal(200);
