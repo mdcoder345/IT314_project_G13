@@ -6,15 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Q&A Section</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-        <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-      />
     <link rel="stylesheet" href="/css/QNA.css">
 </head>
 <style>
@@ -26,13 +17,39 @@
     .blockquote-footer {
        margin-left: 2em;
     }
+    .bg-color{
+        background-color: #F0F0F0;
+    }
+    .card-bg{
+        background-color: #fff;
+    }
+    .alert-info {
+      color: black !important;
+      background-color: #D0D0D0 !important;
+      border-color: #D0D0D0 !important;
+    }
+    .accordion-button:not(.collapsed) {
+    color: black !important;
+    background-color: #e7f1ff !important;
+    box-shadow: none !important;
+    }
+    .al-items{
+      display: flex;
+      align-items: center;
+      height: auto;
+    }
+    .sub-al-items{
+      position: absolute;
+      right: 40px;
+        }
+    
 
 
 </style>
-<body class="bg-secondary">
-  <%- include('./partials/navbar') %>
-
-  <h3 class="my-3 mx-5 text-light"> Course Name </h3>
+<body class="bg-color" 
+ <%- include('./partials/navbar') %>
+  
+  <h3 class="my-3 mx-5 text-dark" > Course Name </h3>
    
     <div class="container-fluid question-container">
        
@@ -154,50 +171,49 @@
           </div>
         </div>`
     })
-    content += `<div class="accordion my-3 shadow" id="accordionExample" >
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingOne">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${question._id}" aria-expanded="true" aria-controls="collapse${question._id}">
-
-            <blockquote class="blockquote w-100">
-                <p class="mb-4">${question.questionText}</p>
-                <div class="card-functionality-right d-flex justify-content-end">
-                  <a href="#" data-id = "${question._id}" class="btn btn-modal btn-primary edit-question" data-bs-toggle="modal" data-bs-target="#editModal" style = ${username !== question.username ? "pointer-events:none;" : ""}><i data-id = "${question._id}" class="fa-solid fa-pen-to-square"></i></a>
-                  <a href="#" data-id = "${question._id}" class="btn btn-danger mx-3 delete-question" style = ${username !== question.username ? "pointer-events:none;" : ""}><i class="fa-solid fa-trash" data-id = "${question._id}"></i></a>
-                  </div>
-                <footer class="blockquote-footer mt-3">Posted by <cite title="Asked by">${question.username}</cite></footer>
-              </blockquote>
-
-
-        </button>
-      </h2>
-      <div id="collapse${question._id}" class="accordion-collapse collapse" aria-labelledby="headingOne">
-        <div class="accordion-body">
-          
-            <div class="form-floating">
-              <textarea class="form-control" placeholder="Leave a  reply here" id="replyText" style="height: 100px" name="replyText"></textarea>
-              <label for="floatingTextarea2">Add your reply..</label>
-            </div>
-            <button type="submit" class="btn btn-primary reply-btn mt-3" data-id = "${question._id}">Submit</button>
-         
+    content += `<div class="accordion my-3 shadow" id="accordionExample" class="bx-rds">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${question._id}" aria-expanded="true" aria-controls="collapse${question._id}">
+              <blockquote class="blockquote w-100">
+                  <p class="mb-4">${question.questionText}</p>
+                  
+                  <footer class="blockquote-footer mt-3 al-items">Posted by <cite title="Asked by">${question.username}</cite>
+                    <div class="card-functionality-right d-flex justify-content-end sub-al-items">
+                    <a href="#" data-id = "${question._id}" class="btn btn-modal btn-primary edit-question" data-bs-toggle="modal" data-bs-target="#editModal" style = ${username !== question.username ? "pointer-events:none;" : ""}><i data-id = "${question._id}" class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="#" data-id = "${question._id}" class="btn btn-danger mx-3 delete-question" style = ${username !== question.username ? "pointer-events:none;" : ""}><i class="fa-solid fa-trash" data-id = "${question._id}"></i></a>
+                    </div>
+                  </footer>
+                  
+                </blockquote>
+          </button>
+        </h2>
+        <div id="collapse${question._id}" class="accordion-collapse collapse" aria-labelledby="headingOne">
+          <div class="accordion-body">
+            
+              <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a  reply here" id="replyText" style="height: 100px" name="replyText"></textarea>
+                <label for="floatingTextarea2">Add your reply..</label>
+              </div>
+              <button type="submit" class="btn btn-primary reply-btn mt-3" data-id = "${question._id}">Reply</button>
+           
+          </div>
         </div>
       </div>
-    </div>
-    
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingTwo">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${question._id}Two" aria-expanded="false" aria-controls="collapse${question._id}Two">
-          All replies 
-        </button>
-      </h2>
-      <div id="collapse${question._id}Two" class="accordion-collapse collapse" aria-labelledby="headingTwo">
-        <div class="accordion-body">
-
-        ${replycontent}
+      
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${question._id}Two" aria-expanded="false" aria-controls="collapse${question._id}Two">
+            All replies 
+          </button>
+        </h2>
+        <div id="collapse${question._id}Two" class="accordion-collapse collapse" aria-labelledby="headingTwo">
+          <div class="accordion-body">
+          ${replycontent}
+          </div>
         </div>
       </div>
-    </div>
-    </div>`;
+      </div>`;
   });
   
   document.querySelector(".question-container").innerHTML += content;
@@ -366,9 +382,7 @@ document.querySelectorAll('.delete-reply').forEach((reply)=>{
 
 
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+
+
 
 </html>
