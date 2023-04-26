@@ -46,6 +46,11 @@ const getUsers = async (req, res) => {
   res.render("userTable", { users});
 };
 
+const getUserProfile = async (req, res,id) => {
+  const user = await User.findById(id);
+  res.render("userProfile", { user ,username: user.username});
+};
+
 const deleteUser = async (req, res, id) => {
   console.log(id);
   try {
@@ -648,5 +653,6 @@ module.exports = {
   getQuestions,
   searchCourse,
   getUsers,
-  deleteUser
+  deleteUser,
+  getUserProfile
 };

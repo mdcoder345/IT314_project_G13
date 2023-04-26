@@ -1,14 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 
 body{
-    margin-top:60px;
     color: #1a202c;
-    text-align: left;
-    background-color: #e2e8f0;    
+    text-align: left;  
 }
-.main-body {
-    padding: 15px;
-}
+
 .card {
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
 }
@@ -29,7 +25,7 @@ body{
 .card-body {
     flex: 1 1 auto;
     min-height: 1px;
-    padding: 1rem;
+    padding: 0.5em;
 }
 
 .gutters-sm {
@@ -59,18 +55,9 @@ body{
     align-content: center;
     font-size: large;
 }
-
-.vp{
-    padding-top: 15px;
-}
-
-.vp2{
-    padding-bottom: 15px;
-}
-
 .HS{
     text-align: center;
-    padding-top: 30px;
+    padding-top: 10px;
     padding-bottom: 50px;
     font-size: 80px;
     color: #00bcd4;

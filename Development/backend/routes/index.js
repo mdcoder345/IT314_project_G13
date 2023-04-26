@@ -139,7 +139,7 @@ router.get("/privacy-policy",(req,res)=>{
 })
 
 router.get("/user-profile",(req,res)=>{
-  res.render("user_profile", { username: req.session.username ,role:req.session.role});
+  auth.getUserProfile(req,res,req.session.user_id);
 });
 
 router.get("/user-info",(req,res)=>{
