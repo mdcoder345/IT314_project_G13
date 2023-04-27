@@ -92,7 +92,8 @@ const addContent = async (req, res, id) => {
     const result = await content.save();
     course.courseContent.push(result);
     await course.save();
-    res.redirect("/courses/view/" + id);
+    return res.status(200).send('<script> window.location.href = "/course/'+id+'"; </script>')
+   
   } catch (error) {
     console.log("Internal Error", error);
   }
@@ -158,7 +159,8 @@ const addRatings = async (req, res) => {
     });
     await ratings.save();
     req.flash("ratingMessage", "Thanks for rating this course!");
-    return res.redirect(`/courses/view/${course._id}/${id}`);
+    return res.status(400).send('<script> window.location.href = "/course/'+course._id+'/'+id+'"; </script>');
+    //return res.redirect(`/courses/view/${course._id}/${id}`);
   } catch (error) {
     return res.status(404).send({
       data: {},
@@ -179,7 +181,8 @@ const updateRatings = async (req, res) => {
     oldRating.rating = newRating;
     await oldRating.save();
     req.flash("ratingMessage", "Your response has been updated!");
-    return res.redirect(`/courses/view/${course._id}/${id}`);
+    return res.status(400).send('<script> window.location.href = "/course/'+course._id+'/'+id+'"; </script>');
+    //return res.redirect(`/courses/view/${course._id}/${id}`);
   } catch (error) {
     return res.status(404).send({
       data: {},
@@ -197,7 +200,8 @@ const deleteRatings = async (req, res) => {
     const rating = await Ratings.findOneAndDelete({ user, content });
     const course = await Course.findOne({ courseContent: content });
     req.flash("ratingMessage", "Your response has been deleted!");
-    return res.redirect(`/courses/view/${course._id}/${id}`);
+    return res.status(400).send('<script> window.location.href = "/course/'+course._id+'/'+id+'"; </script>');
+    //return res.redirect(`/courses/view/${course._id}/${id}`);
   } catch (error) {
     return res.status(404).send({
       data: {},
@@ -231,13 +235,13 @@ const registeruser = async (req, res) => {
     req.body;
   if (password != confirmedPassword) {
     req.flash("registerMessage", "Password and confirmed password don't match");
-    return res.redirect(400, "/register");
+    return res.status(400).send('<script>alert("Password and confirmed password don\'t match");window.location.href="/register";</script>');
   }
   try {
     const exists = await User.findOne({ $or: [{ username }, { email }] });
     if (exists) {
       req.flash("registerMessage", "User name or email not available");
-      return res.redirect(400, "/register");
+      return res.status(400).send('<script>alert("User name or email not available");window.location.href="/register";</script>')
     }
     const hashPw = await bcrypt.hash(password, 12);
     const user = new User({
@@ -248,10 +252,10 @@ const registeruser = async (req, res) => {
       institute,
     });
     await user.save();
-    return res.redirect(200, "/login");
+    return res.status(400).send('<script>alert("User registered successfully");window.location.href="/login";</script>');
   } catch (error) {
     console.log("Internal Error", error);
-    res.redirect(400, "/register");
+    res.status(400).send('<script>alert("Internal Error");window.location.href="/register";</script>');
   }
 };
 
@@ -263,18 +267,18 @@ const loginuser = async (req, res) => {
     const foundUser = foundUsername || foundUseremail;
     if (!foundUser) {
       req.flash("message", "Invalid Credentials!");
-      return res.redirect(400, "/login");
+      return res.status(400).send('<script>window.location.href="/login";</script>');
     }
     const isValid = await bcrypt.compare(password, foundUser.password);
     if (!isValid) {
       req.flash("message", "Invalid Credentials!");
-      return res.redirect(200, "/login");
+      return res.status(400).send('<script>window.location.href="/login";</script>');
     } else {
       req.flash("message", "Successfully Logged in!");
       req.session.user_id = foundUser._id;
       req.session.username = foundUser.username;
       req.session.role = foundUser.role;
-      return res.redirect(200, "/");
+      return res.status(200).send('<script>window.location.href="/";</script>');
     }
   } catch (error) {
     return res.status(404).send({
@@ -293,10 +297,12 @@ const createCourse = async (req, res) => {
   });
   try {
     await course.save();
-    return res.redirect(200, "/courses");
+    return res.status(200).send('<script>alert("Course created successfully");window.location.href="/courses";</script>');
+    
   } catch (error) {
     console.log("Internal Error", error);
-    return res.redirect(400, "/courses");
+    return res.status(400).send('<script>alert("Internal Error");window.location.href="/courses";</script>')
+    
   }
 };
 
@@ -304,9 +310,8 @@ const getCourses = async (req, res) => {
   let username = req.session ? req.session.username : null;
   let role = req.session ? req.session.role : null;
   const courses = await Course.find();
-  const env = process.env.NODE_ENV;
-  console.log(env);
-  res.render("course_new", { data: courses, username, role, env });
+  res.render("course_new", { data: courses, username, role });
+
 };
 
 const searchCourse = async (req, res) => {
@@ -317,7 +322,7 @@ const searchCourse = async (req, res) => {
     locale: "en",
     strength: 2,
   });
-  res.render("course_new", { data: courses, username });
+  res.render("course_new", { data: courses, username , role:req.session.role});
 };
 
 const updateCourse = async (req, res) => {
@@ -485,15 +490,7 @@ const deleteQuestion = async (req, res, id) => {
   }
 };
 
-const getReplies = async (req, res, id) => {
-  try {
-    const question = await Question.findOne({ _id: id });
-    const replies = await Reply.find({ _id: { $in: question.replies } });
-    return res.render("QNA", { id, replies, username: req.session.username });
-  } catch (error) {
-    res.render("QNA", { id, replies, username: req.session.username });
-  }
-};
+
 const addReply = async (req, res, id) => {
   const question = await Question.findOne({ _id: req.params.id });
   const _id = req.session.user_id;
@@ -594,12 +591,14 @@ const logoutUser = async (req, res) => {
   req.session.user_id = null;
   req.session.username = null;
   req.flash("message", "Logged out successfully!");
-  res.redirect("/");
+  res.status(200).send('<script>window.location.href="/"</script>');
+  //res.redirect("/");
 };
 
 const requireLogin = (req, res, next) => {
   if (!req.session.user_id) {
-    return res.redirect(400, "/login");
+    return res.status(400).send('<script>alert("You must be logged in to view this page");window.location.href="/login"</script>')
+    
   }
   next();
 };
@@ -625,10 +624,12 @@ const contactus = (req, res) => {
     if (error) {
       console.log(error);
       req.flash("message", "Email not sent");
-      res.redirect("/contactus");
+      res.status(400).send('<script>alert("Email not sent");window.location.href="/contactus"</script>');
+    //  res.redirect("/contactus");
     } else {
       req.flash("message", "Email Sent");
-      res.redirect("/contactus");
+      res.status(200).send('<script>alert("Email Sent");window.location.href="/contactus"</script>');
+     // res.redirect("/contactus");
     }
   });
 };
@@ -636,7 +637,8 @@ const contactus = (req, res) => {
 const isLoggedIn = (req, res, next) => {
   if (req.session.user_id) {
     req.flash("message", "You are already logged in!");
-    return res.redirect("/");
+    return res.status(200).send('<script>alert("You are already logged in!");window.location.href="/"</script>');
+   // return res.redirect("/");
   }
   next();
 };

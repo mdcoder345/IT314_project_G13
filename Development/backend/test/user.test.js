@@ -35,8 +35,8 @@ describe("User", () => {
         .request(app)
         .post("/login")
         .send({
-          username_email: "kavan",
-          password: "kavan",
+          username_email: "User",
+          password: "User@13",
         })
         .end((err, res) => {
           res.statusCode.should.equal(200);
