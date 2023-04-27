@@ -11,22 +11,17 @@ const authRoutes = require("./routes/auth");
 const indexRoutes = require("./routes/index");
 const methodOverride = require("method-override");
 
-
 const PORT = 3000;
-
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../frontend/views"));
 mongoose.set("strictQuery", true);
 
 mongoose
-  .connect(
-    process.env.MONGO_URI,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("Connect to DB Succesfully!!"))
   .catch((error) => console.log(error));
 
@@ -35,7 +30,7 @@ const sessionObject = {
   saveUninitialized: false,
   resave: false,
   store: mongoStore.create({
-    mongoUrl:process.env.MONGO_URI,
+    mongoUrl: process.env.MONGO_URI,
   }),
   cookie: {
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
@@ -44,9 +39,9 @@ const sessionObject = {
 };
 
 const corsOptions = {
-  origin:"*",
-  successStatus:200,
-}
+  origin: "*",
+  successStatus: 200,
+};
 
 app.use(cors(corsOptions));
 
@@ -63,6 +58,7 @@ app.use((req, res, next) => {
   res.locals.messages = req.flash("message");
   res.locals.ratingMessage = req.flash("ratingMessage");
   res.locals.registerMessage = req.flash("registerMessage");
+  res.locals.loginMessage = req.flash("loginMessage");
   next();
 });
 
