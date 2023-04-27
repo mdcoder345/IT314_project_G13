@@ -7,7 +7,6 @@
     "test": "mocha --timeout 1000000",
     "start": "node index.js",
     "dev": "nodemon index.js -e js, css, ejs set NODE_ENV=development"
-
   },
   "keywords": [],
   "author": "",
