@@ -283,7 +283,7 @@ const registeruser = async (req, res) => {
     });
     await user.save();
     return res
-      .status(400)
+      .status(200)
       .send(
         '<script>alert("User registered successfully");window.location.href="/login";</script>'
       );
