@@ -1,31 +1,36 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    font-size: 16px;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
-.terms-container {
-    
-    max-width: 80%;
+body{
+    background: linear-gradient(rgba(0, 0, 0, 0.65),rgba(0, 0, 0, 0.65)) , url(https://media.istockphoto.com/id/997922516/video/close-up-business-man-signing-contract.jpg?s=640x640&k=20&c=I5v74OTZ8dv9e64bEBNI9Di_3fuk-4MR12ZeDZocV54=) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.terms-container { 
+    max-width: 85%;
     margin: 2em auto;
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0px 0px 10px #ccc;
+    box-shadow: 0px 0px 10px;
     border-radius: 10px;
 }
 
-h1 {
-    font-size: 36px;
+.terms-container h1 {
+    text-transform: uppercase;
+    font-size: 32px;
     text-align: center;
     margin-bottom: 40px;
-    color: #333;
     position: relative;
-    display: inline-block;
 }
 
-h1::after,
 h2::after {
     content: "";
     position: absolute;
@@ -36,41 +41,42 @@ h2::after {
     background-color: black;
 }
 
-h2 {
-    font-size: 24px;
-    margin-top: 40px;
+.terms-container h2 {
+    font-size: 26px;
+    padding-top: 10px;
     margin-bottom: 20px;
     color: #666;
     position: relative;
     display: inline-block;
 }
 
-p {
+.terms-container p {
     font-size: 16px;
     line-height: 1.5;
-    margin-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     color: #333;
 }
 
-ul {
+.terms-container ul {
     margin-left: 20px;
     margin-bottom: 20px;
 }
 
-li {
-    margin-bottom: 10px;
+.terms-container li {
+    padding: 8px;
 }
 
-a {
+.terms-container a {
     color: #007bff;
     text-decoration: none;
 }
 
-a:hover {
+.terms-container a:hover {
     text-decoration: underline;
 }
 
-button {
+.terms-container button {
     background-color: #007bff;
     color: #fff;
     font-size: 16px;
@@ -81,11 +87,11 @@ button {
     transition: all 0.3s ease;
 }
 
-button:hover {
+.terms-container button:hover {
     background-color: #0062cc;
 }
 
-button:focus {
+.terms-container button:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
 }
