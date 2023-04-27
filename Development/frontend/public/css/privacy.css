@@ -6,9 +6,9 @@ body {
     font-size: 16px;
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
+.privacy-container {
+    max-width: 80%;
+    margin: 2em auto;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0px 0px 10px #ccc;

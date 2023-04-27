@@ -106,10 +106,8 @@
                 type="text"
                 class="form-control"
                 id="courseName-in"
-                value=""
                 name="courseName"
                 required
-                placeholder="Course Name"
               />
             </div>
             <div class="mb-3">
@@ -117,15 +115,14 @@
                 >Course Description</label
               >
               <textarea
-                class="form-control"
-                id="courseDescrition"
-                value=""
-                name="courseDescription"
-                required
-                placeholder="Course Descrition of few lines"
-                rows="3"
-              >
-              </textarea>
+              type="text"
+              class="form-control"
+              id="courseDescription-in"
+              name="courseDescription"
+              required
+              rows = "3"
+            ></textarea>
+            
             </div>
             <button type="submit" class="btn btn-primary insert-submit-btn">
               Submit
@@ -160,26 +157,21 @@
               type="text"
               class="form-control"
               id="courseName"
-              value=""
               name="courseName"
               required
               placeholder="Course Name"
             />
           </div>
           <div class="mb-3">
-            <label for="courseDescrition" class="form-label"
-              >Product Name</label
-            >
+            <label for="courseDescrition" class="form-label">Course Description</label>
             <textarea
-              class="form-control"
-              id="courseDescription"
-              value=""
-              name="courseDescription"
-              required
-              placeholder="Course Descrition of few lines"
-              rows="3"
-            >
-            </textarea>
+            type="text"
+            class="form-control"
+            id="courseDescription"
+            name="courseDescription"
+            required
+            rows = "3"
+          ></textarea>
           </div>
           <button class="btn btn-primary submit-btn">Submit</button>
         </div>
@@ -270,7 +262,7 @@
       document.querySelector('.submit-btn').addEventListener('click', ()=> {
       response.courseName = document.querySelector('#courseName').value;
       response.courseDescription = document.querySelector('#courseDescription').value;
-      if(response.product_name!=='' &&  response.courseDescription !=='')
+      if(response.courseName !=="" && response.courseDescription!=="")
       {
         fetch(`/courses/${response._id}`, {
         method: 'PATCH',
