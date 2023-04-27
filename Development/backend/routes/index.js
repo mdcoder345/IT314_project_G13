@@ -13,13 +13,13 @@ router.get("/aboutUs", async (req, res) => {
   res.render("aboutUs", { username });
 });
 
-router.get("/contactus",async (req,res) => {
+router.get("/contactus", async (req, res) => {
   let username = req.session ? req.session.username : null;
   res.render("contactUs", { username });
 });
 
-router.post("/contactus",(req,res) => {
-  auth.contactus(req,res);
+router.post("/contactus", (req, res) => {
+  auth.contactus(req, res);
 });
 
 router.get("/courses", auth.requireLogin, (req, res) => {
@@ -27,14 +27,10 @@ router.get("/courses", auth.requireLogin, (req, res) => {
   auth.getCourses(req, res);
 });
 
-
 router.post("/courses", auth.requireLogin, (req, res) => {
-  if(req.body.searchname!=null)
-  {
-    auth.searchCourse(req,res);
-  }
-  else
-  {
+  if (req.body.searchname != null) {
+    auth.searchCourse(req, res);
+  } else {
     auth.createCourse(req, res);
   }
 });
@@ -120,7 +116,6 @@ router.post("/courses/question/reply/:id", auth.requireLogin, (req, res) => {
   auth.addReply(req, res, id);
 });
 
-
 router.delete("/courses/delete-reply/:id", auth.requireLogin, (req, res) => {
   const { id } = req.params;
   auth.deleteReply(req, res, id);
@@ -130,21 +125,20 @@ router.get("/logout", auth.isLoggedIn, (req, res) => {
   auth.logoutUser(req, res);
 });
 
-router.get("/terms-of-use",(req,res)=>{
-  
-  res.render("terms",{username:req.session.username});
-})
-
-router.get("/privacy-policy",(req,res)=>{
-  res.render("privacy",{username:req.session.username});
-})
-
-router.get("/user-profile",(req,res)=>{
-  auth.getUserProfile(req,res,req.session.user_id);
+router.get("/terms-of-use", (req, res) => {
+  res.render("terms", { username: req.session.username });
 });
 
-router.get("/user-info",(req,res)=>{
-  auth.getUsers(req,res);
+router.get("/privacy-policy", (req, res) => {
+  res.render("privacy", { username: req.session.username });
+});
+
+router.get("/user-profile", (req, res) => {
+  auth.getUserProfile(req, res, req.session.user_id);
+});
+
+router.get("/user-info", (req, res) => {
+  auth.getUsers(req, res);
 });
 
 router.delete("/user/:id", auth.requireLogin, (req, res) => {

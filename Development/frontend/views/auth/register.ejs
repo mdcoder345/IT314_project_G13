@@ -132,7 +132,7 @@
         var email = document.getElementById("email").value;
         var password = document.getElementById("password").value;
 
-        var usercheck = /^[A-Za-z0-9.]{3,20}$/;
+        var usercheck = /^[A-Za-z0-9_]{3,20}$/;
         console.log(usercheck)
         var passwordcheck = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
         var emailcheck = /^[A-Za-z_0-9]{3,}@[A-Za-z]{3,}[.]{1}[A-Za-z.]{2,6}$/;
@@ -141,14 +141,14 @@
           document.getElementById("usernameerror").innerHTML = "";
         } else {
           document.getElementById("usernameerror").innerHTML =
-            "*Username is Invalid";
+            "*Atleast 3 and maximum 20 characters<br>No special character other than _";
           return false;
         }
 
         if (emailcheck.test(email)) {
           document.getElementById("emailerror").innerHTML = "";
         } else {
-          document.getElementById("emailerror").innerHTML = "*Email is Invalid";
+          document.getElementById("emailerror").innerHTML = "*Please enter valid email";
           return false;
         }
 
