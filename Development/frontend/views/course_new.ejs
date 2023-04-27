@@ -2,55 +2,39 @@
 <html>
   <head>
     <title>All Courses</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    
     <link rel="stylesheet" href="/css/courses.css" />
     <style>
       body{
-       background-image: linear-gradient(rgba(0, 0, 0, 0.65),rgba(0, 0, 0, 0.65)) , url('https://media.istockphoto.com/id/1287121465/photo/background-blue-navy-black-abstract-glittering-pattern-noise-dark-stained-frosted-glasstexture.jpg?b=1&s=170667a&w=0&k=20&c=--Xm--FghZWqLf-J228043T-fib0F2dK2TGOVUcWxZg='); 
-      
-     }
+        background-color: #e5e4e2;
+      }
+      .card{
+        padding:0 !important;
+      }
      .card-body{
-       color:white;
-       background: linear-gradient(to left, rgb(27, 90, 153) 50%, #00203FFF 50%);
-       background-size: 200%;
-       background-position: right;
-       transition: all .5s;
+      background-color: #E2E2E2;
      }
-     .card-body:hover{
-       background-position: left;
+     .card:hover{
+      
+       cursor: pointer;
+        box-shadow: 1px 8px 20px grey;
+       -webkit-transition:  box-shadow .6s ease-in;
      }
      .card-header{
        color: #ffff;
-       background-color: #2b4162;
- background-image: linear-gradient(315deg, #2b4162 0%, #12100e 74%);
+       background-color :#2C5364 !important;
      }
-     .my-btn{
-       background-color: green;
-       opacity: 0.6;
-       cursor: not-allowed;
-     }
+ 
      h1, h2, h3, h4 ,h5,h6{
        font-weight: bold;
-       color:#fff;
+       color:#333;
      }
   </style> 
   </head>
   <body>
     <%- include('partials/navbar') %>
-    <div class="container d-flex justify-content-between my-4">
-      <h1 class="h2">Courses</h1>
+    <div class="container d-flex justify-content-between my-4">  
+      <h1 class="h2">  <i class="fa-solid fa-book-open-reader"></i> Courses</h1>
       <form action="/courses" method="post" class="d-flex align-items-center">
         <input
           class="form-control me-2"
@@ -59,12 +43,15 @@
           aria-label="Search"
           name="searchname"
         />
-        <button class="btn btn-outline-success btn-sm" type="submit">
+        <button class="btn btn-outline-success btn-sm fw-bold" type="submit">
           Search
         </button>
       </form>
     </div>
-    <div class="container card-container"></div>
+    <div class="container-fluid d-flex justify-content-center">
+      <div class="row gap-5 card-container mx-auto">
+      </div>
+    </div>
     <% if(role=="admin"){ %>
     <button
       type="button"
@@ -191,20 +178,20 @@
     else{
       data.forEach((course)=>{
       content += `
-      <div class="card mb-5">
-        <h5 class="card-header bg-dark text-light">${course.courseName}</h5>
-        <div class="card-body">
-          <p class="card-text">${course.courseDescription}</p>
+      <div class="card mb-5 col-10 col-md-5">
+        <h5 class="card-header">${course.courseName}</h5>
+        <div class="card-body w-100">
+          <p class="card-text text-dark">${course.courseDescription}</p>
           <br>
 
-          <div class="card-footer text-muted  d-flex justify-content-between">
+          <div class="card-footer text-muted  d-flex flex-column flex-md-row justify-content-between mb-0">
             <div class="card-functionality-left">
-            <a href="/courses/question/${course._id}" class="btn btn-primary">View Questions</a>
-            <a href="/courses/view/${course._id}" class="btn btn-info mx-3">View Courses</a>
+            <a href="/courses/question/${course._id}" class="btn text-light" style="background-color:#2C5364">View Questions</a>
+            <a href="/courses/view/${course._id}" class="btn  mx-3 text-light" style="background-color:#2C5364">View Courses</a>
           </div>
-          <div class="card-functionality-right" style="display:${role === "admin" ? "block" : "none"}">
-            <a href="#" data-id = "${course._id}" class="btn btn-modal btn-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i data-id = "${course._id}" class="fa-solid fa-pen-to-square"></i></a>
-            <a href="#" data-id = "${course._id}" class="btn btn-danger mx-3 delete-course" ><i class="fa-solid fa-trash" data-id = "${course._id}"></i></a>
+          <div class="card-functionality-right mt-0 md-mt-3" style="display:${role === "admin" ? "block" : "none"}">
+            <a href="#" data-id = "${course._id}" class="btn btn-modal btn-outline-primary border border-2 border-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i data-id = "${course._id}" class="fa-solid fa-pen-to-square"></i></a>
+            <a href="#" data-id = "${course._id}" class="btn btn-outline-danger mx-3 delete-course border border-2 border-danger" ><i class="fa-solid fa-trash" data-id = "${course._id}"></i></a>
             </div>
           </div>
 
