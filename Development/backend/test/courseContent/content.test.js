@@ -3,11 +3,12 @@ const chaiHttp = require("chai-http");
 const app = require("../../index");
 const expect = chai.expect;
 const should = chai.should();
-const Course = require("../../models/Course");
-const { testCases } = require("./testCases");
+const CourseContent = require("../../models/CourseContent");
+const { testCases, course } = require("./testCases");
+const courseContent = require("../../models/CourseContent");
 chai.use(chaiHttp);
 
-describe("Testing Course", () => {
+describe("Testing Course Content", () => {
   for (let index = 0; index < testCases.length; index++) {
     let cookie;
     //login module
@@ -30,12 +31,12 @@ describe("Testing Course", () => {
       });
     });
 
-    //read course module
-    describe("GET /courses", () => {
-      it("it should read courses", (done) => {
+    //read all contents module
+    describe("GET /courses/view", () => {
+      it("it should read contents of a course", (done) => {
         chai
           .request(app)
-          .get("/courses")
+          .get(`/courses/view/${course}`)
           .set("Cookie", cookie)
           .end((err, res) => {
             res.statusCode.should.equal(200);
@@ -45,12 +46,12 @@ describe("Testing Course", () => {
       });
     });
 
-    //add course module
-    describe("POST /courses", () => {
-      it("it should add courses", (done) => {
+    //add content module
+    describe("POST /courses/add/:id", () => {
+      it("it should add content", (done) => {
         chai
           .request(app)
-          .post("/courses")
+          .post(`/courses/add/${course}`)
           .set("Cookie", cookie)
           .send(testCases[index][0])
           .end((err, res) => {
@@ -61,13 +62,13 @@ describe("Testing Course", () => {
       });
     });
 
-    //update course
-    describe("PATCH /courses/:id", () => {
-      it("it should update course", (done) => {
-        Course.findOne(testCases[index][0]).then((res) => {
+    //update content
+    describe("PATCH /courses/update/:id", () => {
+      it("it should update content", (done) => {
+        courseContent.findOne(testCases[index][0]).then((res) => {
           chai
             .request(app)
-            .patch(`/courses/${res._id.toString()}`)
+            .patch(`/courses/update/${res._id.toString()}`)
             .set("Cookie", cookie)
             .send(testCases[index][1])
             .end((err, res) => {
@@ -79,13 +80,13 @@ describe("Testing Course", () => {
       });
     });
 
-    //delete course
-    describe("DELETE /courses/:id", () => {
-      it("it should delete course", (done) => {
-        Course.findOne(testCases[index][1]).then((res) => {
+    //delete content
+    describe("DELETE /courses/delete/:id", () => {
+      it("it should delete content", (done) => {
+        courseContent.findOne(testCases[index][1]).then((res) => {
           chai
             .request(app)
-            .delete(`/courses/${res._id.toString()}`)
+            .delete(`/courses/delete/${res._id.toString()}`)
             .set("Cookie", cookie)
             .end((err, res) => {
               res.statusCode.should.equal(200);
