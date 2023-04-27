@@ -151,6 +151,7 @@
                     <form
                   method="post"
                   action="/courses/ratings/<%= content._id %>?_method=PATCH"
+                  onsubmit="return validation()"
                 >
                   <label style="display: inline;">Change Your Response:</label><br />
           
@@ -161,7 +162,7 @@
                     <input type="radio" name="rating" value="4" /><i></i>
                     <input type="radio" name="rating" value="5" /><i></i>
                   </span>
-          
+                  <div class="text-danger" id="error"></div>
                   <input
                     class="btn btn-primary"
                     type="submit"
@@ -171,8 +172,8 @@
                 </form>
                   </div>
                 </div>
-                <% } else{%>
-                <form method="post" action="/courses/ratings/<%= content._id %>">
+                <% } else {%>
+                <form method="post" action="/courses/ratings/<%= content._id %>" onsubmit="return validation()">
                   <label>Rate us:</label><br />
           
                   <span class="star-rating">
@@ -182,7 +183,7 @@
                     <input type="radio" name="rating" value="4" /><i></i>
                     <input type="radio" name="rating" value="5" /><i></i>
                   </span>
-          
+                  <div class="text-danger" id="error"></div>
                   <input
                     class="btn btn-primary"
                     type="submit"
@@ -197,11 +198,23 @@
         </div>
       </div>
     </div>
-    <div class="container">
-        
-      
-    </div>
-
     <%- include('partials/footer') %>
   </body>
+  <script>
+    function validation() {
+      var rating = document.getElementsByName("rating");
+      var ratingValue = false;
+
+      for (var i = 0; i < rating.length; i++) {
+        if (rating[i].checked == true) {
+          ratingValue = true;
+        }
+      }
+      if (!ratingValue) {
+        document.getElementById("error").innerHTML+= `*minimum rating value is 1`;
+        return false;
+      }
+      return true;
+    }
+  </script>
 </html>

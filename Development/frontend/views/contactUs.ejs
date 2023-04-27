@@ -57,15 +57,16 @@
                 </div>
             </div>
             <div class="contactForm">
-                <form action="/contactus" method="POST">
+                <form action="/contactus" method="POST" onsubmit="return validation()">
                     <h2>Send Message</h2>
                     <div class="inputBox">
                         <input type="text" name="username" required="required">
                         <span>Name</span>
                     </div>
                     <div class="inputBox">
-                        <input type="text" name="email" required="required">
+                        <input type="text" id="email" name="email" required="required">
                         <span>Email</span>
+                        <div class="text-danger" id="emailerror"></div>
                     </div>
                     <div class="inputBox">
                         <input type="text" name="subject" required="required">
@@ -84,4 +85,18 @@
     </section>
     <%- include('partials/footer') %>
 </body>
+<script>
+    function validation(){
+        var email = document.getElementById("email").value;
+        console.log(email);
+        var emailcheck = /^[A-Za-z_0-9]{3,}@[A-Za-z]{3,}[.]{1}[A-Za-z.]{2,6}$/;
+        if(emailcheck.test(email)){
+            document.getElementById("emailerror").innerHTML = "";
+        }
+        else{
+            document.getElementById("emailerror").innerHTML = "*Please enter valid email";
+            return false;
+        }
+    }
+</script>
 </html>

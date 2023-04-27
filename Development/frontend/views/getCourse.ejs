@@ -93,7 +93,7 @@
         <%- include('partials/footer') %>
 
           <!-- Modal -->
-          <form action="/courses/add/<%= course._id%>" method="post">
+          <form action="/courses/add/<%= course._id%>" method="post" onsubmit="return validURL1()">
             <!-- Modal to create product -->
             <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel"
               aria-hidden="true">
@@ -127,12 +127,12 @@
                   </div>
                   <div class="mb-3">
                     <label for="videolink-in" class="form-label">Video Link</label>
-                    <input type="text" class="form-control" id="videolink-in" name="videoLink" required
+                    <input type="text" class="form-control" id="videolink-in" name="videoLink"
                       placeholder="Video Link" />
                   </div>
                   <div class="mb-3">
                     <label for="documentlink-in" class="form-label">Document Link</label>
-                    <input type="text" class="form-control" id="documentlink-in" name="documentLink" required
+                    <input type="text" class="form-control" id="documentlink-in" name="documentLink"
                       placeholder="Document Link" />
                   </div>
                   <button type="submit" class="btn btn-primary insert-submit-btn">
@@ -166,12 +166,12 @@
                 </div>
                 <div class="mb-3">
                   <label for="videoLink" class="form-label">Video Link</label>
-                  <input type="text" class="form-control" id="videoLink" name="videoLink" required
+                  <input type="text" class="form-control" id="videoLink" name="videoLink"
                     placeholder="Course Name" />
                 </div>
                 <div class="mb-3">
                   <label for="documentLink" class="form-label">Document Link</label>
-                  <input type="text" class="form-control" id="documentLink" name="documentLink" required
+                  <input type="text" class="form-control" id="documentLink" name="documentLink"
                     placeholder="Course Name" />
                 </div>
                 <button class="btn btn-primary submit-btn">Submit</button>
@@ -180,6 +180,48 @@
           </div>
 </body>
   <script>
+    function validURL(str){
+      try{
+        new URL(str);
+        return true;
+      }
+      catch(err)
+      {
+        return false;
+      }
+    }
+
+    function validURL1(){
+      var str = document.getElementById("videolink-in").value;
+      var str1 = document.getElementById("documentlink-in").value;
+      if(str=='' && str1=='')
+      {
+          alert("Please fill one of video or document link")
+          return false;
+      }
+      if(str !== '')
+      {
+        try{
+        new URL(str);
+        }
+        catch(err)
+        {
+          alert("Please enter a valid Video Link");
+          return false;
+        }
+      }
+      if(str1 != '')
+      {
+        try{
+        new URL(str1);
+        }
+        catch(err)
+        {
+          alert("Please enter a valid Document Link");
+          return false;
+        }
+      }
+    }
     var data = <%- JSON.stringify(course) %>
     console.log(data);
     var courseContent = data.courseContent;
@@ -233,22 +275,33 @@
       response.courseContentDescription = document.querySelector('#coursecontentDescription').value;
       response.videoLink = document.querySelector('#videoLink').value;
       response.documentLink = document.querySelector('#documentLink').value;
-      if(response.courseName!=='' &&  response.courseDescription !=='' && response.videoLink !=='' &&  response.documentLink !== '')
+      if(response.courseName!=='' &&  response.courseDescription !=='' && (response.videoLink !=='' ||  response.documentLink !== ''))
       {
-        fetch(`/courses/update/${response._id}`, {
-        method: 'PATCH',
-          headers: {
-            'Content-type': 'application/json'
-          },
-          body: JSON.stringify(response)
-        })
-          if(!(alert(`Course content with creator ${response.creatorName} updated successfully`)))
-          {
-            location.reload()
+        if(response.videoLink !== '' && !validURL(response.videoLink))
+        {
+          alert("Please enter a valid video link");
+        }
+        else if(response.documentLink !== '' && !validURL(response.documentLink))
+        {
+          alert("Please enter a valid document link");
+        }
+        else
+        {
+            fetch(`/courses/update/${response._id}`, {
+            method: 'PATCH',
+              headers: {
+                'Content-type': 'application/json'
+              },
+              body: JSON.stringify(response)
+            })
+            if(!(alert(`Course content with creator ${response.creatorName} updated successfully`)))
+            {
+              location.reload()
+            }
           }
         }
         else {
-          alert('All fields must be non empty')
+            alert("Please fill all the fields");
         }
       })
   </script>
