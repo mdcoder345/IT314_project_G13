@@ -94,7 +94,9 @@ const addContent = async (req, res, id) => {
     await course.save();
     return res
       .status(200)
-      .send('<script> window.location.href = "/courses/view/' + id + '"; </script>');
+      .send(
+        '<script> window.location.href = "/courses/view/' + id + '"; </script>'
+      );
   } catch (error) {
     console.log("Internal Error", error);
   }
@@ -373,7 +375,6 @@ const searchCourse = async (req, res) => {
 const updateCourse = async (req, res) => {
   const { courseName, courseDescription } = req.body;
   const { id } = req.params;
-  console.log(id);
   try {
     const course = await Course.findById(id);
     course.courseName = courseName;
