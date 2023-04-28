@@ -92,11 +92,8 @@ const addContent = async (req, res, id) => {
     const result = await content.save();
     course.courseContent.push(result);
     await course.save();
-    return res
-      .status(200)
-      .send(
-        '<script> window.location.href = "/courses/view/' + id + '"; </script>'
-      );
+    return res.status(200).send('<script> window.location.href = "/courses/view/'+id+'"; </script>')
+   
   } catch (error) {
     console.log("Internal Error", error);
   }
@@ -162,15 +159,7 @@ const addRatings = async (req, res) => {
     });
     await ratings.save();
     req.flash("ratingMessage", "Thanks for rating this course!");
-    return res
-      .status(200)
-      .send(
-        '<script> window.location.href = "/courses/view/' +
-          course._id +
-          "/" +
-          id +
-          '"; </script>'
-      );
+    return res.status(400).send('<script> window.location.href = "/courses/view/'+course._id+'/'+id+'"; </script>');
     //return res.redirect(`/courses/view/${course._id}/${id}`);
   } catch (error) {
     return res.status(404).send({
@@ -192,15 +181,7 @@ const updateRatings = async (req, res) => {
     oldRating.rating = newRating;
     await oldRating.save();
     req.flash("ratingMessage", "Your response has been updated!");
-    return res
-      .status(200)
-      .send(
-        '<script> window.location.href = "/courses/view/' +
-          course._id +
-          "/" +
-          id +
-          '"; </script>'
-      );
+    return res.status(400).send('<script> window.location.href = "/courses/view/'+course._id+'/'+id+'"; </script>');
     //return res.redirect(`/courses/view/${course._id}/${id}`);
   } catch (error) {
     return res.status(404).send({
@@ -219,15 +200,8 @@ const deleteRatings = async (req, res) => {
     const rating = await Ratings.findOneAndDelete({ user, content });
     const course = await Course.findOne({ courseContent: content });
     req.flash("ratingMessage", "Your response has been deleted!");
-    return res
-      .status(200)
-      .send(
-        '<script> window.location.href = "/courses/view/' +
-          course._id +
-          "/" +
-          id +
-          '"; </script>'
-      );
+    return res.status(400).send('<script> window.location.href = "/courses/view/'+course._id+'/'+id+'"; </script>');
+    //return res.redirect(`/courses/view/${course._id}/${id}`);
   } catch (error) {
     return res.status(404).send({
       data: {},
