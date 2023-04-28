@@ -146,4 +146,8 @@ router.delete("/user/:id", auth.requireLogin, (req, res) => {
   auth.deleteUser(req, res, req.params.id);
 });
 
+router.get("*", (req, res) => {
+  res.render("404");
+});
+
 module.exports = router;
