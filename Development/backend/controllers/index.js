@@ -613,6 +613,7 @@ const deleteReply = async (req, res, id) => {
 const logoutUser = async (req, res) => {
   req.session.user_id = null;
   req.session.username = null;
+  req.session.role = null;
   req.flash("loginMessage", "Logged out successfully!");
   res.status(200).send('<script>window.location.href="/"</script>');
 };

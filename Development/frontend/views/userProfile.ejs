@@ -33,14 +33,14 @@
                         </div>
                     
                            <div class="col-6 text-center">
-                            <a class="btn btn-danger" href="#">Remove Account</a>
+                            <a class="btn btn-danger delete-user" data-id = "<%= user._id %>" href="#">Remove Account</a>
                     </div>
                 </div>
                 <% }
                 else { %>
                   <div class = "row mt-3">
                     <div class="col-12 text-center">
-                        <a class="btn btn-danger" href="#">Remove Account</a>
+                        <a class="btn btn-danger delete-user" data-id = "<%= user._id %>"  href="#">Remove Account</a>
                 </div>
                 </div>
           
@@ -80,6 +80,42 @@
             </div>
         </div>
     </div>
+    <script>
+        document.querySelectorAll('.delete-user').forEach((user)=>{
+            user.addEventListener('click', (e)=>{
+             const id = e.target.dataset.id;
+             console.log(id);
+             if(confirm(`Are you sure you want to remove your account ?`))
+              {
+                fetch(`/user/${e.target.dataset.id}`, {
+                  method: 'DELETE'
+                }).then((res)=>{
+                  return res.json();
+                }).then((data)=>{
+                  console.log(data);
+                  if(confirm(`User deleted successfully`))
+                  {
+                    fetch(`/logout`, {
+                      method: 'POST'
+                    }).then((res)=>{
+                      return res.json();
+                    }).then((data)=>{
+                      console.log(data);
+                      if(confirm(`Logged out successfully`))
+                      {
+                        window.location.href = '/login';
+                      }
+                    }).catch((err)=>{
+                      console.log(err);
+                    });
+                  }
+                }).catch((err)=>{
+                  console.log(err);
+                });
+              }
+            })
+          })
+    </script>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
