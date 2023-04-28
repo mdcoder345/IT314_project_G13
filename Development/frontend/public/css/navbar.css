@@ -1,40 +1,8 @@
-.btn:hover
-{
-     background-color: white;
-     color:black;
-} *
-.button-1{
-        border:none;
-        background:none;
-        width:100%;
-        text-align:left !important;
-        padding:5%
-      }
-      .button-1:hover{
-        background-color:#dadeee;
-      }
-      .heff {
-        font-family: 'Poppins', sans-serif;
-        color: #dadeee;
-        float: left;
-        position: relative;
-        overflow: hidden;
-      }
+.btn:hover {
+	background-color: white;
+	color: black;
+}
 
-      .heff::after {
-        background-color: #dadeee;
-        content: "";
-        width: 0;
-        height: 3px;
-        left: 0;
-        bottom: 0;
-        transition: width 0.35s ease 0s;
-        position: absolute;
-      }
-
-      .heff:hover::after {
-        width: 100%;
-      }
 :root::-webkit-scrollbar {
 	display: none;
 }
@@ -44,4 +12,3 @@
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
 }
-

@@ -1,61 +1,57 @@
 .star-rating {
-   margin: 4px 0 0px;
-   font-size: 0;
-   white-space: nowrap;
-   display: inline-block;
-   width: 110px;
-   height: 22px;
-   overflow: hidden;
-   position: relative;
-   background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
-   background-size: contain;
- }
+	margin: 4px 0 0px;
+	font-size: 0;
+	white-space: nowrap;
+	display: inline-block;
+	width: 110px;
+	height: 22px;
+	overflow: hidden;
+	position: relative;
+	background: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=");
+	background-size: contain;
+}
 
- .star-rating i {
-    opacity: 0;
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 20%;
-    z-index: 1;
-    background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
-    background-size: contain;
-  }
-  .star-rating input {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    opacity: 0;
-    display: inline-block;
-    width: 20%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    z-index: 2;
-    position: relative;
-  }
-  .star-rating input:hover + i,
-  .star-rating input:checked + i {
-    opacity: 1;
-  }
-  .star-rating i ~ i {
-    width: 40%;
-  }
-  .star-rating i ~ i ~ i {
-    width: 60%;
-  }
-  .star-rating i ~ i ~ i ~ i {
-    width: 80%;
-  }
-  .star-rating i ~ i ~ i ~ i ~ i {
-    width: 100%;
-  }
+.star-rating i {
+	opacity: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 20%;
+	z-index: 1;
+	background: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=");
+	background-size: contain;
+}
+.star-rating input {
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	opacity: 0;
+	display: inline-block;
+	width: 20%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	z-index: 2;
+	position: relative;
+}
+.star-rating input:hover + i,
+.star-rating input:checked + i {
+	opacity: 1;
+}
+.star-rating i ~ i {
+	width: 40%;
+}
+.star-rating i ~ i ~ i {
+	width: 60%;
+}
+.star-rating i ~ i ~ i ~ i {
+	width: 80%;
+}
+.star-rating i ~ i ~ i ~ i ~ i {
+	width: 100%;
+}
 
-  body{
-    background-image: linear-gradient(rgba(0, 0, 0, 0.65),rgba(0, 0, 0, 0.65)) , url('https://media.istockphoto.com/id/1287121465/photo/background-blue-navy-black-abstract-glittering-pattern-noise-dark-stained-frosted-glasstexture.jpg?b=1&s=170667a&w=0&k=20&c=--Xm--FghZWqLf-J228043T-fib0F2dK2TGOVUcWxZg='); 
-   
-  }
-  /* .card-body{
+/* .card-body{
     color:white;
     background: linear-gradient(to left, rgb(27, 90, 153) 50%, #00203FFF 50%);
     background-size: 200%;
@@ -87,22 +83,22 @@ background-image: linear-gradient(315deg, #2b4162 0%, #12100e 74%);
     font-weight: bold;
   } */
 
-  .specialAni{
-    color:white;
-    background: linear-gradient(to left, rgb(27, 90, 153) 50%, #00203FFF 50%);
-    background-size: 200%;
-    background-position: right;
-    transition: all .5s;
-  }
+.specialAni {
+	color: white;
+	background: linear-gradient(to left, rgb(27, 90, 153) 50%, #00203fff 50%);
+	background-size: 200%;
+	background-position: right;
+	transition: all 0.5s;
+}
 
-  .specialAni:hover {
-    background-position: left;
-  }
+.specialAni:hover {
+	background-position: left;
+}
 
-  .card-link{
-    color:darkblue;
-  }
+.card-link {
+	color: darkblue;
+}
 
-  .specialAni:hover .card-link {
-    color: lightblue ;
-  }
+.specialAni:hover .card-link {
+	color: lightblue;
+}
