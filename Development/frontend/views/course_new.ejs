@@ -37,23 +37,29 @@
 	</head>
 	<body>
 		<%- include('partials/navbar') %>
-		<div class="container d-flex justify-content-between my-4">
-			<h1 class="h2"><i class="fa-solid fa-book-open-reader"></i> Courses</h1>
-			<form action="/courses" method="post" class="d-flex align-items-center">
-				<input
-					class="form-control me-2"
-					type="search"
-					placeholder="Search"
-					aria-label="Search"
-					name="searchname"
-				/>
-				<button class="btn btn-outline-success btn-sm fw-bold" type="submit">
-					Search
-				</button>
-			</form>
-		</div>
-		<div class="container-fluid d-flex justify-content-center">
-			<div class="row gap-5 card-container mx-auto"></div>
+		<div
+			class="container-fluid d-flex flex-column justify-content-between my-4"
+		>
+			<div
+				class="container p-0 mb-4 d-flex justify-content-between flex-column flex-md-row"
+			>
+				<h1 class="h2"><i class="fa-solid fa-book-open-reader"></i> Courses</h1>
+				<form action="/courses" method="post" class="d-flex align-items-center">
+					<input
+						class="form-control me-2"
+						type="search"
+						placeholder="Search"
+						aria-label="Search"
+						name="searchname"
+					/>
+					<button class="btn btn-outline-success btn-sm fw-bold" type="submit">
+						Search
+					</button>
+				</form>
+			</div>
+			<div class="container-fluid d-flex justify-content-center">
+				<div class="row justify-content-between card-container mx-4"></div>
+			</div>
 		</div>
 		<% if(role=="admin"){ %>
 		<button
@@ -189,18 +195,20 @@
 		else{
 		  data.forEach((course)=>{
 		  content += `
-		  <div class="card mb-5 col-10 col-md-5">
+		  <div class="col-12 col-lg-6 col-xxl-4 px-0 px-md-3 px-lg-3 px-xxl-1">
+		  <div class="mb-5 h-75">
 		    <h5 class="card-header">${course.courseName}</h5>
 		    <div class="card-body w-100">
 		      <p class="card-text text-dark">${course.courseDescription}</p>
 		      <br>
 
 		      <div class="card-footer text-muted  d-flex flex-column flex-md-row justify-content-between mb-0">
-		        <div class="card-functionality-left">
-		        <a href="/courses/question/${course._id}" class="btn text-light" style="background-color:#2C5364">View Questions</a>
-		        <a href="/courses/view/${course._id}" class="btn  mx-3 text-light" style="background-color:#2C5364">View Courses</a>
+		        <div class="card-functionality-left d-flex justify-content-center mb-2">
+		        <a href="/courses/question/${course._id}" class="btn text-light mx-0 mx-md-2" style="background-color:#2C5364"> Questions</a>
+		        <a href="/courses/view/${course._id}" class="btn  mx-2
+				text-light" style="background-color:#2C5364">Contents</a>
 		      </div>
-		      <div class="card-functionality-right mt-0 md-mt-3" style="display:${role === "admin" ? "block" : "none"}">
+		      <div class="card-functionality-right mt-0 md-mt-3 justify-content-center" style="display:${role === "admin" ? "flex"  : "none"}">
 		        <a href="#" data-id = "${course._id}" class="btn btn-modal btn-outline-primary border border-2 border-primary" data-bs-toggle="modal" data-bs-target="#editModal"><i data-id = "${course._id}" class="fa-solid fa-pen-to-square"></i></a>
 		        <a href="#" data-id = "${course._id}" class="btn btn-outline-danger mx-3 delete-course border border-2 border-danger" ><i class="fa-solid fa-trash" data-id = "${course._id}"></i></a>
 		        </div>
@@ -209,6 +217,7 @@
 
 		    </div>
 		  </div>
+		</div>
 		  `
 		});
 		}

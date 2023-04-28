@@ -1,383 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Q&A Section</title>
+		<link rel="stylesheet" href="/css/QNA.css" />
+	</head>
+	<style>
+		body {
+			background-color: #e5e4e2;
+		}
+		.reply-accordian {
+			background-color: #333 !important;
+		}
+		.question-accordian {
+			color: #ffff;
+			background-color: #e7f1ff !important;
+		}
+		.accordion {
+			margin: 0 auto;
+			width: 90%;
+		}
+		.blockquote-footer {
+			margin-left: 2em;
+		}
+		.al-items {
+			display: flex;
+			align-items: center;
+			height: auto;
+		}
+		.sub-al-items {
+			position: absolute;
+			right: 40px;
+		}
+	</style>
+	<body>
+		<%- include('./partials/navbar') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q&A Section</title>
-    <link rel="stylesheet" href="/css/QNA.css">
-</head>
-<style>
-   
-    .accordion {
-        margin: 0 auto;
-        width: 90%;
-    }
-    .blockquote-footer {
-       margin-left: 2em;
-    }
-    .al-items{
-      display: flex;
-      align-items: center;
-      height: auto;
-    }
-    .sub-al-items{
-      position: absolute;
-      right: 40px;
-      }
+		<h3 class="my-3 mx-5 text-dark">
+			<i class="fa-solid fa-lightbulb"></i> Questions on <%= courseName %>
+		</h3>
 
-</style>
-<body class="bg-secondary">
- <%- include('./partials/navbar') %>
-  
-  <h3 class="my-3 mx-5 text-light"> <%= courseName %> </h3>
-   
-    <div class="container-fluid question-container">
-       
-    </div>
+		<div class="container-fluid question-container"></div>
 
-      <!-- Insert button -->
-      <button
-      type="button"
-      class="btn btn-success btn-insert-modal position-fixed"
-      data-bs-toggle="modal"
-      data-bs-target="#insertModal"
-      style="right: 2em; bottom: 2em; height: 3em; width: 3em;"
-    >
-      <i class="fa-solid fa-plus btn-insert-modal text-light"></i>
-    </button>
+		<!-- Insert button -->
+		<button
+			type="button"
+			class="btn btn-success btn-insert-modal position-fixed"
+			data-bs-toggle="modal"
+			data-bs-target="#insertModal"
+			style="right: 2em; bottom: 2em; height: 3em; width: 3em"
+		>
+			<i class="fa-solid fa-plus btn-insert-modal text-light"></i>
+		</button>
 
-    <!-- Insert Modal -->
-    
-      <div
-        class="modal fade"
-        id="insertModal"
-        tabindex="-1"
-        aria-labelledby="insertModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content p-5">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="insertModalLabel">
-                Ask your Question
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="mb-3">
-              
-              <textarea
-                type="text"
-                class="form-control"
-                id="questionText-in"
-                name="questionText"
-                required
-                placeholder="Ask your question"
-                rows = "3"
-              ></textarea>
-            </div>
-            <button class="btn btn-primary askquestion-submit-btn">
-              POST
-            </button>
-          </div>
-        </div>
-      </div>
+		<!-- Insert Modal -->
 
-       <!-- Edit Modal -->
-    
-       <div
-       class="modal fade"
-       id="editModal"
-       tabindex="-1"
-       aria-labelledby="editModalLabel"
-       aria-hidden="true"
-     >
-       <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content p-5">
-           <div class="modal-header">
-             <h1 class="modal-title fs-5" id="editModalLabel">
-               Edit your Question
-             </h1>
-             <button
-               type="button"
-               class="btn-close"
-               data-bs-dismiss="modal"
-               aria-label="Close"
-             ></button>
-           </div>
-           <div class="mb-3">
-             
-             <textarea
-               type="text"
-               class="form-control"
-               id="questionText-edit"
-               name="questionText"
-               required
-               placeholder="Edit your question"
-               rows = "3"
-             ></textarea>
-           </div>
-           <button class="btn btn-primary editquestion-submit-btn">
-             POST
-           </button>
-         </div>
-       </div>
-     </div>
-   
-    
+		<div
+			class="modal fade"
+			id="insertModal"
+			tabindex="-1"
+			aria-labelledby="insertModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content p-5">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="insertModalLabel">
+							Ask your Question
+						</h1>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div class="mb-3">
+						<textarea
+							type="text"
+							class="form-control"
+							id="questionText-in"
+							name="questionText"
+							required
+							placeholder="Ask your question"
+							rows="3"
+						></textarea>
+					</div>
+					<button class="btn btn-primary askquestion-submit-btn">POST</button>
+				</div>
+			</div>
+		</div>
 
-</body>
-<script>
-  var questions = <%- JSON.stringify(questions) %>;
-  var id = <%- JSON.stringify(id) %>;
-  var replies = <%- JSON.stringify(replies) %>;
-  var username = <%- JSON.stringify(username) %>;
-  console.log(username);
-  var content = ``;
-  var url = window.location.href;
-  var courseId = url.substring(url.lastIndexOf('/') + 1);
+		<!-- Edit Modal -->
 
-  questions.forEach((question,idx) => {
-    var replycontent = ``;
-    replies[idx].forEach((reply)=>{
-        replycontent+=`<div class="alert alert-info" role="alert">
-          ${reply.replyText}
-          <br>
-          <div class="reply-info d-flex justify-content-between">
-          <cite title="Replied by" class="blockquote-footer" style="margin-left : 2em; margin-top: 0.3em;">${reply.username}</cite>
-          <a href="#" data-id = "${reply._id}" data-q_id = "${question._id}" class="${username !== reply.username ? "btn btn-secondary mx-3 delete-reply" : "btn btn-danger mx-3 delete-reply"}" style = ${username !== reply.username ? "pointer-events:none;" : ""}><i class="fa-solid fa-trash" data-id = "${reply._id}" data-q_id="${question._id}"></i></a>
-          </div>
-        </div>`
-    })
-    content += `<div class="accordion my-3 shadow" id="accordionExample" >
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${question._id}" aria-expanded="true" aria-controls="collapse${question._id}">
-              <blockquote class="blockquote w-100">
-                  <p class="mb-4">${question.questionText}</p>
-                  <footer class="blockquote-footer mt-3 al-items">Posted by <cite title="Asked by">${question.username}</cite>
-                    <div class="card-functionality-right d-flex justify-content-end sub-al-items">
-                    <a href="#" data-id = "${question._id}" class="${username !== question.username ? "btn btn-modal btn-secondary edit-question" : "btn btn-modal btn-primary edit-question"}" data-bs-toggle="modal" data-bs-target="#editModal" style = ${username !== question.username ? "pointer-events:none;" : ""}><i data-id = "${question._id}" class="fa-solid fa-pen-to-square"></i></a>
-                    <a href="#" data-id = "${question._id}" class="${username !== question.username ? "btn btn-secondary mx-3 delete-question" : "btn btn-danger mx-3 delete-question"}" style = ${username !== question.username ? "pointer-events:none;" : ""}><i class="fa-solid fa-trash" data-id = "${question._id}"></i></a>
-                    </div>
-                  </footer>
-                </blockquote>
-          </button>
-        </h2>
-        <div id="collapse${question._id}" class="accordion-collapse collapse" aria-labelledby="headingOne">
-          <div class="accordion-body">
-            
-              <div class="form-floating">
-                <textarea class="form-control" placeholder="Leave a  reply here" id="replyText" style="height: 100px" name="replyText"></textarea>
-                <label for="floatingTextarea2">Add your reply..</label>
-              </div>
-              <button type="submit" class="btn btn-primary reply-btn mt-3" data-id = "${question._id}">Reply</button>
-           
-          </div>
-        </div>
-      </div>
-      
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingTwo">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${question._id}Two" aria-expanded="false" aria-controls="collapse${question._id}Two">
-            All replies 
-          </button>
-        </h2>
-        <div id="collapse${question._id}Two" class="accordion-collapse collapse" aria-labelledby="headingTwo">
-          <div class="accordion-body">
-          ${replycontent}
-          </div>
-        </div>
-      </div>
-      </div>`;
-  });
-  
-  document.querySelector(".question-container").innerHTML += content;
+		<div
+			class="modal fade"
+			id="editModal"
+			tabindex="-1"
+			aria-labelledby="editModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content p-5">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="editModalLabel">
+							Edit your Question
+						</h1>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div class="mb-3">
+						<textarea
+							type="text"
+							class="form-control"
+							id="questionText-edit"
+							name="questionText"
+							required
+							placeholder="Edit your question"
+							rows="3"
+						></textarea>
+					</div>
+					<button class="btn btn-primary editquestion-submit-btn">POST</button>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		  var questions = <%- JSON.stringify(questions) %>;
+		  var id = <%- JSON.stringify(id) %>;
+		  var replies = <%- JSON.stringify(replies) %>;
+		  var username = <%- JSON.stringify(username) %>;
+		  console.log(username);
+		  var content = ``;
+		  var url = window.location.href;
+		  var courseId = url.substring(url.lastIndexOf('/') + 1);
 
-    const askquest_btn = document.querySelector(".askquestion-submit-btn");
-    console.log("Hello");
-    askquest_btn.addEventListener("click", () => {
-      const questionText = document.querySelector("#questionText-in").value;
-      if (questionText === "") {
-        alert("Please enter a question");
-      }
-      else
-      {
-        const postQuestion = async ()=>{
-          const json = await fetch(`/courses/question/${id}`, {
-            method: "POST",
-          
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              questionText,
-            }),
-          });
-         // console.log("Hello");
-          const data = await json.json();
-          if(data.success === true)
-          {
-            alert("Question posted successfully");
-            window.location.reload();
-          }
-          else
-          {
-            alert("Error posting question");
-          }
-        }
-        postQuestion();
-        }
-    });
+		  questions.forEach((question,idx) => {
+		    var replycontent = ``;
+		    replies[idx].forEach((reply)=>{
+		        replycontent+=`<div class="alert alert-info" role="alert">
+		          ${reply.replyText}
+		          <br>
+		          <div class="reply-info d-flex justify-content-between">
+		          <cite title="Replied by" class="blockquote-footer" style="margin-left : 2em; margin-top: 0.3em;">${reply.username}</cite>
+		          <a href="#" data-id = "${reply._id}" data-q_id = "${question._id}" class="${username !== reply.username ? "btn btn-secondary mx-3 delete-reply" : "btn btn-danger mx-3 delete-reply"}" style = ${username !== reply.username ? "pointer-events:none;" : ""}><i class="fa-solid fa-trash" data-id = "${reply._id}" data-q_id="${question._id}"></i></a>
+		          </div>
+		        </div>`
+		    })
+		    content += `<div class="accordion my-3 shadow" id="accordionExample" >
+		      <div class="accordion-item">
+		        <h2 class="accordion-header" id="headingOne">
+		          <button class="accordion-button collapsed question-accordian" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${question._id}" aria-expanded="true" aria-controls="collapse${question._id}">
+		              <blockquote class="blockquote w-100">
+		                  <p class="mb-4">${question.questionText}</p>
+		                  <footer class="blockquote-footer mt-3 al-items">Posted by <cite title="Asked by">${question.username}</cite>
+		                    <div class="card-functionality-right d-flex justify-content-end sub-al-items">
+		                    <a href="#" data-id = "${question._id}" class="${username !== question.username ? "btn btn-modal btn-outline-secondary edit-question" : "btn btn-modal btn-outline-primary edit-question"}" data-bs-toggle="modal" data-bs-target="#editModal" style = ${username !== question.username ? "pointer-events:none; cursor:not-allowed" : ""}><i data-id = "${question._id}" class="fa-solid fa-pen-to-square"></i></a>
+		                    <a href="#" data-id = "${question._id}" class="${username !== question.username ? "btn btn-outline-secondary mx-3 delete-question" : "btn btn-outline-danger mx-3 delete-question"}" style = ${username !== question.username ? "pointer-events:none; cursor:auto" : ""}><i class="fa-solid fa-trash" data-id = "${question._id}"></i></a>
+		                    </div>
+		                  </footer>
+		                </blockquote>
+		                </button>
+		        </h2>
+		        <div id="collapse${question._id}" class="accordion-collapse collapse" aria-labelledby="headingOne">
+		          <div class="accordion-body">
 
-  //delete Question functionality
-document.querySelectorAll('.delete-question').forEach((question)=>{
-  question.addEventListener('click', (e)=>{
-   const id = e.target.dataset.id;
-   if(confirm(`Are you sure you want to delete this question?`))
-    {
-      fetch(`/courses/delete-question/${e.target.dataset.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          courseId
-        })
-      }).then((res)=>{
-        return res.json();
-      }).then((data)=>{
-        console.log(data);
-        if(confirm(`Question deleted successfully`))
-        window.location.reload();
-      }).catch((err)=>{
-        console.log(err);
-      });
-    }
-  })
-})
+		              <div class="form-floating">
+		                <textarea class="form-control" placeholder="Leave a  reply here" id="replyText" style="height: 100px" name="replyText"></textarea>
+		                <label for="floatingTextarea2">Add your reply..</label>
+		              </div>
+		              <button type="submit" class="btn btn-primary reply-btn mt-3" data-id = "${question._id}">Reply</button>
 
-//edit question functionality
-      var response = {};
-      console.log(document.querySelectorAll('.edit-question'))
-      document.querySelectorAll('.edit-question').forEach((row)=>row.addEventListener('click', (e)=>{
-      console.log(e.target)
-      let obj = undefined;
-      questions.forEach((question)=> {
-        if(question._id === e.target.dataset.id)
-        {
-          console.log(e.target.dataset.id)
-          obj = question;
-          return;
-        }
-      })
-      response = obj;
-      console.log(response)
-      document.querySelector('#questionText-edit').value = obj.questionText;
-      }))
-      document.querySelector('.editquestion-submit-btn').addEventListener('click', ()=> {
-      response.questionText = document.querySelector('#questionText-edit').value;
-      if(response.questionText!=='')
-      {
-        fetch(`/courses/update-question/${response._id}`, {
-        method: 'PATCH',
-          headers: {
-            'Content-type': 'application/json'
-          },
-          body: JSON.stringify(response)
-        }).then((res)=>{
-          return res.json();
-        }).then((data)=>{
-          console.log(data);
-          if(confirm(`Question edited successfully`))
-          window.location.reload();
-        }).catch((err)=>{
-          console.log(err);
-        });
-      }
-      else
-      {
-        alert('Please enter a question');
-      }
-      });
+		          </div>
+		        </div>
+		      </div>
 
-//reply post functionality
-document.querySelectorAll('.reply-btn').forEach((reply)=>{
-  reply.addEventListener('click', (e)=>{
-    const replyText = e.target.parentElement.querySelector('#replyText').value;
-    if(replyText === '')
-    {
-      alert('Please enter a reply');
-    }
-    else
-    {
-      const postReply = async ()=>{
-        const json = await fetch(`/courses/question/reply/${e.target.dataset.id}`, {
-          method: "POST",
-        
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            replyText,
-          }),
-        });
-       // console.log("Hello");
-        const data = await json.json();
-        if(data.success === true)
-        {
-          alert("Reply posted successfully");
-          window.location.reload();
-        }
-        else
-        {
-          alert("Error posting reply");
-        }
-      }
-      postReply();
-    }
-  })
-})
+		      <div class="accordion-item">
+		        <h2 class="accordion-header" id="headingTwo">
+		          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${question._id}Two" aria-expanded="false" aria-controls="collapse${question._id}Two">
+		            All replies
+		          </button>
+		        </h2>
+		        <div id="collapse${question._id}Two" class="accordion-collapse collapse" aria-labelledby="headingTwo">
+		          <div class="accordion-body">
+		          ${replycontent}
+		          </div>
+		        </div>
+		      </div>
+		      </div>`;
+		  });
 
-//reply delete functionality
+		  document.querySelector(".question-container").innerHTML += content;
 
-document.querySelectorAll('.delete-reply').forEach((reply)=>{
-  reply.addEventListener('click', (e)=>{
-   const id = e.target.dataset.id;
-   const q_id = e.target.dataset.q_id;
-   if(confirm(`Are you sure you want to delete this reply?`))
-    {
-      fetch(`/courses/delete-reply/${e.target.dataset.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body:JSON.stringify({
-          questionId: q_id
-        })
-      }).then((res)=>{
-        return res.json();
-      }).then((data)=>{
-        console.log(data);
-        if(confirm(`reply deleted successfully`))
-        window.location.reload();
-      }).catch((err)=>{
-        console.log(err);
-      });
-    }
-  })
-})
+		    const askquest_btn = document.querySelector(".askquestion-submit-btn");
+		    console.log("Hello");
+		    askquest_btn.addEventListener("click", () => {
+		      const questionText = document.querySelector("#questionText-in").value;
+		      if (questionText === "") {
+		        alert("Please enter a question");
+		      }
+		      else
+		      {
+		        const postQuestion = async ()=>{
+		          const json = await fetch(`/courses/question/${id}`, {
+		            method: "POST",
 
+		            headers: {
+		              "Content-Type": "application/json",
+		            },
+		            body: JSON.stringify({
+		              questionText,
+		            }),
+		          });
+		         // console.log("Hello");
+		          const data = await json.json();
+		          if(data.success === true)
+		          {
+		            alert("Question posted successfully");
+		            window.location.reload();
+		          }
+		          else
+		          {
+		            alert("Error posting question");
+		          }
+		        }
+		        postQuestion();
+		        }
+		    });
 
+		  //delete Question functionality
+		document.querySelectorAll('.delete-question').forEach((question)=>{
+		  question.addEventListener('click', (e)=>{
+		   const id = e.target.dataset.id;
+		   if(confirm(`Are you sure you want to delete this question?`))
+		    {
+		      fetch(`/courses/delete-question/${e.target.dataset.id}`, {
+		        method: 'DELETE',
+		        headers: {
+		          'Content-Type': 'application/json'
+		        },
+		        body: JSON.stringify({
+		          courseId
+		        })
+		      }).then((res)=>{
+		        return res.json();
+		      }).then((data)=>{
+		        console.log(data);
+		        if(confirm(`Question deleted successfully`))
+		        window.location.reload();
+		      }).catch((err)=>{
+		        console.log(err);
+		      });
+		    }
+		  })
+		})
 
-</script>
+		//edit question functionality
+		      var response = {};
+		      console.log(document.querySelectorAll('.edit-question'))
+		      document.querySelectorAll('.edit-question').forEach((row)=>row.addEventListener('click', (e)=>{
+		      console.log(e.target)
+		      let obj = undefined;
+		      questions.forEach((question)=> {
+		        if(question._id === e.target.dataset.id)
+		        {
+		          console.log(e.target.dataset.id)
+		          obj = question;
+		          return;
+		        }
+		      })
+		      response = obj;
+		      console.log(response)
+		      document.querySelector('#questionText-edit').value = obj.questionText;
+		      }))
+		      document.querySelector('.editquestion-submit-btn').addEventListener('click', ()=> {
+		      response.questionText = document.querySelector('#questionText-edit').value;
+		      if(response.questionText!=='')
+		      {
+		        fetch(`/courses/update-question/${response._id}`, {
+		        method: 'PATCH',
+		          headers: {
+		            'Content-type': 'application/json'
+		          },
+		          body: JSON.stringify(response)
+		        }).then((res)=>{
+		          return res.json();
+		        }).then((data)=>{
+		          console.log(data);
+		          if(confirm(`Question edited successfully`))
+		          window.location.reload();
+		        }).catch((err)=>{
+		          console.log(err);
+		        });
+		      }
+		      else
+		      {
+		        alert('Please enter a question');
+		      }
+		      });
 
+		//reply post functionality
+		document.querySelectorAll('.reply-btn').forEach((reply)=>{
+		  reply.addEventListener('click', (e)=>{
+		    const replyText = e.target.parentElement.querySelector('#replyText').value;
+		    if(replyText === '')
+		    {
+		      alert('Please enter a reply');
+		    }
+		    else
+		    {
+		      const postReply = async ()=>{
+		        const json = await fetch(`/courses/question/reply/${e.target.dataset.id}`, {
+		          method: "POST",
 
+		          headers: {
+		            "Content-Type": "application/json",
+		          },
+		          body: JSON.stringify({
+		            replyText,
+		          }),
+		        });
+		       // console.log("Hello");
+		        const data = await json.json();
+		        if(data.success === true)
+		        {
+		          alert("Reply posted successfully");
+		          window.location.reload();
+		        }
+		        else
+		        {
+		          alert("Error posting reply");
+		        }
+		      }
+		      postReply();
+		    }
+		  })
+		})
 
+		//reply delete functionality
+
+		document.querySelectorAll('.delete-reply').forEach((reply)=>{
+		  reply.addEventListener('click', (e)=>{
+		   const id = e.target.dataset.id;
+		   const q_id = e.target.dataset.q_id;
+		   if(confirm(`Are you sure you want to delete this reply?`))
+		    {
+		      fetch(`/courses/delete-reply/${e.target.dataset.id}`, {
+		        method: 'DELETE',
+		        headers: {
+		          'Content-Type': 'application/json'
+		        },
+		        body:JSON.stringify({
+		          questionId: q_id
+		        })
+		      }).then((res)=>{
+		        return res.json();
+		      }).then((data)=>{
+		        console.log(data);
+		        if(confirm(`reply deleted successfully`))
+		        window.location.reload();
+		      }).catch((err)=>{
+		        console.log(err);
+		      });
+		    }
+		  })
+		})
+	</script>
 </html>

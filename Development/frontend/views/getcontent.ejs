@@ -20,201 +20,203 @@
     <link rel="stylesheet" href="/css/viewcoursecontent.css" />
     <title>Course content Details Page</title>
   </head>
-
+   <style>
+   
+    .card {
+      padding: 0 !important;
+    }
+    .card-body {
+      background-color: #e2e2e2;
+    }
+    .card:hover {
+      cursor: pointer;
+      box-shadow: 1px 8px 20px grey;
+      -webkit-transition: box-shadow 0.6s ease-in;
+    }
+    .card-header,.apnabtn {
+      color: #ffff;
+      background-color: #2c5364 !important;
+    }
+   </style>
   <body>
     <%- include('partials/navbar') %>
     <div class="container justify-content-between mt-4 my-4">
-      <h2 style="text-align:center;color:green;font-size:20px;"><%= ratingMessage %></h2>
+      <h2 style="text-align:center;color:green"><%= ratingMessage %></h2>
       <div class="container card-container">
         <div class="card">
-          <div class="card-header bg-dark text-light">
+          <div class="card-header text-light fw-bold">
             <%= content.creatorName %>
           </div>
-          <div class="specialAni">
-            <div class="card-body">
-              <p class="card-text"><%= content.courseContentDescription %></p>
-              <p class="card-text">View below links to see my playlist and refer to notes for more details.</p>
-              <a href="<%= content.videoLink %>" class="btn btn-info">Video Link</a>
-              <a href="<%= content.documentLink %>" class="btn btn-info">Notes</a>
-            </div>
-            <div class="card-footer d-flex justify-content-between">
-              <div class="card-functionality-left">
-                <p class="card-text">
-                  Current Rating </p>
-                  <% if(rating==0 || rating==NaN) { %>
-                  <span class="star-rating">
-                    <i></i>
-                    <i></i>
-                    <i></i>
-                    <i></i>
-                    <i></i>
-                  </span>
-                  <% }else if(rating==1) {%>
-                  <span class="star-rating">
-                    <i style="opacity: 1"></i>
-                    <i></i>
-                    <i></i>
-                    <i></i>
-                    <i></i>
-                  </span>
-                  <% }else if(rating==2) {%>
-                  <span class="star-rating">
-                    <i style="opacity: 1"></i>
-                    <i style="opacity: 1"></i>
-                    <i></i>
-                    <i></i>
-                    <i></i>
-                  </span>
-                  <% }else if(rating==3) {%>
-                  <span class="star-rating">
-                    <i style="opacity: 1"></i>
-                    <i style="opacity: 1"></i>
-                    <i style="opacity: 1"></i>
-                    <i></i>
-                    <i></i>
-                  </span>
-                  <% }else if(rating==4) {%>
-                  <span class="star-rating">
-                    <i style="opacity: 1"></i>
-                    <i style="opacity: 1"></i>
-                    <i style="opacity: 1"></i>
-                    <i style="opacity: 1"></i>
-                    <i></i>
-                  </span>
-                  <% } else { %>
-                  <span class="star-rating">
-                    <i style="opacity: 1"></i>
-                    <i style="opacity: 1"></i>
-                    <i style="opacity: 1"></i>
-                    <i style="opacity: 1"></i>
-                    <i style="opacity: 1"></i>
-                  </span>
-                  <% } %>
-              </div>
-              <div class="card-functionality-right">
-                <% if(userRating) {%>
-                      <p style="margin-bottom: 2px;">
-                        Your Rating </p><% if(userRating==1) { %>
-                        <span class="star-rating">
-                          <i style="opacity: 1"></i>
-                          <i></i>
-                          <i></i>
-                          <i></i>
-                          <i></i>
-                        </span>
-                        <% }else if(userRating==2) {%>
-                        <span class="star-rating">
-                          <i style="opacity: 1"></i>
-                          <i style="opacity: 1"></i>
-                          <i></i>
-                          <i></i>
-                          <i></i>
-                        </span>
-                        <% }else if(userRating==3) {%>
-                        <span class="star-rating">
-                          <i style="opacity: 1"></i>
-                          <i style="opacity: 1"></i>
-                          <i style="opacity: 1"></i>
-                          <i></i>
-                          <i></i>
-                        </span>
-                        <% }else if(userRating==4) {%>
-                        <span class="star-rating">
-                          <i style="opacity: 1"></i>
-                          <i style="opacity: 1"></i>
-                          <i style="opacity: 1"></i>
-                          <i style="opacity: 1"></i>
-                          <i></i>
-                        </span>
-                        <% } else { %>
-                        <span class="star-rating">
-                          <i style="opacity: 1"></i>
-                          <i style="opacity: 1"></i>
-                          <i style="opacity: 1"></i>
-                          <i style="opacity: 1"></i>
-                          <i style="opacity: 1"></i>
-                        </span>
-                        <% } %>
-                    <form
-                  method="post"
-                  action="/courses/ratings/<%= content._id %>?_method=DELETE"
-                >
-                  <input
-                    class="btn btn-primary"
-                    type="submit"
-                    value="Clear Response"
-                    style="margin-top:2px";
-                  />&nbsp;
-                </form>
-                  </div>
-                  <div class="col-md-2">
-                    <form
-                  method="post"
-                  action="/courses/ratings/<%= content._id %>?_method=PATCH"
-                  onsubmit="return validation()"
-                >
-                  <label style="display: inline;">Change Your Response:</label><br />
-          
-                  <span class="star-rating">
-                    <input type="radio" name="rating" value="1" /><i></i>
-                    <input type="radio" name="rating" value="2" /><i></i>
-                    <input type="radio" name="rating" value="3" /><i></i>
-                    <input type="radio" name="rating" value="4" /><i></i>
-                    <input type="radio" name="rating" value="5" /><i></i>
-                  </span>
-                  <div class="text-danger" id="error"></div>
-                  <input
-                    class="btn btn-primary"
-                    type="submit"
-                    value="Submit your ratings"
-                    style="display:block;margin-top:4px;"
-                  />&nbsp;
-                </form>
-                  </div>
-                </div>
-                <% } else {%>
-                <form method="post" action="/courses/ratings/<%= content._id %>" onsubmit="return validation()">
-                  <label>Rate us:</label><br />
-          
-                  <span class="star-rating">
-                    <input type="radio" name="rating" value="1" /><i></i>
-                    <input type="radio" name="rating" value="2" /><i></i>
-                    <input type="radio" name="rating" value="3" /><i></i>
-                    <input type="radio" name="rating" value="4" /><i></i>
-                    <input type="radio" name="rating" value="5" /><i></i>
-                  </span>
-                  <div class="text-danger" id="error"></div>
-                  <input
-                    class="btn btn-primary"
-                    type="submit"
-                    value="Submit your ratings"
-                    style="display:block; margin-top:10px;"
-                  />&nbsp;
-                </form>
+          <div class="card-body">
+            <p class="card-text fw-bold"><%= content.courseContentDescription %></p>
+            <p class="card-text">View below links to see my playlist and refer to notes for more details.</p>
+            <a href="<%= content.videoLink %>" class="card-link">Video Link</a>
+            <a href="<%= content.documentLink %>" class="card-link">Notes</a>
+          </div>
+          <div class="card-footer d-flex justify-content-between">
+            <div class="card-functionality-left">
+              <p class="card-text">
+                Current Rating </p>
+                <% if(rating==0 || rating==NaN) { %>
+                <span class="star-rating">
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </span>
+                <% }else if(rating==1) {%>
+                <span class="star-rating">
+                  <i style="opacity: 1"></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </span>
+                <% }else if(rating==2) {%>
+                <span class="star-rating">
+                  <i style="opacity: 1"></i>
+                  <i style="opacity: 1"></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </span>
+                <% }else if(rating==3) {%>
+                <span class="star-rating">
+                  <i style="opacity: 1"></i>
+                  <i style="opacity: 1"></i>
+                  <i style="opacity: 1"></i>
+                  <i></i>
+                  <i></i>
+                </span>
+                <% }else if(rating==4) {%>
+                <span class="star-rating">
+                  <i style="opacity: 1"></i>
+                  <i style="opacity: 1"></i>
+                  <i style="opacity: 1"></i>
+                  <i style="opacity: 1"></i>
+                  <i></i>
+                </span>
+                <% } else { %>
+                <span class="star-rating">
+                  <i style="opacity: 1"></i>
+                  <i style="opacity: 1"></i>
+                  <i style="opacity: 1"></i>
+                  <i style="opacity: 1"></i>
+                  <i style="opacity: 1"></i>
+                </span>
                 <% } %>
+            </div>
+            <div class="card-functionality-right">
+              <% if(userRating) {%>
+                    <p style="margin-bottom: 2px;">
+                      Your Rating </p><% if(userRating==1) { %>
+                      <span class="star-rating">
+                        <i style="opacity: 1"></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                      </span>
+                      <% }else if(userRating==2) {%>
+                      <span class="star-rating">
+                        <i style="opacity: 1"></i>
+                        <i style="opacity: 1"></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                      </span>
+                      <% }else if(userRating==3) {%>
+                      <span class="star-rating">
+                        <i style="opacity: 1"></i>
+                        <i style="opacity: 1"></i>
+                        <i style="opacity: 1"></i>
+                        <i></i>
+                        <i></i>
+                      </span>
+                      <% }else if(userRating==4) {%>
+                      <span class="star-rating">
+                        <i style="opacity: 1"></i>
+                        <i style="opacity: 1"></i>
+                        <i style="opacity: 1"></i>
+                        <i style="opacity: 1"></i>
+                        <i></i>
+                      </span>
+                      <% } else { %>
+                      <span class="star-rating">
+                        <i style="opacity: 1"></i>
+                        <i style="opacity: 1"></i>
+                        <i style="opacity: 1"></i>
+                        <i style="opacity: 1"></i>
+                        <i style="opacity: 1"></i>
+                      </span>
+                      <% } %>
+                  <form
+                method="post"
+                action="/courses/ratings/<%= content._id %>?_method=DELETE"
+              >
+                <input
+                  class="btn btn-primary apnabtn"
+                  type="submit"
+                  value="Clear Response"
+                  style="margin-top:2px";
+                />&nbsp;
+              </form>
+                </div>
+                <div class="col-md-2">
+                  <form
+                method="post"
+                action="/courses/ratings/<%= content._id %>?_method=PATCH"
+              >
+                <label style="display: inline;">Change Your Response:</label><br />
+        
+                <span class="star-rating">
+                  <input type="radio" name="rating" value="1" /><i></i>
+                  <input type="radio" name="rating" value="2" /><i></i>
+                  <input type="radio" name="rating" value="3" /><i></i>
+                  <input type="radio" name="rating" value="4" /><i></i>
+                  <input type="radio" name="rating" value="5" /><i></i>
+                </span>
+        
+                <input
+                  class="btn btn-primary apnabtn"
+                  type="submit"
+                  value="Submit your ratings"
+                  style="display:block;margin-top:4px;"
+                />&nbsp;
+              </form>
+                </div>
               </div>
+              <% } else{%>
+              <form method="post" action="/courses/ratings/<%= content._id %>">
+                <label>Rate us:</label><br />
+        
+                <span class="star-rating">
+                  <input type="radio" name="rating" value="1" /><i></i>
+                  <input type="radio" name="rating" value="2" /><i></i>
+                  <input type="radio" name="rating" value="3" /><i></i>
+                  <input type="radio" name="rating" value="4" /><i></i>
+                  <input type="radio" name="rating" value="5" /><i></i>
+                </span>
+        
+                <input
+                  class="btn btn-primary"
+                  type="submit"
+                  value="Submit your ratings"
+                  style="display:block; margin-top:10px;"
+                />&nbsp;
+              </form>
+              <% } %>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="container">
+        
+      
+    </div>
+
     <%- include('partials/footer') %>
   </body>
-  <script>
-    function validation() {
-      var rating = document.getElementsByName("rating");
-      var ratingValue = false;
-
-      for (var i = 0; i < rating.length; i++) {
-        if (rating[i].checked == true) {
-          ratingValue = true;
-        }
-      }
-      if (!ratingValue) {
-        document.getElementById("error").innerHTML+= `*minimum rating value is 1`;
-        return false;
-      }
-      return true;
-    }
-  </script>
 </html>
